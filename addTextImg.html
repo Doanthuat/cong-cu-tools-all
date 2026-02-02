@@ -78,7 +78,6 @@ body {
 .invitation-generator {
     max-width: 1600px;
     margin: 0 auto;
-    margin-top: 92px;
     padding: var(--spacing-md);
     min-height: 100vh;
 }
@@ -1581,7 +1580,9 @@ Lê Văn C"></textarea>
                     <!-- Text Input -->
                     <div class="control-group">
                         <div class="control-group__title">Nội dung</div>
-                        <input type="text" id="addText_previewName" class="control-group__text-input" value="Text ở đây" placeholder="Nhập text xem trước...">
+              
+                        <span style="font-size: 13px; font-style: italic;">Nhập nội dung để xem demo, muốn xem dữ liệu thực thì nhập dữ liệu vào danh sách khách mờivà bấm <b>"Xem mẫu từ danh sách"</b> ở bên dưới</span>
+                        <input type="text" id="addText_previewName" class="control-group__text-input" value="Text demo" placeholder="Nhập text xem trước...">
                     </div>
 
                     <!-- Position Controls -->
@@ -1662,9 +1663,95 @@ Lê Văn C"></textarea>
                         </select>
                         <div class="control-group__status" id="fontPreview" style="font-size: 1rem;">Aa Bb Cc 123 Việt Nam</div>
                         <input type="file" id="fontUpload" class="input-panel__file" accept=".ttf,.otf,.woff,.woff2">
-                        <button type="button" class="control-group__button" onclick="document.getElementById('fontUpload').click()" style="background: var(--color-background); color: var(--color-text); border: 1px dashed var(--color-border);">
+                        <button type="button" class="control-group__button" onclick="document.getElementById('fontUpload').click()" style="background: var(--color-background); color: #fff; border: 1px dashed var(--color-border);">
                             ➕ Thêm font
                         </button>
+                    </div>
+
+                    <!-- Text Effects -->
+                    <div class="control-group">
+                        <div class="control-group__title">✨ Hiệu ứng text</div>
+                        
+                        <!-- Shadow Effect -->
+                        <div style="margin-bottom: var(--spacing-sm); padding: var(--spacing-xs); background: rgba(0,0,0,0.02); border-radius: var(--radius-sm);">
+                            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: var(--spacing-xs);">
+                                <input type="checkbox" id="shadowEnabled" checked style="width: auto; cursor: pointer;">
+                                <label for="shadowEnabled" style="cursor: pointer; font-weight: 600; color: var(--color-text);">🌑 Đổ bóng chữ</label>
+                            </div>
+                            <div id="shadowControls">
+                                <div class="control-group__color-row" style="margin-bottom: var(--spacing-xs);">
+                                    <label style="font-size: 0.85rem; color: var(--color-text-secondary); min-width: 60px;">Màu:</label>
+                                    <input type="color" id="shadowColor" class="control-group__color-picker" value="#000000" style="width: 40px;">
+                                    <input type="text" id="shadowColorHex" class="control-group__input" value="#000000" style="flex:1; font-size: 0.85rem;">
+                                </div>
+                                <div class="control-group__row">
+                                    <div class="control-group__item">
+                                        <label class="control-group__label" style="font-size: 0.85rem;">Độ mờ</label>
+                                        <input type="number" id="shadowBlur" class="control-group__input" value="4" min="0" max="50" style="font-size: 0.85rem;">
+                                        <input type="range" id="shadowBlur_slider" class="control-group__slider" value="4" min="0" max="50">
+                                    </div>
+                                </div>
+                                <div class="control-group__row">
+                                    <div class="control-group__item">
+                                        <label class="control-group__label" style="font-size: 0.85rem;">Lệch X</label>
+                                        <input type="number" id="shadowOffsetX" class="control-group__input" value="2" min="-50" max="50" style="font-size: 0.85rem;">
+                                        <input type="range" id="shadowOffsetX_slider" class="control-group__slider" value="2" min="-50" max="50">
+                                    </div>
+                                    <div class="control-group__item">
+                                        <label class="control-group__label" style="font-size: 0.85rem;">Lệch Y</label>
+                                        <input type="number" id="shadowOffsetY" class="control-group__input" value="2" min="-50" max="50" style="font-size: 0.85rem;">
+                                        <input type="range" id="shadowOffsetY_slider" class="control-group__slider" value="2" min="-50" max="50">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Stroke Effect -->
+                        <div style="margin-bottom: var(--spacing-sm); padding: var(--spacing-xs); background: rgba(0,0,0,0.02); border-radius: var(--radius-sm);">
+                            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: var(--spacing-xs);">
+                                <input type="checkbox" id="strokeEnabled" style="width: auto; cursor: pointer;">
+                                <label for="strokeEnabled" style="cursor: pointer; font-weight: 600; color: var(--color-text);">⭕ Viền chữ</label>
+                            </div>
+                            <div id="strokeControls" style="display: none;">
+                                <div class="control-group__color-row" style="margin-bottom: var(--spacing-xs);">
+                                    <label style="font-size: 0.85rem; color: var(--color-text-secondary); min-width: 60px;">Màu:</label>
+                                    <input type="color" id="strokeColor" class="control-group__color-picker" value="#000000" style="width: 40px;">
+                                    <input type="text" id="strokeColorHex" class="control-group__input" value="#000000" style="flex:1; font-size: 0.85rem;">
+                                </div>
+                                <div class="control-group__item">
+                                    <label class="control-group__label" style="font-size: 0.85rem;">Độ dày</label>
+                                    <input type="number" id="strokeWidth" class="control-group__input" value="2" min="1" max="20" style="font-size: 0.85rem;">
+                                    <input type="range" id="strokeWidth_slider" class="control-group__slider" value="2" min="1" max="20">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Background Effect -->
+                        <div style="padding: var(--spacing-xs); background: rgba(0,0,0,0.02); border-radius: var(--radius-sm);">
+                            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: var(--spacing-xs);">
+                                <input type="checkbox" id="backgroundEnabled" style="width: auto; cursor: pointer;">
+                                <label for="backgroundEnabled" style="cursor: pointer; font-weight: 600; color: var(--color-text);">📦 Nền chữ</label>
+                            </div>
+                            <div id="backgroundControls" style="display: none;">
+                                <div class="control-group__color-row" style="margin-bottom: var(--spacing-xs);">
+                                    <label style="font-size: 0.85rem; color: var(--color-text-secondary); min-width: 60px;">Màu:</label>
+                                    <input type="color" id="backgroundColor" class="control-group__color-picker" value="#000000" style="width: 40px;">
+                                    <input type="text" id="backgroundColorHex" class="control-group__input" value="#000000" style="flex:1; font-size: 0.85rem;">
+                                </div>
+                                <div class="control-group__row">
+                                    <div class="control-group__item">
+                                        <label class="control-group__label" style="font-size: 0.85rem;">Độ trong suốt</label>
+                                        <input type="number" id="backgroundOpacity" class="control-group__input" value="0.5" min="0" max="1" step="0.1" style="font-size: 0.85rem;">
+                                        <input type="range" id="backgroundOpacity_slider" class="control-group__slider" value="0.5" min="0" max="1" step="0.05">
+                                    </div>
+                                    <div class="control-group__item">
+                                        <label class="control-group__label" style="font-size: 0.85rem;">Đệm (px)</label>
+                                        <input type="number" id="backgroundPadding" class="control-group__input" value="10" min="0" max="50" style="font-size: 0.85rem;">
+                                        <input type="range" id="backgroundPadding_slider" class="control-group__slider" value="10" min="0" max="50">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Export Controls -->
@@ -1676,9 +1763,13 @@ Lê Văn C"></textarea>
                                 <option value="jpeg">JPEG</option>
                             </select>
                             <div class="control-group__item">
-                                <input type="range" id="addText_quality" class="control-group__slider" min="0.5" max="1" step="0.1" value="0.95">
-                                <span class="control-group__label" id="qualityValue">95%</span>
+                                <input type="range" id="addText_quality" class="control-group__slider" min="0.5" max="1" step="0.1" value="1">
+                                <span class="control-group__label" id="qualityValue">100%</span>
                             </div>
+                        </div>
+                        <div class="control-group__row" style="margin-top: var(--spacing-xs); display: flex; align-items: center; gap: 0.5rem;">
+                            <input type="checkbox" id="useVietnameseFileName" checked style="width: auto; cursor: pointer;">
+                            <label for="useVietnameseFileName" style="cursor: pointer; font-size: 0.9rem; color: var(--color-text-secondary);"> Giữ tên tiếng Việt có dấu</label>
                         </div>
                         <button type="button" class="control-group__button control-group__button--success" id="generateAll" style="margin-top: var(--spacing-xs);">
                             Tạo và tải xuống
@@ -1747,7 +1838,20 @@ const AppState = {
         color: '#FFD700',
         align: 'left',
         fontWeight: 'normal',
-        fontFamily: 'Arial'
+        fontFamily: 'Arial',
+        // Text effects
+        shadowEnabled: true,
+        shadowColor: '#000000',
+        shadowBlur: 4,
+        shadowOffsetX: 2,
+        shadowOffsetY: 2,
+        strokeEnabled: false,
+        strokeColor: '#000000',
+        strokeWidth: 2,
+        backgroundEnabled: false,
+        backgroundColor: '#000000',
+        backgroundOpacity: 0.5,
+        backgroundPadding: 10
     },
     // Drag state (always enabled)
     drag: {
@@ -1852,7 +1956,35 @@ const DOM = {
     systemFontsGroup: document.getElementById('systemFontsGroup'),
     customFontsGroup: document.getElementById('customFontsGroup'),
     addText_outputFormat: document.getElementById('addText_outputFormat'),
-    addText_quality: document.getElementById('addText_quality')
+    addText_quality: document.getElementById('addText_quality'),
+    
+    // Text effects controls
+    shadowEnabled: document.getElementById('shadowEnabled'),
+    shadowColor: document.getElementById('shadowColor'),
+    shadowColorHex: document.getElementById('shadowColorHex'),
+    shadowBlur: document.getElementById('shadowBlur'),
+    shadowBlur_slider: document.getElementById('shadowBlur_slider'),
+    shadowOffsetX: document.getElementById('shadowOffsetX'),
+    shadowOffsetX_slider: document.getElementById('shadowOffsetX_slider'),
+    shadowOffsetY: document.getElementById('shadowOffsetY'),
+    shadowOffsetY_slider: document.getElementById('shadowOffsetY_slider'),
+    shadowControls: document.getElementById('shadowControls'),
+    
+    strokeEnabled: document.getElementById('strokeEnabled'),
+    strokeColor: document.getElementById('strokeColor'),
+    strokeColorHex: document.getElementById('strokeColorHex'),
+    strokeWidth: document.getElementById('strokeWidth'),
+    strokeWidth_slider: document.getElementById('strokeWidth_slider'),
+    strokeControls: document.getElementById('strokeControls'),
+    
+    backgroundEnabled: document.getElementById('backgroundEnabled'),
+    backgroundColor: document.getElementById('backgroundColor'),
+    backgroundColorHex: document.getElementById('backgroundColorHex'),
+    backgroundOpacity: document.getElementById('backgroundOpacity'),
+    backgroundOpacity_slider: document.getElementById('backgroundOpacity_slider'),
+    backgroundPadding: document.getElementById('backgroundPadding'),
+    backgroundPadding_slider: document.getElementById('backgroundPadding_slider'),
+    backgroundControls: document.getElementById('backgroundControls')
 };
 
 // ================================
@@ -1906,6 +2038,34 @@ function setupEventListeners() {
     DOM.addText_quality.addEventListener('input', (e) => {
         DOM.qualityValue.textContent = `${Math.round(e.target.value * 100)}%`;
     });
+    
+    // Text effects listeners
+    // Shadow effect
+    DOM.shadowEnabled.addEventListener('change', handleShadowEnabledChange);
+    DOM.shadowColor.addEventListener('input', syncShadowColorInputs);
+    DOM.shadowColorHex.addEventListener('input', syncShadowColorInputsReverse);
+    DOM.shadowBlur.addEventListener('input', handleShadowBlurInput);
+    DOM.shadowBlur_slider.addEventListener('input', handleShadowBlurSlider);
+    DOM.shadowOffsetX.addEventListener('input', handleShadowOffsetXInput);
+    DOM.shadowOffsetX_slider.addEventListener('input', handleShadowOffsetXSlider);
+    DOM.shadowOffsetY.addEventListener('input', handleShadowOffsetYInput);
+    DOM.shadowOffsetY_slider.addEventListener('input', handleShadowOffsetYSlider);
+    
+    // Stroke effect
+    DOM.strokeEnabled.addEventListener('change', handleStrokeEnabledChange);
+    DOM.strokeColor.addEventListener('input', syncStrokeColorInputs);
+    DOM.strokeColorHex.addEventListener('input', syncStrokeColorInputsReverse);
+    DOM.strokeWidth.addEventListener('input', handleStrokeWidthInput);
+    DOM.strokeWidth_slider.addEventListener('input', handleStrokeWidthSlider);
+    
+    // Background effect
+    DOM.backgroundEnabled.addEventListener('change', handleBackgroundEnabledChange);
+    DOM.backgroundColor.addEventListener('input', syncBackgroundColorInputs);
+    DOM.backgroundColorHex.addEventListener('input', syncBackgroundColorInputsReverse);
+    DOM.backgroundOpacity.addEventListener('input', handleBackgroundOpacityInput);
+    DOM.backgroundOpacity_slider.addEventListener('input', handleBackgroundOpacitySlider);
+    DOM.backgroundPadding.addEventListener('input', handleBackgroundPaddingInput);
+    DOM.backgroundPadding_slider.addEventListener('input', handleBackgroundPaddingSlider);
     
     // Preview and generation
     DOM.previewName.addEventListener('input', debounce(updatePreview, 300));
@@ -2003,7 +2163,7 @@ function handleTemplateUpload(e) {
         img.onload = () => {
             AppState.templateImage = img;
             setupCanvas(img);
-            updateStatusText('✅ Template: ' + file.name);
+            updateStatusText('  Template: ' + file.name);
             updatePreview();
             // Mark upload button as active
             const btn = document.getElementById('templateUploadBtn');
@@ -2047,7 +2207,7 @@ function handleGuestListUpload(e) {
                 statusEl.textContent = '❌ File không có dữ liệu';
                 statusEl.style.color = 'var(--color-error)';
             } else {
-                statusEl.textContent = `✅ ${AppState.guestList.length} khách mời`;
+                statusEl.textContent = `  ${AppState.guestList.length} khách mời`;
                 statusEl.style.color = 'var(--color-success)';
                 // Mark upload button as active
                 const btn = document.getElementById('guestListUploadBtn');
@@ -2124,7 +2284,7 @@ function parseManualGuestList() {
     if (AppState.guestList.length === 0) {
         statusEl.textContent = '❌ Không có tên nào';
     } else {
-        statusEl.textContent = `✅ ${AppState.guestList.length} khách mời`;
+        statusEl.textContent = `  ${AppState.guestList.length} khách mời`;
         statusEl.style.color = 'var(--color-success)';
     }
 }
@@ -2271,7 +2431,7 @@ function handleFontUpload(e) {
             AppState.config.fontFamily = fontName;
             
             updateFontPreview();
-            updateStatusText('✅ Đã thêm font: ' + file.name);
+            updateStatusText('  Đã thêm font: ' + file.name);
             updatePreview();
         }).catch((error) => {
             console.error('Font load error:', error);
@@ -2382,12 +2542,6 @@ function drawImageWithText(name, drawBounds = true) {
     ctx.fillStyle = cfg.color;
     ctx.textBaseline = 'middle';
     
-    // Draw text with shadow for better visibility
-    ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
-    ctx.shadowBlur = 4;
-    ctx.shadowOffsetX = 2;
-    ctx.shadowOffsetY = 2;
-    
     // Calculate text metrics for bounds
     const metrics = ctx.measureText(name);
     const textWidth = metrics.width;
@@ -2418,11 +2572,65 @@ function drawImageWithText(name, drawBounds = true) {
         drawX = 0;
     }
     
+    // Draw background if enabled
+    if (cfg.backgroundEnabled) {
+        const bgPadding = cfg.backgroundPadding;
+        let bgX, bgWidth;
+        
+        if (cfg.align === 'center') {
+            bgX = -textWidth / 2 - bgPadding;
+            bgWidth = textWidth + bgPadding * 2;
+        } else if (cfg.align === 'right') {
+            bgX = -textWidth - bgPadding;
+            bgWidth = textWidth + bgPadding * 2;
+        } else {
+            bgX = -bgPadding;
+            bgWidth = textWidth + bgPadding * 2;
+        }
+        
+        const bgY = -textHeight / 2 - bgPadding;
+        const bgHeight = textHeight + bgPadding * 2;
+        
+        // Parse background color and apply opacity
+        const bgColor = cfg.backgroundColor;
+        const opacity = cfg.backgroundOpacity;
+        ctx.fillStyle = bgColor + Math.round(opacity * 255).toString(16).padStart(2, '0');
+        ctx.fillRect(bgX, bgY, bgWidth, bgHeight);
+        
+        // Reset fill style
+        ctx.fillStyle = cfg.color;
+    }
+    
+    // Apply shadow if enabled
+    if (cfg.shadowEnabled) {
+        ctx.shadowColor = cfg.shadowColor;
+        ctx.shadowBlur = cfg.shadowBlur;
+        ctx.shadowOffsetX = cfg.shadowOffsetX;
+        ctx.shadowOffsetY = cfg.shadowOffsetY;
+    } else {
+        ctx.shadowColor = 'transparent';
+        ctx.shadowBlur = 0;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
+    }
+    
+    // Draw stroke (outline) if enabled - drawn first so fill appears on top
+    if (cfg.strokeEnabled) {
+        ctx.strokeStyle = cfg.strokeColor;
+        ctx.lineWidth = cfg.strokeWidth;
+        ctx.lineJoin = 'round';
+        ctx.miterLimit = 2;
+        ctx.strokeText(name, drawX, 0);
+    }
+    
     // Draw text at origin (after translation)
     ctx.fillText(name, drawX, 0);
     
-    // Reset shadow before drawing bounds
+    // Reset shadow and stroke
     ctx.shadowColor = 'transparent';
+    ctx.shadowBlur = 0;
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = 0;
     
     // Restore context state
     ctx.restore();
@@ -2662,14 +2870,12 @@ function drawImageWithTextOnCanvas(ctx, canvas, name) {
     ctx.fillStyle = cfg.color;
     ctx.textBaseline = 'middle';
     
-    // Draw text with shadow
-    ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
-    ctx.shadowBlur = 4;
-    ctx.shadowOffsetX = 2;
-    ctx.shadowOffsetY = 2;
+    // Calculate text metrics for background
+    const metrics = ctx.measureText(name);
+    const textWidth = metrics.width;
+    const textHeight = cfg.fontSize;
     
     // Calculate text position and rotation
-    const textHeight = cfg.fontSize;
     const centerX = cfg.positionX;
     const centerY = cfg.positionY + textHeight / 2;
     const rotationRad = (cfg.rotation * Math.PI) / 180;
@@ -2684,11 +2890,68 @@ function drawImageWithTextOnCanvas(ctx, canvas, name) {
     // Set text alignment
     ctx.textAlign = cfg.align;
     
+    // Determine X offset based on alignment
+    let drawX = 0;
+    
+    // Draw background if enabled
+    if (cfg.backgroundEnabled) {
+        const bgPadding = cfg.backgroundPadding;
+        let bgX, bgWidth;
+        
+        if (cfg.align === 'center') {
+            bgX = -textWidth / 2 - bgPadding;
+            bgWidth = textWidth + bgPadding * 2;
+        } else if (cfg.align === 'right') {
+            bgX = -textWidth - bgPadding;
+            bgWidth = textWidth + bgPadding * 2;
+        } else {
+            bgX = -bgPadding;
+            bgWidth = textWidth + bgPadding * 2;
+        }
+        
+        const bgY = -textHeight / 2 - bgPadding;
+        const bgHeight = textHeight + bgPadding * 2;
+        
+        // Parse background color and apply opacity
+        const bgColor = cfg.backgroundColor;
+        const opacity = cfg.backgroundOpacity;
+        ctx.fillStyle = bgColor + Math.round(opacity * 255).toString(16).padStart(2, '0');
+        ctx.fillRect(bgX, bgY, bgWidth, bgHeight);
+        
+        // Reset fill style
+        ctx.fillStyle = cfg.color;
+    }
+    
+    // Apply shadow if enabled
+    if (cfg.shadowEnabled) {
+        ctx.shadowColor = cfg.shadowColor;
+        ctx.shadowBlur = cfg.shadowBlur;
+        ctx.shadowOffsetX = cfg.shadowOffsetX;
+        ctx.shadowOffsetY = cfg.shadowOffsetY;
+    } else {
+        ctx.shadowColor = 'transparent';
+        ctx.shadowBlur = 0;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
+    }
+    
+    // Draw stroke (outline) if enabled
+    if (cfg.strokeEnabled) {
+        ctx.strokeStyle = cfg.strokeColor;
+        ctx.lineWidth = cfg.strokeWidth;
+        ctx.lineJoin = 'round';
+        ctx.miterLimit = 2;
+        ctx.strokeText(name, drawX, 0);
+    }
+    
     // Draw text at origin (after translation)
-    ctx.fillText(name, 0, 0);
+    ctx.fillText(name, drawX, 0);
     
     // Reset shadow
     ctx.shadowColor = 'transparent';
+    ctx.shadowBlur = 0;
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = 0;
     
     // Restore context state
     ctx.restore();
@@ -2844,6 +3107,156 @@ function syncColorInputsReverse(e) {
         AppState.config.color = e.target.value;
         updatePreview();
     }
+}
+
+// ================================
+// Text Effects Handlers
+// ================================
+// Shadow Effect Handlers
+function handleShadowEnabledChange(e) {
+    AppState.config.shadowEnabled = e.target.checked;
+    DOM.shadowControls.style.display = e.target.checked ? 'block' : 'none';
+    updatePreview();
+}
+
+function syncShadowColorInputs(e) {
+    DOM.shadowColorHex.value = e.target.value;
+    AppState.config.shadowColor = e.target.value;
+    updatePreview();
+}
+
+function syncShadowColorInputsReverse(e) {
+    if (/^#[0-9A-Fa-f]{6}$/.test(e.target.value)) {
+        DOM.shadowColor.value = e.target.value;
+        AppState.config.shadowColor = e.target.value;
+        updatePreview();
+    }
+}
+
+function handleShadowBlurInput(e) {
+    const value = parseFloat(e.target.value);
+    DOM.shadowBlur_slider.value = value;
+    AppState.config.shadowBlur = value;
+    updatePreview();
+}
+
+function handleShadowBlurSlider(e) {
+    const value = parseFloat(e.target.value);
+    DOM.shadowBlur.value = value;
+    AppState.config.shadowBlur = value;
+    updatePreview();
+}
+
+function handleShadowOffsetXInput(e) {
+    const value = parseFloat(e.target.value);
+    DOM.shadowOffsetX_slider.value = value;
+    AppState.config.shadowOffsetX = value;
+    updatePreview();
+}
+
+function handleShadowOffsetXSlider(e) {
+    const value = parseFloat(e.target.value);
+    DOM.shadowOffsetX.value = value;
+    AppState.config.shadowOffsetX = value;
+    updatePreview();
+}
+
+function handleShadowOffsetYInput(e) {
+    const value = parseFloat(e.target.value);
+    DOM.shadowOffsetY_slider.value = value;
+    AppState.config.shadowOffsetY = value;
+    updatePreview();
+}
+
+function handleShadowOffsetYSlider(e) {
+    const value = parseFloat(e.target.value);
+    DOM.shadowOffsetY.value = value;
+    AppState.config.shadowOffsetY = value;
+    updatePreview();
+}
+
+// Stroke Effect Handlers
+function handleStrokeEnabledChange(e) {
+    AppState.config.strokeEnabled = e.target.checked;
+    DOM.strokeControls.style.display = e.target.checked ? 'block' : 'none';
+    updatePreview();
+}
+
+function syncStrokeColorInputs(e) {
+    DOM.strokeColorHex.value = e.target.value;
+    AppState.config.strokeColor = e.target.value;
+    updatePreview();
+}
+
+function syncStrokeColorInputsReverse(e) {
+    if (/^#[0-9A-Fa-f]{6}$/.test(e.target.value)) {
+        DOM.strokeColor.value = e.target.value;
+        AppState.config.strokeColor = e.target.value;
+        updatePreview();
+    }
+}
+
+function handleStrokeWidthInput(e) {
+    const value = parseFloat(e.target.value);
+    DOM.strokeWidth_slider.value = value;
+    AppState.config.strokeWidth = value;
+    updatePreview();
+}
+
+function handleStrokeWidthSlider(e) {
+    const value = parseFloat(e.target.value);
+    DOM.strokeWidth.value = value;
+    AppState.config.strokeWidth = value;
+    updatePreview();
+}
+
+// Background Effect Handlers
+function handleBackgroundEnabledChange(e) {
+    AppState.config.backgroundEnabled = e.target.checked;
+    DOM.backgroundControls.style.display = e.target.checked ? 'block' : 'none';
+    updatePreview();
+}
+
+function syncBackgroundColorInputs(e) {
+    DOM.backgroundColorHex.value = e.target.value;
+    AppState.config.backgroundColor = e.target.value;
+    updatePreview();
+}
+
+function syncBackgroundColorInputsReverse(e) {
+    if (/^#[0-9A-Fa-f]{6}$/.test(e.target.value)) {
+        DOM.backgroundColor.value = e.target.value;
+        AppState.config.backgroundColor = e.target.value;
+        updatePreview();
+    }
+}
+
+function handleBackgroundOpacityInput(e) {
+    const value = parseFloat(e.target.value);
+    DOM.backgroundOpacity_slider.value = value;
+    AppState.config.backgroundOpacity = value;
+    updatePreview();
+}
+
+function handleBackgroundOpacitySlider(e) {
+    const value = parseFloat(e.target.value);
+    DOM.backgroundOpacity.value = value;
+    AppState.config.backgroundOpacity = value;
+    updatePreview();
+}
+
+function handleBackgroundPaddingInput(e) {
+    const value = parseFloat(e.target.value);
+    DOM.backgroundPadding_slider.value = value;
+    AppState.config.backgroundPadding = value;
+    updatePreview();
+}
+
+function handleBackgroundPaddingSlider(e) {
+    const value = parseFloat(e.target.value);
+    DOM.backgroundPadding.value = value;
+    AppState.config.backgroundPadding = value;
+    updatePreview();
 }
 
 // ================================
@@ -3242,7 +3655,8 @@ async function generateAllInvitations() {
             });
             
             // Add to zip with unique filename (include index to prevent duplicates)
-            const baseName = sanitizeFileName(guest.name);
+            const useVietnamese = document.getElementById('useVietnameseFileName').checked;
+            const baseName = sanitizeFileName(guest.name, useVietnamese);
             let fileName = baseName;
             
             // Check if filename already exists, add suffix if needed
@@ -3275,7 +3689,7 @@ async function generateAllInvitations() {
         });
         downloadBlob(zipBlob, 'Thiep_Moi_' + Date.now() + '.zip');
         
-        updateStatusText(`✅ Đã tạo ${AppState.guestList.length} thiệp mời!`);
+        updateStatusText(`  Đã tạo ${AppState.guestList.length} thiệp mời!`);
     } catch (error) {
         console.error('Error generating invitations:', error);
         alert('Có lỗi xảy ra: ' + error.message);
@@ -3289,13 +3703,23 @@ async function generateAllInvitations() {
 // ================================
 // Utility Functions
 // ================================
-function sanitizeFileName(name) {
-    return name
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '')
-        .replace(/đ/g, 'd')
-        .replace(/Đ/g, 'D')
-        .replace(/[^a-zA-Z0-9]/g, '_');
+function sanitizeFileName(name, keepVietnamese = true) {
+    if (keepVietnamese) {
+        // Giữ nguyên tên tiếng Việt, chỉ loại bỏ ký tự đặc biệt không hợp lệ cho tên file
+        return name
+            .replace(/[<>:"\/\\|?*]/g, '_') // Loại bỏ ký tự không hợp lệ trong tên file Windows/Linux
+            .replace(/\s+/g, '_') // Thay thế khoảng trắng bằng dấu gạch dưới
+            .replace(/_{2,}/g, '_') // Loại bỏ nhiều dấu gạch dưới liên tiếp
+            .trim();
+    } else {
+        // Chuyển sang không dấu
+        return name
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .replace(/đ/g, 'd')
+            .replace(/Đ/g, 'D')
+            .replace(/[^a-zA-Z0-9]/g, '_');
+    }
 }
 
 function downloadBlob(blob, filename) {
@@ -3349,5 +3773,4 @@ document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 </html>
-
 
