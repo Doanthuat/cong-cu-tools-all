@@ -1337,6 +1337,18 @@ body {
     box-shadow: var(--shadow-lg), 0 0 30px rgba(16, 185, 129, 0.4);
 }
 
+.control-group__button--secondary {
+    background: linear-gradient(135deg, #64748B 0%, #475569 100%);
+    box-shadow: var(--shadow-md);
+    font-size: 0.85rem;
+    padding: 8px 12px;
+}
+
+.control-group__button--secondary:hover {
+    background: linear-gradient(135deg, #475569 0%, #334155 100%);
+    box-shadow: var(--shadow-lg);
+}
+
 .control-group__status {
     padding: 8px 12px;
     background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
@@ -1545,6 +1557,27 @@ body {
                         <div class="control-group__status" id="statusText">Chờ tải ảnh template...</div>
                     </div>
 
+                    <!-- Config Management Section -->
+                    <div class="control-group">
+                        <div class="control-group__title">` Quản lý cấu hình</div>
+                        
+                        <div class="control-group__row" style="gap: 0.5rem;">
+                            <button type="button" class="control-group__button control-group__button--secondary" id="saveConfig" style="flex: 1;">
+                                 Lưu cấu hình
+                            </button>
+                            <button type="button" class="control-group__button control-group__button--secondary" id="loadConfig" style="flex: 1;">
+                                 Tải cấu hình
+                            </button>
+                        </div>
+                        <span style="font-size: 13px; font-style: italic;"><b>"Lưu cấu hình"</b> là lưu lại các thiết lập hiện tại để có thể tải lại sau này.</span>
+                        <input type="file" id="configUpload" class="input-panel__file" accept=".json" style="display: none;">
+                        <div style="margin-top: var(--spacing-xs); display: flex; align-items: center; gap: 0.5rem;">
+                            <input type="checkbox" id="alignmentGuidesEnabled" style="width: auto; cursor: pointer;">
+                            <label for="alignmentGuidesEnabled" style="cursor: pointer; font-size: 0.9rem; color: var(--color-text-secondary);">📐 Hiển thị lưới căn chỉnh</label>
+                        </div>
+                        <span style="font-size: 13px; font-style: italic;"><b>"Hiển thị lưới"</b> căn chỉnh giúp bạn dễ dàng căn chỉnh các phần tử trên ảnh.</span>
+                    </div>
+
                     <!-- Guest List Input Section -->
                     <div class="control-group">
                         <div class="control-group__title"> Danh sách khách mời</div>
@@ -1584,6 +1617,10 @@ Lê Văn C"></textarea>
               
                         <span style="font-size: 13px; font-style: italic;">Nhập nội dung để xem demo, muốn xem dữ liệu thực thì nhập dữ liệu vào danh sách khách mờivà bấm <b>"Xem mẫu từ danh sách"</b> ở bên dưới</span>
                         <input type="text" id="addText_previewName" class="control-group__text-input" value="Text demo" placeholder="Nhập text xem trước...">
+                        <div style="margin-top: var(--spacing-xs); display: flex; align-items: center; gap: 0.5rem;">
+                            <input type="checkbox" id="uppercaseEnabled" style="width: auto; cursor: pointer;">
+                            <label for="uppercaseEnabled" style="cursor: pointer; font-size: 0.9rem; color: var(--color-text-secondary);">In hoa tất cả</label>
+                        </div>
                     </div>
 
                     <!-- Position Controls -->
@@ -1840,6 +1877,7 @@ const AppState = {
         align: 'left',
         fontWeight: 'normal',
         fontFamily: 'Arial',
+        uppercaseEnabled: false,
         // Text effects
         shadowEnabled: true,
         shadowColor: '#000000',
@@ -1898,6 +1936,13 @@ const AppState = {
         min: 0.1,
         max: 3,
         step: 0.1
+    },
+    // Alignment guides state
+    alignmentGuides: {
+        enabled: false,
+        gridSize: 50, // Grid spacing in pixels
+        snapToGrid: false,
+        snapThreshold: 10 // Snap within 10px
     }
 };
 
@@ -1958,6 +2003,15 @@ const DOM = {
     customFontsGroup: document.getElementById('customFontsGroup'),
     addText_outputFormat: document.getElementById('addText_outputFormat'),
     addText_quality: document.getElementById('addText_quality'),
+    
+    // Uppercase control
+    uppercaseEnabled: document.getElementById('uppercaseEnabled'),
+    
+    // Config management
+    saveConfig: document.getElementById('saveConfig'),
+    loadConfig: document.getElementById('loadConfig'),
+    configUpload: document.getElementById('configUpload'),
+    alignmentGuidesEnabled: document.getElementById('alignmentGuidesEnabled'),
     
     // Text effects controls
     shadowEnabled: document.getElementById('shadowEnabled'),
@@ -2034,6 +2088,17 @@ function setupEventListeners() {
     
     // Font family change
     DOM.addText_fontFamily.addEventListener('change', handleFontFamilyChange);
+    
+    // Uppercase toggle
+    DOM.uppercaseEnabled.addEventListener('change', handleUppercaseChange);
+    
+    // Config management
+    DOM.saveConfig.addEventListener('click', saveConfigToFile);
+    DOM.loadConfig.addEventListener('click', () => DOM.configUpload.click());
+    DOM.configUpload.addEventListener('change', loadConfigFromFile);
+    
+    // Alignment guides
+    DOM.alignmentGuidesEnabled.addEventListener('change', handleAlignmentGuidesChange);
     
     // Quality slider
     DOM.addText_quality.addEventListener('input', (e) => {
@@ -2538,13 +2603,16 @@ function drawImageWithText(name, drawBounds = true) {
     ctx.clearRect(0, 0, AppState.canvas.width, AppState.canvas.height);
     ctx.drawImage(AppState.templateImage, 0, 0);
     
+    // Apply uppercase if enabled
+    const displayName = cfg.uppercaseEnabled ? name.toUpperCase() : name;
+    
     // Configure text
     ctx.font = `${cfg.fontWeight} ${cfg.fontSize}px '${cfg.fontFamily}', sans-serif`;
     ctx.fillStyle = cfg.color;
     ctx.textBaseline = 'middle';
     
     // Calculate text metrics for bounds
-    const metrics = ctx.measureText(name);
+    const metrics = ctx.measureText(displayName);
     const textWidth = metrics.width;
     const textHeight = cfg.fontSize;
     
@@ -2621,11 +2689,11 @@ function drawImageWithText(name, drawBounds = true) {
         ctx.lineWidth = cfg.strokeWidth;
         ctx.lineJoin = 'round';
         ctx.miterLimit = 2;
-        ctx.strokeText(name, drawX, 0);
+        ctx.strokeText(displayName, drawX, 0);
     }
     
     // Draw text at origin (after translation)
-    ctx.fillText(name, drawX, 0);
+    ctx.fillText(displayName, drawX, 0);
     
     // Reset shadow and stroke
     ctx.shadowColor = 'transparent';
@@ -2757,6 +2825,78 @@ function drawImageWithText(name, drawBounds = true) {
         ctx.textBaseline = 'middle';
         ctx.fillText('↻', rotationHandle.x, rotationHandle.y);
     }
+    
+    // Draw alignment guides if enabled
+    if (AppState.alignmentGuides.enabled) {
+        drawAlignmentGuides();
+    }
+}
+
+// ================================
+// Draw Alignment Guides
+// ================================
+function drawAlignmentGuides() {
+    if (!AppState.canvas) return;
+    
+    const ctx = AppState.ctx;
+    const gridSize = AppState.alignmentGuides.gridSize;
+    const width = AppState.canvas.width;
+    const height = AppState.canvas.height;
+    
+    ctx.save();
+    
+    // Helper function to draw line with outline for better visibility
+    const drawGuideLine = (x1, y1, x2, y2, color, lineWidth = 1, isDashed = true) => {
+        // Draw dark shadow/outline first
+        ctx.strokeStyle = 'rgba(0, 0, 0, 0.4)';
+        ctx.lineWidth = lineWidth + 2;
+        if (isDashed) {
+            ctx.setLineDash([4, 6]);
+        } else {
+            ctx.setLineDash([]);
+        }
+        ctx.beginPath();
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
+        ctx.stroke();
+        
+        // Draw bright line on top
+        ctx.strokeStyle = color;
+        ctx.lineWidth = lineWidth;
+        if (isDashed) {
+            ctx.setLineDash([4, 6]);
+        } else {
+            ctx.setLineDash([]);
+        }
+        ctx.beginPath();
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
+        ctx.stroke();
+    };
+    
+    // Draw grid lines (vertical and horizontal)
+    const gridColor = 'rgba(255, 255, 255, 0.6)'; // White with transparency
+    
+    // Draw vertical lines
+    for (let x = 0; x <= width; x += gridSize) {
+        drawGuideLine(x, 0, x, height, gridColor, 1, true);
+    }
+    
+    // Draw horizontal lines
+    for (let y = 0; y <= height; y += gridSize) {
+        drawGuideLine(0, y, width, y, gridColor, 1, true);
+    }
+    
+    // Draw center lines with different color (brighter and thicker)
+    const centerColor = 'rgba(255, 215, 0, 0.7)'; // Gold color for better visibility
+    
+    // Vertical center
+    drawGuideLine(width / 2, 0, width / 2, height, centerColor, 2, false);
+    
+    // Horizontal center
+    drawGuideLine(0, height / 2, width, height / 2, centerColor, 2, false);
+    
+    ctx.restore();
 }
 
 // ================================
@@ -2866,13 +3006,16 @@ function drawImageWithTextOnCanvas(ctx, canvas, name) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(AppState.templateImage, 0, 0);
     
+    // Apply uppercase if enabled
+    const displayName = cfg.uppercaseEnabled ? name.toUpperCase() : name;
+    
     // Configure text
     ctx.font = `${cfg.fontWeight} ${cfg.fontSize}px '${cfg.fontFamily}', sans-serif`;
     ctx.fillStyle = cfg.color;
     ctx.textBaseline = 'middle';
     
     // Calculate text metrics for background
-    const metrics = ctx.measureText(name);
+    const metrics = ctx.measureText(displayName);
     const textWidth = metrics.width;
     const textHeight = cfg.fontSize;
     
@@ -2942,11 +3085,11 @@ function drawImageWithTextOnCanvas(ctx, canvas, name) {
         ctx.lineWidth = cfg.strokeWidth;
         ctx.lineJoin = 'round';
         ctx.miterLimit = 2;
-        ctx.strokeText(name, drawX, 0);
+        ctx.strokeText(displayName, drawX, 0);
     }
     
     // Draw text at origin (after translation)
-    ctx.fillText(name, drawX, 0);
+    ctx.fillText(displayName, drawX, 0);
     
     // Reset shadow
     ctx.shadowColor = 'transparent';
@@ -3108,6 +3251,136 @@ function syncColorInputsReverse(e) {
         AppState.config.color = e.target.value;
         updatePreview();
     }
+}
+
+// ================================
+// Uppercase Handler
+// ================================
+function handleUppercaseChange(e) {
+    AppState.config.uppercaseEnabled = e.target.checked;
+    updatePreview();
+}
+
+// ================================
+// Config Management Functions
+// ================================
+function saveConfigToFile() {
+    const config = {
+        version: '1.0',
+        savedAt: new Date().toISOString(),
+        config: { ...AppState.config }
+    };
+    
+    const blob = new Blob([JSON.stringify(config, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `template-config-${Date.now()}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    
+    updateStatusText('💾 Đã lưu cấu hình thành công!');
+}
+
+function loadConfigFromFile(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    
+    const reader = new FileReader();
+    reader.onload = (event) => {
+        try {
+            const data = JSON.parse(event.target.result);
+            
+            if (!data.config) {
+                throw new Error('File cấu hình không hợp lệ');
+            }
+            
+            // Apply config to AppState
+            Object.assign(AppState.config, data.config);
+            
+            // Update all UI inputs to reflect loaded config
+            syncUIWithConfig();
+            
+            updatePreview();
+            updateStatusText('📂 Đã tải cấu hình thành công!');
+        } catch (error) {
+            alert('Lỗi khi tải file cấu hình: ' + error.message);
+            updateStatusText('❌ Lỗi khi tải cấu hình');
+        }
+    };
+    reader.readAsText(file);
+    
+    // Reset input
+    e.target.value = '';
+}
+
+function syncUIWithConfig() {
+    const cfg = AppState.config;
+    
+    // Position
+    DOM.addText_positionX.value = cfg.positionX;
+    DOM.addText_positionX_slider.value = cfg.positionX;
+    DOM.addText_positionY.value = cfg.positionY;
+    DOM.addText_positionY_slider.value = cfg.positionY;
+    
+    // Font size & rotation
+    DOM.addText_fontSize.value = cfg.fontSize;
+    DOM.addText_fontSize_slider.value = cfg.fontSize;
+    DOM.addText_rotation.value = cfg.rotation;
+    DOM.addText_rotation_slider.value = cfg.rotation;
+    
+    // Color & style
+    DOM.addText_color.value = cfg.color;
+    DOM.addText_colorHex.value = cfg.color;
+    DOM.addText_align.value = cfg.align;
+    DOM.addText_fontWeight.value = cfg.fontWeight;
+    DOM.addText_fontFamily.value = cfg.fontFamily;
+    
+    // Uppercase
+    DOM.uppercaseEnabled.checked = cfg.uppercaseEnabled;
+    
+    // Shadow
+    DOM.shadowEnabled.checked = cfg.shadowEnabled;
+    DOM.shadowControls.style.display = cfg.shadowEnabled ? 'block' : 'none';
+    DOM.shadowColor.value = cfg.shadowColor;
+    DOM.shadowColorHex.value = cfg.shadowColor;
+    DOM.shadowBlur.value = cfg.shadowBlur;
+    DOM.shadowBlur_slider.value = cfg.shadowBlur;
+    DOM.shadowOffsetX.value = cfg.shadowOffsetX;
+    DOM.shadowOffsetX_slider.value = cfg.shadowOffsetX;
+    DOM.shadowOffsetY.value = cfg.shadowOffsetY;
+    DOM.shadowOffsetY_slider.value = cfg.shadowOffsetY;
+    
+    // Stroke
+    DOM.strokeEnabled.checked = cfg.strokeEnabled;
+    DOM.strokeControls.style.display = cfg.strokeEnabled ? 'block' : 'none';
+    DOM.strokeColor.value = cfg.strokeColor;
+    DOM.strokeColorHex.value = cfg.strokeColor;
+    DOM.strokeWidth.value = cfg.strokeWidth;
+    DOM.strokeWidth_slider.value = cfg.strokeWidth;
+    
+    // Background
+    DOM.backgroundEnabled.checked = cfg.backgroundEnabled;
+    DOM.backgroundControls.style.display = cfg.backgroundEnabled ? 'block' : 'none';
+    DOM.backgroundColor.value = cfg.backgroundColor;
+    DOM.backgroundColorHex.value = cfg.backgroundColor;
+    DOM.backgroundOpacity.value = cfg.backgroundOpacity;
+    DOM.backgroundOpacity_slider.value = cfg.backgroundOpacity;
+    DOM.backgroundPadding.value = cfg.backgroundPadding;
+    DOM.backgroundPadding_slider.value = cfg.backgroundPadding;
+    
+    updateFontPreview();
+    updatePositionInfo();
+}
+
+// ================================
+// Alignment Guides Handler
+// ================================
+function handleAlignmentGuidesChange(e) {
+    AppState.alignmentGuides.enabled = e.target.checked;
+    updatePreview();
 }
 
 // ================================
@@ -3774,5 +4047,4 @@ document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 </html>
-
 
