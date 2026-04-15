@@ -765,7 +765,19 @@ body {
   <div class="dvntUpAnh__wrapper">
 
     <!-- ========== HEADER ========== -->
-    <header class="dvntUpAnh__header" role="banner">
+    <header class="doitenhinhanhsticky__header" id="doitenhinhanhsticky__header">
+        <!-- render header -->
+    </header>
+    <!-- Đoạn scrip render header -->
+    <script>
+        fetch('./templates/header.html')
+            .then(response => response.text())
+            .then(data => {
+                document.querySelector("#doitenhinhanhsticky__header").innerHTML = data;
+            })
+            .catch(error => console.error('Lỗi:', error));
+    </script>
+    <div class="dvntUpAnh__header" role="banner">
       <div class="dvntUpAnh__header-inner">
         <div class="dvntUpAnh__header-logo" aria-hidden="true">
           <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -785,7 +797,7 @@ body {
           <p class="dvntUpAnh__header-desc">Chọn ảnh, tải lên và sao chép link nhanh</p>
         </div>
       </div>
-    </header>
+    </div>
 
     <!-- ========== MAIN CONTENT ========== -->
     <main class="dvntUpAnh__main" id="main-content" role="main">
@@ -975,11 +987,15 @@ body {
     <!-- /Main -->
 
     <!-- ========== FOOTER ========== -->
-    <footer class="dvntUpAnh__footer" role="contentinfo">
-      <p class="dvntUpAnh__footer-text">
-        &copy; <span id="footerYear"></span> Upload Ảnh Lấy Link · Được xây dựng bằng HTML, CSS &amp; JS thuần
-      </p>
-    </footer>
+   <footer class="dvnt-footer" id="dvnt-footer"></footer>
+        <script>
+        fetch('./templates/footer.html')
+            .then(response => response.text())
+            .then(data => {
+                document.querySelector("#dvnt-footer").innerHTML = data;
+            })
+            .catch(error => console.error('Lỗi:', error));
+    </script>
 
   </div>
   <!-- /Wrapper -->
