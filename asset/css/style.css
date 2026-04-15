@@ -1858,7 +1858,7 @@ body {
     }
     
     .doitenhinhanhsticky__nav-item--dropdown:hover .doitenhinhanhsticky__dropdown {
-        max-height: 200px;
+        max-height: 100vh;
     }
     
     .doitenhinhanhsticky__nav-item--dropdown .doitenhinhanhsticky__nav-link {
