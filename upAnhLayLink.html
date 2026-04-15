@@ -226,12 +226,7 @@ body {
 }
 
 .dvntUpAnh__file-input {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  cursor: pointer;
+  display: none; /* Ẩn hoàn toàn, mở bằng fileInput.click() */
 }
 
 /* ── 7. PREVIEW ───────────────────────────────────── */
@@ -264,7 +259,8 @@ body {
   border: 1px solid var(--c-border);
 }
 
-.dvntUpAnh__preview-img {
+.dvntUpAnh__preview-img,
+.dvntUpAnh__preview-video {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -272,7 +268,8 @@ body {
   transition: transform var(--t-med);
 }
 
-.dvntUpAnh__preview-figure:hover .dvntUpAnh__preview-img {
+.dvntUpAnh__preview-figure:hover .dvntUpAnh__preview-img,
+.dvntUpAnh__preview-figure:hover .dvntUpAnh__preview-video {
   transform: scale(1.05);
 }
 
@@ -822,7 +819,7 @@ body {
               </defs>
             </svg>
           </div>
-          <p class="dvntUpAnh__dropzone-text">Kéo &amp; thả ảnh vào đây</p>
+          <p class="dvntUpAnh__dropzone-text">Kéo &amp; thả ảnh hoặc video vào đây</p>
           <p class="dvntUpAnh__dropzone-sub" id="dropzone-hint">hoặc nhấn để chọn từ máy tính</p>
           <button
             id="btnChooseFile"
@@ -837,14 +834,14 @@ body {
           </button>
           <p class="dvntUpAnh__dropzone-limit">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-            Hỗ trợ: JPG, PNG, WEBP, GIF · Tối đa 10MB
+            Hỗ trợ: JPG, PNG, WEBP, GIF, MP4, WEBM · Ảnh tối đa 10MB · Video tối đa 100MB
           </p>
           <!-- Hidden file input -->
           <input
             id="fileInput"
             class="dvntUpAnh__file-input"
             type="file"
-            accept=".jpg,.jpeg,.png,.webp,.gif,image/jpeg,image/png,image/webp,image/gif"
+            accept=".jpg,.jpeg,.png,.webp,.gif,.mp4,.webm,.mov,.avi,image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm,video/quicktime,video/x-msvideo"
             aria-hidden="true"
             tabindex="-1"
           />
@@ -855,6 +852,7 @@ body {
           <div class="dvntUpAnh__preview-inner">
             <figure class="dvntUpAnh__preview-figure">
               <img id="previewImg" class="dvntUpAnh__preview-img" src="" alt="Ảnh xem trước" />
+              <video id="previewVideo" class="dvntUpAnh__preview-video" controls muted playsinline hidden style="display:none"></video>
             </figure>
             <div class="dvntUpAnh__preview-meta">
               <p class="dvntUpAnh__preview-name" id="previewName" aria-label="Tên file"></p>
@@ -992,8 +990,7 @@ body {
  * DVNT UPLOAD ẢNH LẤY LINK — app.js
  * BEM prefix: dvntUpAnh__
  * =====================================================
- * Mục đích: Upload ảnh, lấy link, lưu lịch sử localStorage
- * Cách dùng: Thay API_URL bằng endpoint backend thật của bạn
+ * Mục đích: Upload ảnh lên Google Drive qua Apps Script, lấy link public
  * =====================================================
  */
 
@@ -1001,15 +998,22 @@ body {
 
 /* ── 1. CẤU HÌNH ──────────────────────────────────── */
 
-/** Google Apps Script Web App URL — nhận ảnh và lưu vào Drive */
+/** Google Apps Script Web App URL — nhận file và lưu vào Drive */
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzhql-2LNyBz5SB18LojaO0cHf3ueoRvYoRxP-5PgnPqWmbIeChJCmn15NnylOftiEwKg/exec';
 
-/** Giới hạn dung lượng: 10MB */
-const MAX_SIZE_MB = 10;
-const MAX_SIZE_BYTES = MAX_SIZE_MB * 1024 * 1024;
+/** Giới hạn dung lượng ảnh: 10MB */
+const MAX_SIZE_IMG_MB    = 10;
+const MAX_SIZE_IMG_BYTES = MAX_SIZE_IMG_MB * 1024 * 1024;
+
+/** Giới hạn dung lượng video: 100MB */
+const MAX_SIZE_VID_MB    = 100;
+const MAX_SIZE_VID_BYTES = MAX_SIZE_VID_MB * 1024 * 1024;
 
 /** Loại file chấp nhận */
-const ACCEPT_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+const ACCEPT_TYPES = [
+  'image/jpeg', 'image/png', 'image/webp', 'image/gif',
+  'video/mp4', 'video/webm', 'video/quicktime', 'video/x-msvideo',
+];
 
 /** Key lưu localStorage */
 const LS_KEY = 'dvntUpAnh_history';
@@ -1081,16 +1085,27 @@ function showToast(msg, type = 'info', duration = 3000) {
 /* ── 5. FILE VALIDATION ───────────────────────────── */
 
 /**
+ * Kiểm tra file có phải video không
+ * @param {File} file
+ * @returns {boolean}
+ */
+function isVideo(file) {
+  return file.type.startsWith('video/');
+}
+
+/**
  * Kiểm tra file hợp lệ
  * @param {File} file
  * @returns {{ valid: boolean, error?: string }}
  */
 function validateFile(file) {
   if (!ACCEPT_TYPES.includes(file.type)) {
-    return { valid: false, error: `Định dạng "${file.type}" không được hỗ trợ. Chỉ nhận: JPG, PNG, WEBP, GIF.` };
+    return { valid: false, error: `Định dạng "${file.type}" không được hỗ trợ. Chỉ nhận: JPG, PNG, WEBP, GIF, MP4, WEBM.` };
   }
-  if (file.size > MAX_SIZE_BYTES) {
-    return { valid: false, error: `File quá lớn (${formatSize(file.size)}). Tối đa ${MAX_SIZE_MB}MB.` };
+  const maxBytes = isVideo(file) ? MAX_SIZE_VID_BYTES : MAX_SIZE_IMG_BYTES;
+  const maxMB    = isVideo(file) ? MAX_SIZE_VID_MB    : MAX_SIZE_IMG_MB;
+  if (file.size > maxBytes) {
+    return { valid: false, error: `File quá lớn (${formatSize(file.size)}). Tối đa ${maxMB}MB.` };
   }
   return { valid: true };
 }
@@ -1115,24 +1130,46 @@ function formatSize(bytes) {
  */
 function getMimeLabel(mimeType) {
   const map = {
-    'image/jpeg': 'JPEG',
-    'image/png':  'PNG',
-    'image/webp': 'WEBP',
-    'image/gif':  'GIF',
+    'image/jpeg':      'JPEG',
+    'image/png':       'PNG',
+    'image/webp':      'WEBP',
+    'image/gif':       'GIF',
+    'video/mp4':       'MP4',
+    'video/webm':      'WEBM',
+    'video/quicktime': 'MOV',
+    'video/x-msvideo': 'AVI',
   };
   return map[mimeType] || mimeType.split('/')[1].toUpperCase();
 }
 
 /* ── 7. PREVIEW ───────────────────────────────────── */
 
+const previewVideo = document.getElementById('previewVideo');
+
 /**
- * Hiển thị preview ảnh đã chọn
+ * Hiển thị preview file đã chọn (ảnh hoặc video)
  * @param {File} file
  */
 function showPreview(file) {
   const objectURL = URL.createObjectURL(file);
-  previewImg.src = objectURL;
-  previewImg.onload = () => URL.revokeObjectURL(objectURL); // Giải phóng bộ nhớ
+
+  if (isVideo(file)) {
+    // Hiện video, ẩn ảnh
+    previewImg.hidden = true;
+    previewImg.style.display = 'none';
+    previewVideo.src = objectURL;
+    previewVideo.hidden = false;
+    previewVideo.style.display = 'block';
+    previewVideo.onloadeddata = () => URL.revokeObjectURL(objectURL);
+  } else {
+    // Hiện ảnh, ẩn video
+    previewVideo.hidden = true;
+    previewVideo.style.display = 'none';
+    previewImg.src = objectURL;
+    previewImg.hidden = false;
+    previewImg.style.display = 'block';
+    previewImg.onload = () => URL.revokeObjectURL(objectURL);
+  }
 
   previewName.textContent = file.name;
   previewSize.textContent = formatSize(file.size);
@@ -1150,7 +1187,15 @@ function showPreview(file) {
  */
 function hidePreview() {
   previewSection.hidden = true;
-  previewImg.src        = '';
+
+  previewImg.src = '';
+  previewImg.hidden = false;
+  previewImg.style.display = 'block';
+
+  previewVideo.src = '';
+  previewVideo.hidden = true;
+  previewVideo.style.display = 'none';
+
   previewName.textContent = '';
   previewSize.textContent = '—';
   previewType.textContent = '—';
@@ -1185,12 +1230,9 @@ function handleFileSelected(file) {
   document.addEventListener(evtName, (e) => e.preventDefault());
 });
 
-dropZone.addEventListener('dragenter', () => {
-  dropZone.classList.add('dvntUpAnh__dropzone--dragover');
-});
-
-dropZone.addEventListener('dragover', () => {
-  dropZone.classList.add('dvntUpAnh__dropzone--dragover');
+// dragenter & dragover cùng làm một việc — dùng chung 1 listener
+['dragenter', 'dragover'].forEach(evt => {
+  dropZone.addEventListener(evt, () => dropZone.classList.add('dvntUpAnh__dropzone--dragover'));
 });
 
 dropZone.addEventListener('dragleave', (e) => {
@@ -1310,11 +1352,13 @@ async function driveUploadAPI(file, onProgress) {
   onProgress(85);
 
   const result = await response.json();
-  onProgress(100);
 
+  // Kiểm tra lỗi TRƯỚC khi báo 100% (tránh progress nhảy 100% khi thất bại)
   if (!result.success) {
     throw new Error(result.error || 'Upload Drive thất bại.');
   }
+
+  onProgress(100);
 
   return {
     success:  true,
@@ -1403,23 +1447,32 @@ btnUpload.addEventListener('click', async () => {
   showToast('Đang upload ảnh...', 'info', 2000);
 
   try {
-    // Upload thật lên Google Drive
+    // Upload thật lên Google Drive qua Apps Script
     const result = await driveUploadAPI(selectedFile, updateProgress);
-
-    if (!result.success) {
-      throw new Error(result.message || 'Upload không thành công.');
-    }
 
     clearUploadingState();
     showResultSuccess(result.url);
     showToast('Upload thành công! 🎉', 'success');
 
     // Lưu vào lịch sử
+    // Dùng Drive Thumbnail API để hiển thị ảnh thumbnail đáng tin cậy hơn
+    let thumbUrl = '';
+    if (!isVideo(selectedFile)) {
+      try {
+        const fileId = new URL(result.url).searchParams.get('id');
+        thumbUrl = fileId
+          ? `https://drive.google.com/thumbnail?id=${fileId}&sz=w120`
+          : result.url;
+      } catch {
+        thumbUrl = result.url;
+      }
+    }
     saveToHistory({
-      name: selectedFile.name,
-      url:  result.url,
-      thumb: previewImg.src,
-      time: Date.now(),
+      name:    selectedFile.name,
+      url:     result.url,
+      thumb:   thumbUrl,
+      isVideo: isVideo(selectedFile),
+      time:    Date.now(),
     });
 
   } catch (err) {
@@ -1563,13 +1616,18 @@ function renderHistory() {
     li.setAttribute('aria-label', `Ảnh: ${item.name}`);
 
     li.innerHTML = `
-      <img
-        class="dvntUpAnh__history-item-thumb"
-        src="${escapeHtml(item.thumb)}"
-        alt="${escapeHtml(item.name)}"
-        loading="lazy"
-        onerror="this.style.opacity='0.3'"
-      />
+      ${ item.isVideo
+        ? `<div class="dvntUpAnh__history-item-thumb" style="background:var(--c-surface-2);display:flex;align-items:center;justify-content:center;" aria-label="Video">
+             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--c-primary-light)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+           </div>`
+        : `<img
+             class="dvntUpAnh__history-item-thumb"
+             src="${escapeHtml(item.thumb)}"
+             alt="${escapeHtml(item.name)}"
+             loading="lazy"
+             onerror="this.style.opacity='0.3'"
+           />`
+      }
       <div class="dvntUpAnh__history-item-info">
         <p class="dvntUpAnh__history-item-name" title="${escapeHtml(item.name)}">${escapeHtml(item.name)}</p>
         <a
