@@ -121,6 +121,34 @@ body {
   box-shadow: inset 0 0 0 1px rgba(255,255,255,.05), 0 24px 60px rgba(0,0,0,.55);
 }
 
+.dvntReview.dvntTheme--elegant .dvntReview__panel {
+  background:
+    radial-gradient(110% 100% at 100% 0%, rgba(212,175,55,.24) 0%, transparent 62%),
+    radial-gradient(95% 100% at 0% 100%, rgba(255,233,160,.18) 0%, transparent 64%),
+    linear-gradient(160deg, #1f1a12 0%, #15110d 100%);
+  border-color: rgba(212,175,55,.45);
+}
+
+.dvntReview.dvntTheme--elegant .dvntReview__badge {
+  color: #f5d878;
+  border-color: rgba(245,216,120,.45);
+  background: rgba(245,216,120,.14);
+}
+
+.dvntReview.dvntTheme--cute .dvntReview__panel {
+  background:
+    radial-gradient(120% 110% at 0% 0%, rgba(255,170,201,.26) 0%, transparent 58%),
+    radial-gradient(120% 110% at 100% 100%, rgba(167,139,250,.26) 0%, transparent 58%),
+    linear-gradient(160deg, #261d33 0%, #1f1830 100%);
+  border-color: rgba(244,114,182,.44);
+}
+
+.dvntReview.dvntTheme--cute .dvntReview__badge {
+  color: #f9a8d4;
+  border-color: rgba(249,168,212,.42);
+  background: rgba(249,168,212,.16);
+}
+
 .dvntReview__head {
   display: flex;
   align-items: center;
@@ -420,6 +448,34 @@ body.dvntUpAnh__is-review .dvnt-footer {
   box-shadow: inset 0 0 0 1px rgba(255,255,255,.05), 0 14px 30px rgba(0,0,0,.35);
 }
 
+.dvntUpAnh__preview-template.dvntTheme--elegant {
+  background:
+    radial-gradient(110% 100% at 100% 0%, rgba(212,175,55,.24) 0%, transparent 62%),
+    radial-gradient(95% 100% at 0% 100%, rgba(255,233,160,.18) 0%, transparent 64%),
+    linear-gradient(160deg, #1f1a12 0%, #15110d 100%);
+  border-color: rgba(212,175,55,.42);
+}
+
+.dvntUpAnh__preview-template.dvntTheme--elegant .dvntUpAnh__preview-template-chip {
+  color: #f5d878;
+  border-color: rgba(245,216,120,.45);
+  background: rgba(245,216,120,.14);
+}
+
+.dvntUpAnh__preview-template.dvntTheme--cute {
+  background:
+    radial-gradient(120% 110% at 0% 0%, rgba(255,170,201,.26) 0%, transparent 58%),
+    radial-gradient(120% 110% at 100% 100%, rgba(167,139,250,.26) 0%, transparent 58%),
+    linear-gradient(160deg, #261d33 0%, #1f1830 100%);
+  border-color: rgba(244,114,182,.4);
+}
+
+.dvntUpAnh__preview-template.dvntTheme--cute .dvntUpAnh__preview-template-chip {
+  color: #f9a8d4;
+  border-color: rgba(249,168,212,.42);
+  background: rgba(249,168,212,.16);
+}
+
 .dvntUpAnh__preview-template-head {
   display: flex;
   align-items: center;
@@ -481,6 +537,35 @@ body.dvntUpAnh__is-review .dvnt-footer {
   font-size: .78rem;
   color: #cbd5e1;
   flex-shrink: 0;
+}
+
+.dvntUpAnh__template-picker {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 12px 16px 2px;
+}
+
+.dvntUpAnh__template-picker-btn {
+  padding: 6px 10px;
+  font-size: .75rem;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--c-border);
+  background: var(--c-surface-2);
+  color: var(--c-text-muted);
+  cursor: pointer;
+  transition: all var(--t-fast);
+}
+
+.dvntUpAnh__template-picker-btn:hover {
+  border-color: rgba(255,255,255,.22);
+  color: var(--c-text);
+}
+
+.dvntUpAnh__template-picker-btn.is-active {
+  border-color: rgba(34,211,238,.5);
+  color: #67e8f9;
+  background: rgba(34,211,238,.15);
 }
 
 /* ── 8. PROGRESS BAR ──────────────────────────────── */
@@ -922,6 +1007,7 @@ body.dvntUpAnh__is-review .dvnt-footer {
   .dvntUpAnh__preview-inner { flex-direction: column; align-items: center; }
   .dvntUpAnh__preview-figure { width: 100%; height: 160px; }
   .dvntUpAnh__preview-template { margin: 0 10px 12px; padding: 14px; }
+  .dvntUpAnh__template-picker { margin: 10px 10px 0; }
   .dvntUpAnh__preview-template-media { min-height: 240px; }
   .dvntUpAnh__preview-template-footer {
     flex-direction: column;
@@ -1045,7 +1131,7 @@ body.dvntUpAnh__is-review .dvnt-footer {
             </svg>
           </div>
           <p class="dvntUpAnh__dropzone-text">Kéo &amp; thả ảnh hoặc video vào đây</p>
-          <p class="dvntUpAnh__dropzone-sub" id="dropzone-hint">hoặc nhấn để chọn từ máy tính</p>
+          <p class="dvntUpAnh__dropzone-sub" id="dropzone-hint">hoặc nhấn để chọn từ máy tính, Ctrl + V hoặc Cmd + V để dán ảnh</p>
           <button
             id="btnChooseFile"
             class="dvntUpAnh__btn dvntUpAnh__btn--primary dvntUpAnh__dropzone-btn"
@@ -1116,6 +1202,12 @@ body.dvntUpAnh__is-review .dvnt-footer {
               <p id="previewTemplateName" class="dvntUpAnh__preview-template-name"></p>
               <p id="previewTemplateMeta" class="dvntUpAnh__preview-template-meta"></p>
             </div>
+          </div>
+
+          <div class="dvntUpAnh__template-picker" role="group" aria-label="Chon mau review">
+            <button type="button" class="dvntUpAnh__template-picker-btn is-active" data-theme="default">Mặc định</button>
+            <button type="button" class="dvntUpAnh__template-picker-btn" data-theme="elegant">Sang trọng</button>
+            <button type="button" class="dvntUpAnh__template-picker-btn" data-theme="cute">Dễ thương</button>
           </div>
         </div>
 
@@ -1272,6 +1364,7 @@ const ACCEPT_TYPES = [
 /** Key lưu localStorage */
 const LS_KEY = 'dvntUpAnh_history';
 const LS_KEY_TEMPLATE_PREF = 'dvntUpAnh_template_pref';
+const LS_KEY_TEMPLATE_STYLE = 'dvntUpAnh_template_style';
 
 /* ── 2. DOM REFERENCES ────────────────────────────── */
 
@@ -1315,12 +1408,14 @@ const reviewViewerVideo = document.getElementById('reviewViewerVideo');
 const reviewViewerName = document.getElementById('reviewViewerName');
 const reviewViewerMeta = document.getElementById('reviewViewerMeta');
 const reviewViewerOpenRaw = document.getElementById('reviewViewerOpenRaw');
+const templatePickerButtons = document.querySelectorAll('.dvntUpAnh__template-picker-btn');
 
 /* ── 3. STATE ─────────────────────────────────────── */
 
 let selectedFile = null;  // File object được chọn
 let isUploading  = false; // Trạng thái đang upload
 let isTemplatePreviewOn = getTemplatePreference(); // Bật/tắt mẫu hiển thị review (cache)
+let selectedTemplateStyle = getTemplateStylePreference();
 
 /**
  * Lấy lựa chọn mẫu hiển thị đã lưu
@@ -1341,6 +1436,34 @@ function getTemplatePreference() {
 function saveTemplatePreference(enabled) {
   try {
     localStorage.setItem(LS_KEY_TEMPLATE_PREF, enabled ? '1' : '0');
+  } catch {
+    // Ignore if storage is unavailable
+  }
+}
+
+/**
+ * Lấy style mẫu review đã lưu
+ * @returns {'default'|'elegant'|'cute'}
+ */
+function getTemplateStylePreference() {
+  try {
+    const saved = localStorage.getItem(LS_KEY_TEMPLATE_STYLE);
+    if (saved === 'elegant' || saved === 'cute' || saved === 'default') {
+      return saved;
+    }
+    return 'default';
+  } catch {
+    return 'default';
+  }
+}
+
+/**
+ * Lưu style mẫu review
+ * @param {'default'|'elegant'|'cute'} style
+ */
+function saveTemplateStylePreference(style) {
+  try {
+    localStorage.setItem(LS_KEY_TEMPLATE_STYLE, style);
   } catch {
     // Ignore if storage is unavailable
   }
@@ -1519,13 +1642,14 @@ function buildReviewLink(payload) {
     media: payload.mediaUrl,
     name: payload.name || 'media',
     kind: payload.isVideo ? 'video' : 'image',
+    theme: payload.theme || 'default',
   });
   return `${basePage}?${params.toString()}`;
 }
 
 /**
  * Parse tham số review từ URL
- * @returns {{mediaUrl: string, name: string, kind: string} | null}
+ * @returns {{mediaUrl: string, name: string, kind: string, theme: string} | null}
  */
 function getReviewPayloadFromUrl() {
   const params = new URLSearchParams(window.location.search);
@@ -1538,7 +1662,29 @@ function getReviewPayloadFromUrl() {
     mediaUrl,
     name: params.get('name') || 'Media',
     kind: params.get('kind') || 'image',
+    theme: params.get('theme') || 'default',
   };
+}
+
+/**
+ * Áp dụng class theme cho preview/review
+ */
+function applyTemplateThemeUI() {
+  const themeClasses = ['dvntTheme--elegant', 'dvntTheme--cute'];
+  previewTemplate.classList.remove(...themeClasses);
+  reviewViewer.classList.remove(...themeClasses);
+
+  if (selectedTemplateStyle === 'elegant') {
+    previewTemplate.classList.add('dvntTheme--elegant');
+    reviewViewer.classList.add('dvntTheme--elegant');
+  } else if (selectedTemplateStyle === 'cute') {
+    previewTemplate.classList.add('dvntTheme--cute');
+    reviewViewer.classList.add('dvntTheme--cute');
+  }
+
+  templatePickerButtons.forEach((btn) => {
+    btn.classList.toggle('is-active', btn.dataset.theme === selectedTemplateStyle);
+  });
 }
 
 /**
@@ -1547,6 +1693,9 @@ function getReviewPayloadFromUrl() {
  * @returns {boolean}
  */
 function renderReviewMode(payload) {
+  selectedTemplateStyle = (payload.theme === 'elegant' || payload.theme === 'cute') ? payload.theme : 'default';
+  applyTemplateThemeUI();
+
   const kind = payload.kind === 'video' ? 'video' : 'image';
   const media = normalizeReviewMediaUrl(payload.mediaUrl, kind);
 
@@ -1624,6 +1773,7 @@ function applyTemplatePreviewUI() {
   previewTemplate.hidden = !shouldShowTemplate;
   btnPreviewTemplateText.textContent = shouldShowTemplate ? 'Ẩn mẫu hiển thị' : 'Mẫu hiển thị';
   btnPreviewTemplate.classList.toggle('dvntUpAnh__btn--template-active', shouldShowTemplate);
+  applyTemplateThemeUI();
 }
 
 /**
@@ -1783,6 +1933,38 @@ dropZone.addEventListener('drop', (e) => {
   if (file) handleFileSelected(file);
 });
 
+/**
+ * Lấy file từ clipboard event (Ctrl+V / Cmd+V)
+ * @param {ClipboardEvent} e
+ * @returns {File|null}
+ */
+function getFileFromClipboardEvent(e) {
+  const files = e.clipboardData?.files;
+  if (files && files.length > 0) {
+    return files[0];
+  }
+
+  const items = e.clipboardData?.items || [];
+  for (const item of items) {
+    if (item.kind !== 'file') continue;
+    const file = item.getAsFile();
+    if (file) return file;
+  }
+
+  return null;
+}
+
+// Dán ảnh/video từ clipboard (Windows: Ctrl+V, macOS: Cmd+V)
+document.addEventListener('paste', (e) => {
+  if (isUploading) return;
+
+  const file = getFileFromClipboardEvent(e);
+  if (!file) return;
+
+  e.preventDefault();
+  handleFileSelected(file);
+});
+
 /* ── 10. CLICK / KEYBOARD EVENTS ─────────────────── */
 
 // Click vào dropzone → mở file picker
@@ -1818,6 +2000,24 @@ btnRemove.addEventListener('click', (e) => {
 
 btnPreviewTemplate.addEventListener('click', () => {
   toggleTemplatePreview();
+});
+
+templatePickerButtons.forEach((btn) => {
+  btn.addEventListener('click', () => {
+    const theme = btn.dataset.theme;
+    if (theme !== 'default' && theme !== 'elegant' && theme !== 'cute') return;
+
+    selectedTemplateStyle = theme;
+    saveTemplateStylePreference(theme);
+    applyTemplateThemeUI();
+
+    const labels = {
+      default: 'Mặc định',
+      elegant: 'Sang trọng',
+      cute: 'Dễ thương',
+    };
+    showToast(`Đã chọn mẫu: ${labels[theme]}`, 'info');
+  });
 });
 
 /* ── 11. PROGRESS BAR ─────────────────────────────── */
@@ -2000,6 +2200,7 @@ btnUpload.addEventListener('click', async () => {
           mediaUrl: result.url,
           name: selectedFile.name,
           isVideo: isVideo(selectedFile),
+          theme: selectedTemplateStyle,
         })
       : result.url;
 
@@ -2194,7 +2395,7 @@ function renderHistory() {
           rel="noopener noreferrer"
           title="${escapeHtml(item.url)}"
         >${escapeHtml(item.url)}</a>
-        ${item.template ? '<span class="dvntUpAnh__result-link-label" style="margin-top:3px;display:inline-block;">Dang dung mau hien thi</span>' : ''}
+        ${item.template ? '<span class="dvntUpAnh__result-link-label" style="margin-top:3px;display:inline-block;">Đang dùng mẫu hiển thị</span>' : ''}
       </div>
       <div class="dvntUpAnh__history-item-actions">
         <button
@@ -2270,6 +2471,8 @@ if (footerYearEl) {
  * Khởi tạo ứng dụng
  */
 function init() {
+  applyTemplateThemeUI();
+
   const reviewPayload = getReviewPayloadFromUrl();
   if (reviewPayload) {
     const enteredReviewMode = renderReviewMode(reviewPayload);
