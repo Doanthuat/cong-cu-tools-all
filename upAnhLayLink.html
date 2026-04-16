@@ -9,6 +9,12 @@
   <meta property="og:title" content="Upload Ảnh Lấy Link - Nhanh & Miễn Phí" />
   <meta property="og:description" content="Chọn ảnh, tải lên và sao chép link nhanh chóng." />
   <meta property="og:type" content="website" />
+  <meta property="og:image" content="./asset/img/logo.png" />
+  <meta property="og:image:alt" content="Upload Ảnh Lấy Link" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Upload Ảnh Lấy Link - Nhanh & Miễn Phí" />
+  <meta name="twitter:description" content="Chọn ảnh, tải lên và sao chép link nhanh chóng." />
+  <meta name="twitter:image" content="./asset/img/logo.png" />
   <title>Upload Ảnh Lấy Link | Nhanh – Miễn Phí – Bảo Mật</title>
   <link rel="canonical" href="/" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -1192,7 +1198,7 @@ body.dvntUpAnh__is-review .dvnt-footer {
           <div id="previewTemplate" class="dvntUpAnh__preview-template" hidden aria-label="Mẫu hiển thị review">
             <div class="dvntUpAnh__preview-template-head">
               <span class="dvntUpAnh__preview-template-chip">Mau hien thi</span>
-              <span class="dvntUpAnh__preview-template-note">Ap dung khi ban bam nut mau</span>
+              <span class="dvntUpAnh__preview-template-note">Áp dụng khi bấm nút chọn màu</span>
             </div>
             <div class="dvntUpAnh__preview-template-media">
               <img id="previewTemplateImg" class="dvntUpAnh__preview-template-img" src="" alt="Review anh lon" />
@@ -1667,6 +1673,43 @@ function getReviewPayloadFromUrl() {
 }
 
 /**
+ * Tạo hoặc cập nhật thẻ meta trong <head>
+ * @param {'property'|'name'} keyType
+ * @param {string} key
+ * @param {string} content
+ */
+function upsertMetaTag(keyType, key, content) {
+  let tag = document.head.querySelector(`meta[${keyType}="${key}"]`);
+  if (!tag) {
+    tag = document.createElement('meta');
+    tag.setAttribute(keyType, key);
+    document.head.appendChild(tag);
+  }
+  tag.setAttribute('content', content);
+}
+
+/**
+ * Cập nhật metadata cho link share theo ảnh đang review
+ * @param {{name: string, mediaUrl: string}} payload
+ */
+function updateShareMeta(payload) {
+  const title = `${payload.name} | Upload Ảnh Lấy Link`;
+  const description = 'Xem ảnh đã chia sẻ từ công cụ Upload Ảnh Lấy Link.';
+
+  document.title = title;
+  upsertMetaTag('property', 'og:title', title);
+  upsertMetaTag('property', 'og:description', description);
+  upsertMetaTag('property', 'og:type', 'website');
+  upsertMetaTag('property', 'og:image', payload.mediaUrl);
+  upsertMetaTag('property', 'og:image:alt', payload.name);
+
+  upsertMetaTag('name', 'twitter:card', 'summary_large_image');
+  upsertMetaTag('name', 'twitter:title', title);
+  upsertMetaTag('name', 'twitter:description', description);
+  upsertMetaTag('name', 'twitter:image', payload.mediaUrl);
+}
+
+/**
  * Áp dụng class theme cho preview/review
  */
 function applyTemplateThemeUI() {
@@ -1706,6 +1749,8 @@ function renderReviewMode(payload) {
     reviewViewerVideo.src = '';
     return false;
   }
+
+  updateShareMeta({ name: payload.name, mediaUrl: media.rawUrl || media.displayUrl });
 
   document.body.classList.add('dvntUpAnh__is-review');
   reviewViewer.hidden = false;
