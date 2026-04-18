@@ -1,0 +1,1656 @@
+<!DOCTYPE html>
+<html lang="vi" class="dvntCheckLink dvntCheckLink--html">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Kiểm tra link ảnh còn sống hay chết | Công cụ kiểm tra URL ảnh</title>
+	<meta name="description" content="Công cụ kiểm tra link ảnh còn hoạt động hay đã chết. Hỗ trợ kiểm tra hàng loạt URL ảnh, lọc kết quả, xuất CSV/TXT và xem lịch sử kiểm tra.">
+	<meta name="keywords" content="kiểm tra link ảnh, image url checker, link ảnh chết, kiểm tra ảnh seo, kiểm tra url ảnh hàng loạt">
+	<meta name="robots" content="index, follow">
+	<meta property="og:title" content="Kiểm tra link ảnh còn sống hay chết">
+	<meta property="og:description" content="Kiểm tra nhanh hàng loạt URL ảnh, phát hiện link hỏng, timeout hoặc không còn truy cập được.">
+	<meta property="og:type" content="website">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+	<style>
+		:root {
+			--dvntCheckLink-bg: #cbd3e3;
+			--dvntCheckLink-surface: #ffffff;
+			--dvntCheckLink-surface-2: #d7deec;
+			--dvntCheckLink-text: #1a1f33;
+			--dvntCheckLink-muted: #666f85;
+			--dvntCheckLink-primary: #1d2a57;
+			--dvntCheckLink-primary-2: #243b87;
+			--dvntCheckLink-gold: #b89457;
+			--dvntCheckLink-accent: #1f9b71;
+			--dvntCheckLink-danger: #d23f52;
+			--dvntCheckLink-warning: #cf7d24;
+			--dvntCheckLink-blocked: #7f5fb1;
+			--dvntCheckLink-gray: #687287;
+			--dvntCheckLink-shadow: 0 14px 34px rgba(20, 27, 49, 0.09);
+			--dvntCheckLink-radius-lg: 20px;
+			--dvntCheckLink-radius-md: 14px;
+			--dvntCheckLink-radius-sm: 10px;
+			--dvntCheckLink-transition: 220ms ease;
+		}
+
+		* {
+			box-sizing: border-box;
+		}
+
+		body.dvntCheckLink {
+			margin: 0;
+			min-height: 100vh;
+			font-family: "Be Vietnam Pro", sans-serif;
+			color: var(--dvntCheckLink-text);
+			background:
+				radial-gradient(circle at 0% 0%, rgba(28, 49, 120, 0.34), transparent 36%),
+				radial-gradient(circle at 100% 10%, rgba(184, 148, 87, 0.24), transparent 38%),
+				linear-gradient(165deg, rgba(255, 255, 255, 0.1), rgba(170, 184, 209, 0.86)),
+				var(--dvntCheckLink-bg);
+			line-height: 1.5;
+		}
+
+		.dvntCheckLink__container {
+			width: min(1200px, calc(100% - 32px));
+			margin: 0 auto;
+		}
+
+		.dvntCheckLink__header {
+			position: sticky;
+			top: 0;
+			z-index: 20;
+			backdrop-filter: blur(10px);
+			background-color: rgba(203, 211, 227, 0.92);
+			border-bottom: 1px solid rgba(29, 42, 87, 0.12);
+		}
+
+		.dvntCheckLink__header-inner {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 16px;
+			padding: 14px 0;
+		}
+
+		.dvntCheckLink__brand {
+			display: flex;
+			align-items: center;
+			gap: 12px;
+			text-decoration: none;
+			color: inherit;
+		}
+
+		.dvntCheckLink__logo {
+			width: 42px;
+			height: 42px;
+			border-radius: 12px;
+			display: grid;
+			place-items: center;
+			font-size: 14px;
+			font-weight: 700;
+			letter-spacing: 0.08em;
+			font-family: "Playfair Display", serif;
+			background: linear-gradient(145deg, #1f2f6a, #101c42);
+			color: #fff;
+			box-shadow: var(--dvntCheckLink-shadow);
+			border: 1px solid rgba(184, 148, 87, 0.45);
+		}
+
+		.dvntCheckLink__brand-name {
+			margin: 0;
+			font-family: "Playfair Display", serif;
+			font-size: 1.08rem;
+			letter-spacing: 0.01em;
+		}
+
+		.dvntCheckLink__nav {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			flex-wrap: wrap;
+		}
+
+		.dvntCheckLink__nav-link,
+		.dvntCheckLink__button {
+			border: none;
+			border-radius: 999px;
+			padding: 10px 16px;
+			font: inherit;
+			font-size: 0.9rem;
+			font-weight: 600;
+			cursor: pointer;
+			text-decoration: none;
+			transition: var(--dvntCheckLink-transition);
+			white-space: nowrap;
+		}
+
+		.dvntCheckLink__nav-link {
+			color: var(--dvntCheckLink-text);
+			background: rgba(255, 255, 255, 0.88);
+			border: 1px solid rgba(29, 42, 87, 0.16);
+		}
+
+		.dvntCheckLink__button {
+			color: #fff;
+			background: linear-gradient(145deg, #22357a, #15245b);
+			box-shadow: 0 10px 24px rgba(28, 42, 90, 0.28);
+			border: 1px solid rgba(184, 148, 87, 0.45);
+		}
+
+		.dvntCheckLink__nav-link:hover,
+		.dvntCheckLink__button:hover {
+			transform: translateY(-1px);
+		}
+
+		.dvntCheckLink__main {
+			padding: 28px 0 44px;
+		}
+
+		.dvntCheckLink__hero {
+			background: linear-gradient(130deg, rgba(21, 33, 77, 0.98), rgba(33, 53, 122, 0.94));
+			border-radius: var(--dvntCheckLink-radius-lg);
+			color: #fff;
+			padding: 32px;
+			box-shadow: var(--dvntCheckLink-shadow);
+			overflow: hidden;
+			position: relative;
+			isolation: isolate;
+			border: 1px solid rgba(184, 148, 87, 0.35);
+		}
+
+		.dvntCheckLink__hero::after {
+			content: "";
+			position: absolute;
+			inset: auto -120px -140px auto;
+			width: 320px;
+			height: 320px;
+			background: rgba(184, 148, 87, 0.24);
+			border-radius: 50%;
+			z-index: -1;
+		}
+
+		.dvntCheckLink__hero::before {
+			content: "";
+			position: absolute;
+			left: 0;
+			right: 0;
+			top: 0;
+			height: 2px;
+			background: linear-gradient(90deg, transparent, rgba(184, 148, 87, 0.9), transparent);
+		}
+
+		.dvntCheckLink__hero-title {
+			margin: 0;
+			font-size: clamp(1.6rem, 2.6vw, 2.4rem);
+			font-family: "Playfair Display", serif;
+			line-height: 1.18;
+		}
+
+		.dvntCheckLink__hero-desc {
+			margin: 12px 0 22px;
+			max-width: 700px;
+			font-size: 1rem;
+			opacity: 0.94;
+		}
+
+		.dvntCheckLink__badge-list {
+			list-style: none;
+			margin: 0;
+			padding: 0;
+			display: flex;
+			flex-wrap: wrap;
+			gap: 10px;
+		}
+
+		.dvntCheckLink__badge {
+			padding: 8px 14px;
+			border-radius: 999px;
+			background: rgba(184, 148, 87, 0.2);
+			border: 1px solid rgba(184, 148, 87, 0.45);
+			font-size: 0.87rem;
+			font-weight: 600;
+		}
+
+		.dvntCheckLink__grid {
+			display: grid;
+			gap: 18px;
+			margin-top: 18px;
+		}
+
+		.dvntCheckLink__grid--2 {
+			grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+		}
+
+		.dvntCheckLink__card {
+			background: rgba(255, 255, 255, 0.92);
+			backdrop-filter: blur(12px);
+			border-radius: var(--dvntCheckLink-radius-lg);
+			padding: 20px;
+			box-shadow: var(--dvntCheckLink-shadow);
+			border: 1px solid rgba(29, 42, 87, 0.08);
+			animation: dvntCheckLinkFade 450ms ease;
+		}
+
+		.dvntCheckLink__card-title {
+			margin: 0;
+			font-size: 1.06rem;
+			font-family: "Playfair Display", serif;
+			display: flex;
+			align-items: center;
+			gap: 8px;
+		}
+
+		.dvntCheckLink__card-subtitle {
+			margin: 6px 0 16px;
+			color: var(--dvntCheckLink-muted);
+			font-size: 0.9rem;
+		}
+
+		.dvntCheckLink__textarea {
+			width: 100%;
+			min-height: 210px;
+			border-radius: var(--dvntCheckLink-radius-md);
+			border: 1px solid rgba(11, 111, 164, 0.2);
+			padding: 14px 14px;
+			resize: vertical;
+			font: inherit;
+			outline: none;
+			transition: var(--dvntCheckLink-transition);
+		}
+
+		.dvntCheckLink__textarea:focus {
+			border-color: var(--dvntCheckLink-primary-2);
+			box-shadow: 0 0 0 4px rgba(36, 59, 135, 0.16);
+		}
+
+		.dvntCheckLink__controls {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 10px;
+			margin-top: 12px;
+		}
+
+		.dvntCheckLink__button--ghost {
+			background: rgba(255, 255, 255, 0.9);
+			color: var(--dvntCheckLink-text);
+			border: 1px solid rgba(29, 42, 87, 0.2);
+			box-shadow: none;
+		}
+
+		.dvntCheckLink__button--danger {
+			background: linear-gradient(140deg, #cf2d4b, #ea5a73);
+		}
+
+		.dvntCheckLink__button--accent {
+			background: linear-gradient(145deg, #1c8e68, #167a59);
+		}
+
+		.dvntCheckLink__button--wide {
+			margin-left: auto;
+			min-width: 190px;
+		}
+
+		.dvntCheckLink__field-group {
+			display: grid;
+			gap: 12px;
+		}
+
+		.dvntCheckLink__check-item {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			font-size: 0.92rem;
+			color: var(--dvntCheckLink-text);
+		}
+
+		.dvntCheckLink__check-item input {
+			width: 18px;
+			height: 18px;
+			accent-color: #273f91;
+			flex: none;
+		}
+
+		.dvntCheckLink__field-row {
+			display: grid;
+			gap: 10px;
+			grid-template-columns: 1fr 1fr;
+		}
+
+		.dvntCheckLink__label {
+			font-size: 0.84rem;
+			color: var(--dvntCheckLink-muted);
+			font-weight: 600;
+			margin-bottom: 5px;
+			display: block;
+		}
+
+		.dvntCheckLink__select,
+		.dvntCheckLink__input {
+			width: 100%;
+			border-radius: var(--dvntCheckLink-radius-sm);
+			border: 1px solid rgba(29, 42, 87, 0.22);
+			padding: 10px 12px;
+			font: inherit;
+			background: #fff;
+		}
+
+		.dvntCheckLink__status-bar {
+			margin-top: 14px;
+			background: var(--dvntCheckLink-surface-2);
+			border-radius: 999px;
+			height: 11px;
+			overflow: hidden;
+		}
+
+		.dvntCheckLink__status-progress {
+			height: 100%;
+			width: 0;
+			background: linear-gradient(145deg, var(--dvntCheckLink-primary), var(--dvntCheckLink-gold));
+			transition: width 280ms ease;
+		}
+
+		.dvntCheckLink__status-text {
+			margin-top: 8px;
+			color: var(--dvntCheckLink-muted);
+			font-size: 0.87rem;
+		}
+
+		.dvntCheckLink__stats {
+			display: grid;
+			grid-template-columns: repeat(6, minmax(0, 1fr));
+			gap: 12px;
+			margin-top: 18px;
+		}
+
+		.dvntCheckLink__stat {
+			background: linear-gradient(175deg, rgba(255, 255, 255, 0.92), rgba(245, 247, 252, 0.88));
+			border-radius: var(--dvntCheckLink-radius-md);
+			box-shadow: var(--dvntCheckLink-shadow);
+			padding: 14px;
+			border: 1px solid rgba(29, 42, 87, 0.08);
+		}
+
+		.dvntCheckLink__stat-label {
+			display: block;
+			color: var(--dvntCheckLink-muted);
+			font-size: 0.8rem;
+		}
+
+		.dvntCheckLink__stat-value {
+			font-family: "Playfair Display", serif;
+			font-size: 1.36rem;
+			margin-top: 4px;
+			display: block;
+		}
+
+		.dvntCheckLink__table-tools {
+			display: grid;
+			grid-template-columns: 1.2fr 0.9fr 0.9fr 0.8fr;
+			gap: 10px;
+			margin-top: 18px;
+			align-items: end;
+		}
+
+		.dvntCheckLink__table-wrapper {
+			margin-top: 14px;
+			border-radius: var(--dvntCheckLink-radius-lg);
+			border: 1px solid rgba(29, 42, 87, 0.14);
+			overflow: auto;
+			max-height: 430px;
+			background: rgba(255, 255, 255, 0.94);
+		}
+
+		.dvntCheckLink__table {
+			width: 100%;
+			border-collapse: collapse;
+			min-width: 1140px;
+		}
+
+		.dvntCheckLink__table th,
+		.dvntCheckLink__table td {
+			text-align: left;
+			padding: 10px;
+			border-bottom: 1px solid rgba(29, 42, 87, 0.1);
+			font-size: 0.88rem;
+			vertical-align: top;
+		}
+
+		.dvntCheckLink__table th {
+			position: sticky;
+			top: 0;
+			z-index: 2;
+			background: #e9edf9;
+			font-size: 0.8rem;
+			text-transform: uppercase;
+			letter-spacing: 0.02em;
+		}
+
+		.dvntCheckLink__link-text {
+			max-width: 330px;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			display: block;
+			color: #22357a;
+			text-decoration: none;
+		}
+
+		.dvntCheckLink__preview {
+			width: 58px;
+			height: 58px;
+			object-fit: cover;
+			border-radius: 10px;
+			border: 1px solid rgba(29, 42, 87, 0.12);
+			background: #edf1f8;
+		}
+
+		.dvntCheckLink__status {
+			display: inline-flex;
+			align-items: center;
+			gap: 6px;
+			border-radius: 999px;
+			padding: 5px 9px;
+			font-size: 0.78rem;
+			font-weight: 600;
+			color: #fff;
+		}
+
+		.dvntCheckLink__status--hoat_dong { background: var(--dvntCheckLink-accent); }
+		.dvntCheckLink__status--loi { background: var(--dvntCheckLink-danger); }
+		.dvntCheckLink__status--timeout { background: var(--dvntCheckLink-warning); }
+		.dvntCheckLink__status--bi_chan { background: var(--dvntCheckLink-blocked); }
+		.dvntCheckLink__status--khong_phai_anh { background: var(--dvntCheckLink-gray); }
+
+		.dvntCheckLink__actions {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 5px;
+		}
+
+		.dvntCheckLink__action-btn {
+			border: 1px solid rgba(29, 42, 87, 0.2);
+			background: #fff;
+			color: var(--dvntCheckLink-text);
+			border-radius: 8px;
+			font: inherit;
+			font-size: 0.78rem;
+			padding: 5px 7px;
+			cursor: pointer;
+		}
+
+		.dvntCheckLink__action-btn:hover {
+			background: #f3f5fb;
+		}
+
+		.dvntCheckLink__bulk-actions {
+			margin-top: 12px;
+			display: flex;
+			flex-wrap: wrap;
+			gap: 10px;
+		}
+
+		.dvntCheckLink__state {
+			margin-top: 14px;
+			padding: 14px;
+			border-radius: var(--dvntCheckLink-radius-md);
+			background: var(--dvntCheckLink-surface-2);
+			border: 1px solid rgba(29, 42, 87, 0.14);
+			color: var(--dvntCheckLink-muted);
+			display: none;
+		}
+
+		.dvntCheckLink__state--visible {
+			display: block;
+		}
+
+		.dvntCheckLink__history-list {
+			margin: 0;
+			padding: 0;
+			list-style: none;
+			display: grid;
+			gap: 10px;
+		}
+
+		.dvntCheckLink__history-item {
+			border: 1px solid rgba(29, 42, 87, 0.14);
+			border-radius: var(--dvntCheckLink-radius-md);
+			padding: 12px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 10px;
+			background: #fff;
+		}
+
+		.dvntCheckLink__history-text {
+			margin: 0;
+			font-size: 0.86rem;
+			color: var(--dvntCheckLink-muted);
+		}
+
+		.dvntCheckLink__footer {
+			margin-top: 24px;
+			border-top: 1px solid rgba(29, 42, 87, 0.15);
+			padding: 24px 0 32px;
+			color: var(--dvntCheckLink-muted);
+		}
+
+		.dvntCheckLink__footer-grid {
+			display: grid;
+			grid-template-columns: 2fr 1fr 1fr;
+			gap: 12px;
+		}
+
+		.dvntCheckLink__footer-title {
+			margin: 0 0 8px;
+			color: var(--dvntCheckLink-text);
+			font-size: 0.95rem;
+			font-family: "Playfair Display", serif;
+		}
+
+		.dvntCheckLink__footer-link {
+			color: #22357a;
+			text-decoration: none;
+			font-size: 0.9rem;
+			display: inline-block;
+			margin-bottom: 6px;
+		}
+
+		.dvntCheckLink__copyright {
+			margin-top: 10px;
+			font-size: 0.82rem;
+		}
+
+		.dvntCheckLink__hidden-file {
+			display: none;
+		}
+
+		@keyframes dvntCheckLinkFade {
+			from {
+				opacity: 0;
+				transform: translateY(8px);
+			}
+			to {
+				opacity: 1;
+				transform: translateY(0);
+			}
+		}
+
+		@media (max-width: 1080px) {
+			.dvntCheckLink__stats {
+				grid-template-columns: repeat(3, minmax(0, 1fr));
+			}
+
+			.dvntCheckLink__grid--2,
+			.dvntCheckLink__footer-grid {
+				grid-template-columns: 1fr;
+			}
+
+			.dvntCheckLink__button--wide {
+				margin-left: 0;
+			}
+
+			.dvntCheckLink__table-tools {
+				grid-template-columns: repeat(2, minmax(0, 1fr));
+			}
+		}
+
+		@media (max-width: 760px) {
+			.dvntCheckLink__container {
+				width: min(100%, calc(100% - 20px));
+			}
+
+			.dvntCheckLink__hero {
+				padding: 24px 18px;
+			}
+
+			.dvntCheckLink__header-inner {
+				flex-direction: column;
+				align-items: flex-start;
+			}
+
+			.dvntCheckLink__field-row {
+				grid-template-columns: 1fr;
+			}
+
+			.dvntCheckLink__stats {
+				grid-template-columns: repeat(2, minmax(0, 1fr));
+			}
+
+			.dvntCheckLink__table-tools {
+				grid-template-columns: 1fr;
+			}
+		}
+	</style>
+</head>
+<body class="dvntCheckLink dvntCheckLink--body">
+	 <!-- HEADER -->
+    <header class="doitenhinhanhsticky__header" id="doitenhinhanhsticky__header">
+        <!-- render header -->
+    </header>
+    <!-- Đoạn scrip render header -->
+    <script>
+        fetch('./templates/header.html')
+            .then(response => response.text())
+            .then(data => {
+                document.querySelector("#doitenhinhanhsticky__header").innerHTML = data;
+            })
+            .catch(error => console.error('Lỗi:', error));
+    </script>
+
+	<main class="dvntCheckLink__main">
+		<div class="dvntCheckLink__container">
+			<section class="dvntCheckLink__hero" aria-labelledby="dvntCheckLinkTieuDe">
+				<h1 id="dvntCheckLinkTieuDe" class="dvntCheckLink__hero-title">Kiểm tra liên kết còn sống hay chết</h1>
+				<p class="dvntCheckLink__hero-desc">Kiểm tra nhanh hàng loạt URL ảnh, phát hiện link hỏng, timeout hoặc không còn truy cập được. Tối ưu cho người làm web, SEO, quản trị nội dung và bán hàng online.</p>
+				<ul class="dvntCheckLink__badge-list" aria-label="Ưu điểm công cụ">
+					<li class="dvntCheckLink__badge">Kiểm tra hàng loạt</li>
+					<li class="dvntCheckLink__badge">Kết quả nhanh</li>
+					<li class="dvntCheckLink__badge">Xuất file CSV/TXT</li>
+				</ul>
+			</section>
+
+			<section class="dvntCheckLink__grid dvntCheckLink__grid--2" aria-label="Nhập dữ liệu và tuỳ chọn">
+				<article class="dvntCheckLink__card">
+					<h2 class="dvntCheckLink__card-title">Danh sách URL ảnh cần kiểm tra</h2>
+					<p class="dvntCheckLink__card-subtitle">Dán mỗi URL một dòng. Hỗ trợ nhập nhanh từ TXT hoặc CSV.</p>
+					<label class="dvntCheckLink__label" for="dvntCheckLinkTextarea">Danh sách URL</label>
+					<textarea id="dvntCheckLinkTextarea" class="dvntCheckLink__textarea" placeholder="Dán danh sách URL vào đây, mỗi dòng một link"></textarea>
+					<input id="dvntCheckLinkFile" class="dvntCheckLink__hidden-file" type="file" accept=".txt,.csv">
+
+					<div class="dvntCheckLink__controls">
+						<button id="dvntCheckLinkNutDanNhanh" class="dvntCheckLink__button dvntCheckLink__button--ghost" type="button">Dán nhanh</button>
+						<button id="dvntCheckLinkNutXoaText" class="dvntCheckLink__button dvntCheckLink__button--ghost" type="button">Xoá toàn bộ</button>
+						<button id="dvntCheckLinkNutTaiFile" class="dvntCheckLink__button dvntCheckLink__button--ghost" type="button">Tải file TXT/CSV</button>
+						<button id="dvntCheckLinkNutBatDau" class="dvntCheckLink__button dvntCheckLink__button--wide" type="button">Bắt đầu kiểm tra</button>
+					</div>
+
+					<div class="dvntCheckLink__status-bar" aria-hidden="true">
+						<div id="dvntCheckLinkTienDo" class="dvntCheckLink__status-progress"></div>
+					</div>
+					<p id="dvntCheckLinkTrangThaiTienDo" class="dvntCheckLink__status-text">Chưa bắt đầu kiểm tra.</p>
+				</article>
+
+				<article class="dvntCheckLink__card">
+					<h2 class="dvntCheckLink__card-title">Tùy chọn kiểm tra</h2>
+					<p class="dvntCheckLink__card-subtitle">Thiết lập bộ lọc và cách kiểm tra phù hợp nhu cầu của bạn.</p>
+
+					<div class="dvntCheckLink__field-group">
+						<label class="dvntCheckLink__check-item"><input id="dvntCheckLinkOptMoiLoaiLink" type="checkbox" checked> Kiểm tra mọi loại link (không chỉ ảnh)</label>
+						<label class="dvntCheckLink__check-item"><input id="dvntCheckLinkOptPreview" type="checkbox" checked> Kiểm tra thumbnail preview</label>
+						<label class="dvntCheckLink__check-item"><input id="dvntCheckLinkOptLoaiTrung" type="checkbox" checked> Tự động bỏ link trùng</label>
+						<label class="dvntCheckLink__check-item"><input id="dvntCheckLinkOptChiAnhPhoBien" type="checkbox"> Chỉ kiểm tra link ảnh phổ biến (jpg, jpeg, png, webp, gif, svg)</label>
+						<label class="dvntCheckLink__check-item"><input id="dvntCheckLinkOptThuLai" type="checkbox"> Thử lại link lỗi 1 lần</label>
+					</div>
+
+					<div class="dvntCheckLink__field-row">
+						<div>
+							<label class="dvntCheckLink__label" for="dvntCheckLinkSelectDongThoi">Số lượng kiểm tra đồng thời</label>
+							<select id="dvntCheckLinkSelectDongThoi" class="dvntCheckLink__select">
+								<option value="5">5</option>
+								<option value="10" selected>10</option>
+								<option value="20">20</option>
+								<option value="50">50</option>
+							</select>
+						</div>
+						<div>
+							<label class="dvntCheckLink__label" for="dvntCheckLinkSelectTimeout">Timeout</label>
+							<select id="dvntCheckLinkSelectTimeout" class="dvntCheckLink__select">
+								<option value="3000">3 giây</option>
+								<option value="5000" selected>5 giây</option>
+								<option value="10000">10 giây</option>
+							</select>
+						</div>
+					</div>
+
+					<div>
+						<label class="dvntCheckLink__label" for="dvntCheckLinkDomainTuyChon">Bộ lọc domain hoặc chỉ kiểm tra từ website cụ thể</label>
+						<input id="dvntCheckLinkDomainTuyChon" class="dvntCheckLink__input" type="text" placeholder="Nhập domain cần lọc">
+					</div>
+				</article>
+			</section>
+
+			<section class="dvntCheckLink__stats" aria-label="Thống kê nhanh">
+				<article class="dvntCheckLink__stat"><span class="dvntCheckLink__stat-label">Tổng số link</span><strong id="dvntCheckLinkTong" class="dvntCheckLink__stat-value">0</strong></article>
+				<article class="dvntCheckLink__stat"><span class="dvntCheckLink__stat-label">Đang hoạt động</span><strong id="dvntCheckLinkHoatDong" class="dvntCheckLink__stat-value">0</strong></article>
+				<article class="dvntCheckLink__stat"><span class="dvntCheckLink__stat-label">Link chết</span><strong id="dvntCheckLinkLoi" class="dvntCheckLink__stat-value">0</strong></article>
+				<article class="dvntCheckLink__stat"><span class="dvntCheckLink__stat-label">Timeout</span><strong id="dvntCheckLinkTimeout" class="dvntCheckLink__stat-value">0</strong></article>
+				<article class="dvntCheckLink__stat"><span class="dvntCheckLink__stat-label">Không phải ảnh</span><strong id="dvntCheckLinkKhongAnh" class="dvntCheckLink__stat-value">0</strong></article>
+				<article class="dvntCheckLink__stat"><span class="dvntCheckLink__stat-label">Bị chặn</span><strong id="dvntCheckLinkBiChan" class="dvntCheckLink__stat-value">0</strong></article>
+			</section>
+
+			<section id="dvntCheckLinkBangKetQua" class="dvntCheckLink__card" aria-label="Bảng kết quả">
+				<h2 class="dvntCheckLink__card-title">Kết quả kiểm tra link ảnh</h2>
+				<p class="dvntCheckLink__card-subtitle">Lọc nhanh, sắp xếp, thao tác từng dòng hoặc thao tác hàng loạt.</p>
+
+				<div class="dvntCheckLink__table-tools">
+					<div>
+						<label class="dvntCheckLink__label" for="dvntCheckLinkTimKiem">Tìm theo URL</label>
+						<input id="dvntCheckLinkTimKiem" class="dvntCheckLink__input" type="search" placeholder="Nhập từ khoá URL...">
+					</div>
+					<div>
+						<label class="dvntCheckLink__label" for="dvntCheckLinkLocTrangThai">Lọc trạng thái</label>
+						<select id="dvntCheckLinkLocTrangThai" class="dvntCheckLink__select">
+							<option value="tat_ca">Tất cả trạng thái</option>
+							<option value="hoat_dong">Hoạt động</option>
+							<option value="loi">Lỗi / chết</option>
+							<option value="timeout">Timeout</option>
+							<option value="bi_chan">Bị chặn</option>
+							<option value="khong_phai_anh">Không phải ảnh</option>
+						</select>
+					</div>
+					<div>
+						<label class="dvntCheckLink__label" for="dvntCheckLinkLocDomain">Lọc theo domain</label>
+						<input id="dvntCheckLinkLocDomain" class="dvntCheckLink__input" type="text" placeholder="Nhập domain để lọc">
+					</div>
+					<div>
+						<label class="dvntCheckLink__label" for="dvntCheckLinkSapXep">Sắp xếp</label>
+						<select id="dvntCheckLinkSapXep" class="dvntCheckLink__select">
+							<option value="mac_dinh">Mặc định</option>
+							<option value="thoi_gian_tang">Thời gian phản hồi tăng</option>
+							<option value="thoi_gian_giam">Thời gian phản hồi giảm</option>
+							<option value="trang_thai">Theo trạng thái</option>
+						</select>
+					</div>
+				</div>
+
+				<div class="dvntCheckLink__controls" style="margin-top:10px;">
+					<label class="dvntCheckLink__check-item"><input id="dvntCheckLinkOnlyLoi" type="checkbox"> Chỉ hiện link lỗi</label>
+					<label class="dvntCheckLink__check-item"><input id="dvntCheckLinkOnlyHoatDong" type="checkbox"> Chỉ hiện link hoạt động</label>
+				</div>
+
+				<div class="dvntCheckLink__bulk-actions">
+					<button id="dvntCheckLinkBulkCopyLoi" class="dvntCheckLink__button dvntCheckLink__button--ghost" type="button">Sao chép danh sách link lỗi</button>
+					<button id="dvntCheckLinkBulkCsv" class="dvntCheckLink__button dvntCheckLink__button--ghost" type="button">Xuất kết quả CSV</button>
+					<button id="dvntCheckLinkBulkTxt" class="dvntCheckLink__button dvntCheckLink__button--ghost" type="button">Xuất kết quả TXT</button>
+					<button id="dvntCheckLinkBulkXoa" class="dvntCheckLink__button dvntCheckLink__button--danger" type="button">Xóa toàn bộ kết quả</button>
+					<button id="dvntCheckLinkBulkThuLai" class="dvntCheckLink__button dvntCheckLink__button--accent" type="button">Kiểm tra lại tất cả link lỗi</button>
+				</div>
+
+				<div id="dvntCheckLinkStateEmpty" class="dvntCheckLink__state dvntCheckLink__state--visible">Empty state: Chưa có dữ liệu. Hãy nhập URL và bấm Bắt đầu kiểm tra.</div>
+				<div id="dvntCheckLinkStateLoading" class="dvntCheckLink__state">Loading state: Đang kiểm tra link ảnh, vui lòng chờ...</div>
+				<div id="dvntCheckLinkStateError" class="dvntCheckLink__state">Error state: File nhập sai định dạng. Vui lòng dùng file .txt hoặc .csv.</div>
+				<div id="dvntCheckLinkStateSuccess" class="dvntCheckLink__state">Success state: Hoàn tất kiểm tra. Bạn có thể lọc hoặc xuất dữ liệu.</div>
+				<div id="dvntCheckLinkStateNoResult" class="dvntCheckLink__state">No result state: Bộ lọc hiện tại không có dữ liệu phù hợp.</div>
+
+				<div class="dvntCheckLink__table-wrapper" role="region" aria-label="Bảng dữ liệu kết quả">
+					<table class="dvntCheckLink__table">
+						<thead>
+							<tr>
+								<th>STT</th>
+								<th>URL ảnh</th>
+								<th>Preview ảnh</th>
+								<th>Trạng thái</th>
+								<th>Mã phản hồi / lỗi</th>
+								<th>Loại ảnh / content-type</th>
+								<th>Kích thước file</th>
+								<th>Thời gian phản hồi</th>
+								<th>Hành động</th>
+							</tr>
+						</thead>
+						<tbody id="dvntCheckLinkBodyBang"></tbody>
+					</table>
+				</div>
+			</section>
+
+			<section class="dvntCheckLink__grid" aria-label="Lịch sử kiểm tra">
+				<article class="dvntCheckLink__card">
+					<h2 class="dvntCheckLink__card-title">Lịch sử 5 lần kiểm tra gần nhất</h2>
+					<p class="dvntCheckLink__card-subtitle">Lưu trên trình duyệt của bạn để mở lại nhanh kết quả cũ.</p>
+					<ul id="dvntCheckLinkLichSu" class="dvntCheckLink__history-list"></ul>
+				</article>
+			</section>
+		</div>
+	</main>
+
+	  <!-- FOOTER -->
+    <footer class="dvnt-footer" id="dvnt-footer"></footer>
+        <script>
+        fetch('./templates/footer.html')
+            .then(response => response.text())
+            .then(data => {
+                document.querySelector("#dvnt-footer").innerHTML = data;
+            })
+            .catch(error => console.error('Lỗi:', error));
+    </script>
+
+	<script>
+		const dvntCheckLinkTrangThai = {
+			hoat_dong: "Hoạt động",
+			loi: "Lỗi / chết",
+			timeout: "Timeout",
+			bi_chan: "Bị chặn",
+			khong_phai_anh: "Không phải ảnh"
+		};
+
+		const dvntCheckLinkUuTienTrangThai = {
+			hoat_dong: 1,
+			loi: 2,
+			timeout: 3,
+			bi_chan: 4,
+			khong_phai_anh: 5
+		};
+
+		const dvntCheckLinkCauHinh = {
+			appsScriptUrl: "https://script.google.com/macros/s/AKfycbxQ0K4VxklAOoPrbnNUxuxPC_7yZI0cFMmcjeAHGqul79tBb5oDuoG11LhJ0IyhlLS4/exec"
+		};
+
+		let dvntCheckLinkDuLieuKetQua = [];
+		let dvntCheckLinkDuLieuDangLoc = [];
+		let dvntCheckLinkDangKiemTra = false;
+		let dvntCheckLinkCanhBaoAppsScript = "";
+
+		const dvntCheckLinkEl = {
+			textarea: document.getElementById("dvntCheckLinkTextarea"),
+			fileInput: document.getElementById("dvntCheckLinkFile"),
+			nutDanNhanh: document.getElementById("dvntCheckLinkNutDanNhanh"),
+			nutXoaText: document.getElementById("dvntCheckLinkNutXoaText"),
+			nutTaiFile: document.getElementById("dvntCheckLinkNutTaiFile"),
+			nutBatDau: document.getElementById("dvntCheckLinkNutBatDau"),
+			thanhTienDo: document.getElementById("dvntCheckLinkTienDo"),
+			textTienDo: document.getElementById("dvntCheckLinkTrangThaiTienDo"),
+			bodyBang: document.getElementById("dvntCheckLinkBodyBang"),
+			tong: document.getElementById("dvntCheckLinkTong"),
+			hoatDong: document.getElementById("dvntCheckLinkHoatDong"),
+			loi: document.getElementById("dvntCheckLinkLoi"),
+			timeout: document.getElementById("dvntCheckLinkTimeout"),
+			khongAnh: document.getElementById("dvntCheckLinkKhongAnh"),
+			biChan: document.getElementById("dvntCheckLinkBiChan"),
+			timKiem: document.getElementById("dvntCheckLinkTimKiem"),
+			locTrangThai: document.getElementById("dvntCheckLinkLocTrangThai"),
+			locDomain: document.getElementById("dvntCheckLinkLocDomain"),
+			sapXep: document.getElementById("dvntCheckLinkSapXep"),
+			onlyLoi: document.getElementById("dvntCheckLinkOnlyLoi"),
+			onlyHoatDong: document.getElementById("dvntCheckLinkOnlyHoatDong"),
+			bulkCopyLoi: document.getElementById("dvntCheckLinkBulkCopyLoi"),
+			bulkCsv: document.getElementById("dvntCheckLinkBulkCsv"),
+			bulkTxt: document.getElementById("dvntCheckLinkBulkTxt"),
+			bulkXoa: document.getElementById("dvntCheckLinkBulkXoa"),
+			bulkThuLai: document.getElementById("dvntCheckLinkBulkThuLai"),
+			stateEmpty: document.getElementById("dvntCheckLinkStateEmpty"),
+			stateLoading: document.getElementById("dvntCheckLinkStateLoading"),
+			stateError: document.getElementById("dvntCheckLinkStateError"),
+			stateSuccess: document.getElementById("dvntCheckLinkStateSuccess"),
+			stateNoResult: document.getElementById("dvntCheckLinkStateNoResult"),
+			lichSu: document.getElementById("dvntCheckLinkLichSu"),
+			optMoiLoaiLink: document.getElementById("dvntCheckLinkOptMoiLoaiLink"),
+			optPreview: document.getElementById("dvntCheckLinkOptPreview"),
+			optLoaiTrung: document.getElementById("dvntCheckLinkOptLoaiTrung"),
+			optChiAnhPhoBien: document.getElementById("dvntCheckLinkOptChiAnhPhoBien"),
+			optThuLai: document.getElementById("dvntCheckLinkOptThuLai"),
+			selectDongThoi: document.getElementById("dvntCheckLinkSelectDongThoi"),
+			selectTimeout: document.getElementById("dvntCheckLinkSelectTimeout"),
+			domainTuyChon: document.getElementById("dvntCheckLinkDomainTuyChon")
+		};
+
+		function dvntCheckLinkLayDomain(url) {
+			try {
+				return new URL(url).hostname;
+			} catch (loiLayDomain) {
+				return "";
+			}
+		}
+
+		function dvntCheckLinkLaDuoiAnhPhoBien(url) {
+			return /\.(jpg|jpeg|png|webp|gif|svg)(\?|#|$)/i.test(url);
+		}
+
+		function dvntCheckLinkChuanHoaUrl(giaTriTho) {
+			const giaTri = String(giaTriTho || "").trim();
+			if (!giaTri) return "";
+			if (/^https?:\/\//i.test(giaTri)) return giaTri;
+			if (/^[a-z0-9.-]+\.[a-z]{2,}(\/|$)/i.test(giaTri)) return `https://${giaTri}`;
+			return "";
+		}
+
+		function dvntCheckLinkUocLuongLoaiNoiDung(url) {
+			const duoi = (String(url).toLowerCase().match(/\.(jpg|jpeg|png|webp|gif|svg)(\?|#|$)/i) || ["", ""])[1];
+			if (!duoi) return "text/html";
+			return `image/${duoi === "jpg" ? "jpeg" : duoi}`;
+		}
+
+		function dvntCheckLinkDinhDangKichThuoc(soByte) {
+			if (!Number.isFinite(soByte) || soByte <= 0) return "-";
+			if (soByte < 1024) return `${soByte} B`;
+			if (soByte < 1024 * 1024) return `${(soByte / 1024).toFixed(1)} KB`;
+			return `${(soByte / (1024 * 1024)).toFixed(2)} MB`;
+		}
+
+		function dvntCheckLinkChuanHoaKetQuaApi(ketQuaApi, urlMacDinh, timeoutMs) {
+			const maPhanHoi = ketQuaApi && ketQuaApi.maPhanHoi !== undefined ? ketQuaApi.maPhanHoi : "ERROR";
+			const trangThaiHopLe = ["hoat_dong", "loi", "timeout", "bi_chan", "khong_phai_anh"];
+			const trangThai = trangThaiHopLe.includes(ketQuaApi && ketQuaApi.trangThai)
+				? ketQuaApi.trangThai
+				: "loi";
+
+			const loaiAnh = (ketQuaApi && ketQuaApi.loaiAnh) ? String(ketQuaApi.loaiAnh) : "-";
+			const kichThuoc = (ketQuaApi && ketQuaApi.kichThuoc) ? String(ketQuaApi.kichThuoc) : "-";
+			const thoiGianPhanHoi = Number((ketQuaApi && ketQuaApi.thoiGianPhanHoi) || timeoutMs || 0);
+
+			return {
+				url: (ketQuaApi && ketQuaApi.url) ? String(ketQuaApi.url) : urlMacDinh,
+				trangThai,
+				maPhanHoi,
+				loaiAnh,
+				kichThuoc,
+				thoiGianPhanHoi: Number.isFinite(thoiGianPhanHoi) && thoiGianPhanHoi > 0 ? thoiGianPhanHoi : timeoutMs
+			};
+		}
+
+		async function dvntCheckLinkKiemTraQuaAppsScript(url, timeoutMs) {
+			if (!dvntCheckLinkCauHinh.appsScriptUrl) {
+				return { thanhCong: false, boQua: true };
+			}
+
+			const controller = new AbortController();
+			const idTimeout = setTimeout(() => controller.abort(), timeoutMs + 1500);
+
+			try {
+				// text/plain is a simple CORS request, so browser skips preflight OPTIONS.
+				const response = await fetch(dvntCheckLinkCauHinh.appsScriptUrl, {
+					method: "POST",
+					mode: "cors",
+					cache: "no-store",
+					body: JSON.stringify({ urls: [url], timeoutMs }),
+					signal: controller.signal
+				});
+
+				if (!response.ok) {
+					return { thanhCong: false, lyDo: `APPS_SCRIPT_HTTP_${response.status || "ERROR"}` };
+				}
+
+				const data = await response.json();
+				if (!data || !data.ok || !Array.isArray(data.results) || !data.results.length) {
+					return { thanhCong: false, lyDo: "APPS_SCRIPT_BAD_RESPONSE" };
+				}
+
+				return {
+					thanhCong: true,
+					ketQua: dvntCheckLinkChuanHoaKetQuaApi(data.results[0], url, timeoutMs)
+				};
+			} catch (loiApi) {
+				if (loiApi && loiApi.name === "AbortError") {
+					return { thanhCong: false, lyDo: "APPS_SCRIPT_TIMEOUT" };
+				}
+
+				const thongDiep = String((loiApi && loiApi.message) || "").toLowerCase();
+				if (/cors|access-control-allow-origin|preflight/.test(thongDiep)) {
+					return { thanhCong: false, lyDo: "APPS_SCRIPT_CORS" };
+				}
+
+				return { thanhCong: false, lyDo: "APPS_SCRIPT_FETCH_FAILED" };
+			} finally {
+				clearTimeout(idTimeout);
+			}
+		}
+
+		async function dvntCheckLinkFetch(url, timeoutMs, method, mode) {
+			const batDau = performance.now();
+			const controller = new AbortController();
+			const idTimeout = setTimeout(() => controller.abort(), timeoutMs);
+
+			try {
+				const response = await fetch(url, {
+					method,
+					mode,
+					cache: "no-store",
+					redirect: "follow",
+					signal: controller.signal
+				});
+				return {
+					ok: true,
+					response,
+					thoiGianPhanHoi: Math.max(1, Math.round(performance.now() - batDau))
+				};
+			} catch (loiFetch) {
+				return {
+					ok: false,
+					loi: loiFetch,
+					thoiGianPhanHoi: Math.max(1, Math.round(performance.now() - batDau))
+				};
+			} finally {
+				clearTimeout(idTimeout);
+			}
+		}
+
+		async function dvntCheckLinkPhanLoaiLink(url, timeoutMs) {
+			const ketQuaTuAppsScript = await dvntCheckLinkKiemTraQuaAppsScript(url, timeoutMs);
+			if (ketQuaTuAppsScript.thanhCong && ketQuaTuAppsScript.ketQua) {
+				return ketQuaTuAppsScript.ketQua;
+			}
+
+			if (ketQuaTuAppsScript.lyDo) {
+				dvntCheckLinkCanhBaoAppsScript = `Không gọi được Apps Script (${ketQuaTuAppsScript.lyDo}). Hãy mở quyền Web App = Bất kỳ ai và deploy phiên bản mới.`;
+				return {
+					trangThai: "loi",
+					maPhanHoi: ketQuaTuAppsScript.lyDo,
+					loaiAnh: "-",
+					kichThuoc: "-",
+					thoiGianPhanHoi: timeoutMs
+				};
+			}
+
+			const choPhepMoiLoaiLink = Boolean(dvntCheckLinkEl.optMoiLoaiLink && dvntCheckLinkEl.optMoiLoaiLink.checked);
+			const laAnhTheoDuoi = dvntCheckLinkLaDuoiAnhPhoBien(url);
+
+			const ketQuaCors = await dvntCheckLinkFetch(url, timeoutMs, "HEAD", "cors");
+
+			if (ketQuaCors.ok) {
+				const response = ketQuaCors.response;
+				const status = Number(response.status || 0);
+				const contentTypeHeader = (response.headers.get("content-type") || "").split(";")[0].trim().toLowerCase();
+				const contentLengthHeader = Number(response.headers.get("content-length") || 0);
+				const loaiNoiDung = contentTypeHeader || dvntCheckLinkUocLuongLoaiNoiDung(url);
+				const laNoiDungAnh = loaiNoiDung.startsWith("image/") || laAnhTheoDuoi;
+
+				if (status >= 200 && status < 400) {
+					if (!choPhepMoiLoaiLink && !laNoiDungAnh) {
+						return {
+							trangThai: "khong_phai_anh",
+							maPhanHoi: status,
+							loaiAnh: loaiNoiDung || "text/html",
+							kichThuoc: dvntCheckLinkDinhDangKichThuoc(contentLengthHeader),
+							thoiGianPhanHoi: ketQuaCors.thoiGianPhanHoi
+						};
+					}
+
+					return {
+						trangThai: "hoat_dong",
+						maPhanHoi: status,
+						loaiAnh: loaiNoiDung || "-",
+						kichThuoc: dvntCheckLinkDinhDangKichThuoc(contentLengthHeader),
+						thoiGianPhanHoi: ketQuaCors.thoiGianPhanHoi
+					};
+				}
+
+				if (status === 401 || status === 403) {
+					return {
+						trangThai: "bi_chan",
+						maPhanHoi: status,
+						loaiAnh: contentTypeHeader || "-",
+						kichThuoc: "-",
+						thoiGianPhanHoi: ketQuaCors.thoiGianPhanHoi
+					};
+				}
+
+				if (status === 408 || status === 504) {
+					return {
+						trangThai: "timeout",
+						maPhanHoi: status,
+						loaiAnh: "-",
+						kichThuoc: "-",
+						thoiGianPhanHoi: ketQuaCors.thoiGianPhanHoi
+					};
+				}
+
+				return {
+					trangThai: "loi",
+					maPhanHoi: status || "ERROR",
+					loaiAnh: contentTypeHeader || "-",
+					kichThuoc: "-",
+					thoiGianPhanHoi: ketQuaCors.thoiGianPhanHoi
+				};
+			}
+
+			const loiCors = ketQuaCors.loi;
+			if (loiCors && loiCors.name === "AbortError") {
+				return {
+					trangThai: "timeout",
+					maPhanHoi: "TIMEOUT",
+					loaiAnh: "-",
+					kichThuoc: "-",
+					thoiGianPhanHoi: timeoutMs
+				};
+			}
+
+			const ketQuaNoCors = await dvntCheckLinkFetch(url, timeoutMs, "GET", "no-cors");
+
+			if (ketQuaNoCors.ok) {
+				const loaiUocLuong = dvntCheckLinkUocLuongLoaiNoiDung(url);
+				if (!choPhepMoiLoaiLink && !laAnhTheoDuoi) {
+					return {
+						trangThai: "khong_phai_anh",
+						maPhanHoi: "OPAQUE",
+						loaiAnh: loaiUocLuong,
+						kichThuoc: "-",
+						thoiGianPhanHoi: ketQuaNoCors.thoiGianPhanHoi
+					};
+				}
+
+				return {
+					trangThai: "bi_chan",
+					maPhanHoi: "CORS",
+					loaiAnh: loaiUocLuong,
+					kichThuoc: "-",
+					thoiGianPhanHoi: ketQuaNoCors.thoiGianPhanHoi
+				};
+			}
+
+			const thongDiepLoi = String((ketQuaNoCors.loi && ketQuaNoCors.loi.message) || (loiCors && loiCors.message) || "NETWORK_ERROR").toLowerCase();
+			const laLoiMang = /failed to fetch|network|dns|resolve|enotfound|name/.test(thongDiepLoi);
+
+			return {
+				trangThai: "loi",
+				maPhanHoi: laLoiMang ? "NETWORK" : "ERROR",
+				loaiAnh: "-",
+				kichThuoc: "-",
+				thoiGianPhanHoi: ketQuaNoCors.thoiGianPhanHoi || ketQuaCors.thoiGianPhanHoi || timeoutMs
+			};
+		}
+
+		async function dvntCheckLinkSaoChepVanBan(vanBanCanSaoChep) {
+			try {
+				if (navigator.clipboard && window.isSecureContext) {
+					await navigator.clipboard.writeText(vanBanCanSaoChep);
+					return true;
+				}
+			} catch (loiClipboard) {
+				// Fall back to legacy copy method below.
+			}
+
+			const oTam = document.createElement("textarea");
+			oTam.value = vanBanCanSaoChep;
+			oTam.setAttribute("readonly", "");
+			oTam.style.position = "absolute";
+			oTam.style.left = "-9999px";
+			document.body.appendChild(oTam);
+			oTam.select();
+			oTam.setSelectionRange(0, oTam.value.length);
+
+			let thanhCong = false;
+			try {
+				thanhCong = document.execCommand("copy");
+			} catch (loiCopyCu) {
+				thanhCong = false;
+			}
+
+			document.body.removeChild(oTam);
+			return thanhCong;
+		}
+
+		async function dvntCheckLinkKiemTraMotLink(url, stt) {
+			const timeoutMs = Number(dvntCheckLinkEl.selectTimeout.value);
+			let ketQua = await dvntCheckLinkPhanLoaiLink(url, timeoutMs);
+
+			if (dvntCheckLinkEl.optThuLai.checked && ["loi", "timeout", "bi_chan"].includes(ketQua.trangThai)) {
+				ketQua = await dvntCheckLinkPhanLoaiLink(url, timeoutMs);
+			}
+
+			const laNoiDungAnh = String(ketQua.loaiAnh || "").toLowerCase().startsWith("image/");
+
+			return {
+				stt,
+				url,
+				preview: dvntCheckLinkEl.optPreview.checked && ketQua.trangThai === "hoat_dong" && laNoiDungAnh ? url : "",
+				trangThai: ketQua.trangThai,
+				maPhanHoi: ketQua.maPhanHoi,
+				loaiAnh: ketQua.loaiAnh,
+				kichThuoc: ketQua.kichThuoc,
+				thoiGianPhanHoi: ketQua.thoiGianPhanHoi,
+				domain: dvntCheckLinkLayDomain(url)
+			};
+		}
+
+		async function dvntCheckLinkThucThiKiemTra(danhSachLink) {
+			if (dvntCheckLinkDangKiemTra) {
+				return;
+			}
+			dvntCheckLinkDangKiemTra = true;
+			dvntCheckLinkEl.nutBatDau.disabled = true;
+			dvntCheckLinkEl.nutBatDau.textContent = "Đang kiểm tra...";
+			dvntCheckLinkCanhBaoAppsScript = "";
+			dvntCheckLinkDuLieuKetQua = [];
+			dvntCheckLinkCapNhatState("loading");
+			dvntCheckLinkCapNhatTienDo(0, danhSachLink.length);
+
+			try {
+				const soLuongDongThoi = Math.max(1, Number(dvntCheckLinkEl.selectDongThoi.value));
+				let chiSoLink = 0;
+				let daXong = 0;
+
+				async function dvntCheckLinkWorker() {
+					while (chiSoLink < danhSachLink.length) {
+						const viTriHienTai = chiSoLink;
+						chiSoLink += 1;
+						const link = danhSachLink[viTriHienTai];
+						const banGhi = await dvntCheckLinkKiemTraMotLink(link, viTriHienTai + 1);
+						dvntCheckLinkDuLieuKetQua.push(banGhi);
+						daXong += 1;
+						dvntCheckLinkCapNhatTienDo(daXong, danhSachLink.length);
+					}
+				}
+
+				const dsWorker = Array.from({ length: Math.min(soLuongDongThoi, danhSachLink.length) }, dvntCheckLinkWorker);
+				await Promise.all(dsWorker);
+
+				dvntCheckLinkDuLieuKetQua.sort((a, b) => a.stt - b.stt);
+				dvntCheckLinkApDungBoLoc();
+				dvntCheckLinkCapNhatThongKe();
+				dvntCheckLinkLuuLichSu();
+				dvntCheckLinkCapNhatState("success");
+				dvntCheckLinkEl.textTienDo.textContent = dvntCheckLinkCanhBaoAppsScript
+					? `Đã kiểm tra xong ${danhSachLink.length} link. ${dvntCheckLinkCanhBaoAppsScript}`
+					: `Đã kiểm tra xong ${danhSachLink.length} link.`;
+			} finally {
+				dvntCheckLinkDangKiemTra = false;
+				dvntCheckLinkEl.nutBatDau.disabled = false;
+				dvntCheckLinkEl.nutBatDau.textContent = "Bắt đầu kiểm tra";
+			}
+		}
+
+		async function dvntCheckLinkKiemTraLaiDanhSachLoi() {
+			const viTriLoi = dvntCheckLinkDuLieuKetQua
+				.map((item, index) => ({ item, index }))
+				.filter((banGhi) => banGhi.item.trangThai === "loi");
+
+			if (!viTriLoi.length || dvntCheckLinkDangKiemTra) {
+				return;
+			}
+
+			dvntCheckLinkDangKiemTra = true;
+			dvntCheckLinkEl.nutBatDau.disabled = true;
+			dvntCheckLinkEl.nutBatDau.textContent = "Đang kiểm tra...";
+			dvntCheckLinkCanhBaoAppsScript = "";
+			dvntCheckLinkCapNhatState("loading");
+			dvntCheckLinkCapNhatTienDo(0, viTriLoi.length);
+
+			let daXong = 0;
+			try {
+				for (const banGhi of viTriLoi) {
+					const ketQuaMoi = await dvntCheckLinkKiemTraMotLink(banGhi.item.url, banGhi.item.stt);
+					dvntCheckLinkDuLieuKetQua[banGhi.index] = ketQuaMoi;
+					daXong += 1;
+					dvntCheckLinkCapNhatTienDo(daXong, viTriLoi.length);
+				}
+
+				dvntCheckLinkCapNhatThongKe();
+				dvntCheckLinkApDungBoLoc();
+				dvntCheckLinkLuuLichSu();
+				dvntCheckLinkCapNhatState("success");
+				dvntCheckLinkEl.textTienDo.textContent = dvntCheckLinkCanhBaoAppsScript
+					? `Đã kiểm tra lại ${viTriLoi.length} link lỗi. ${dvntCheckLinkCanhBaoAppsScript}`
+					: `Đã kiểm tra lại ${viTriLoi.length} link lỗi.`;
+			} finally {
+				dvntCheckLinkDangKiemTra = false;
+				dvntCheckLinkEl.nutBatDau.disabled = false;
+				dvntCheckLinkEl.nutBatDau.textContent = "Bắt đầu kiểm tra";
+			}
+		}
+
+		function dvntCheckLinkCapNhatTienDo(soDaXong, tong) {
+			const phanTram = tong > 0 ? Math.round((soDaXong / tong) * 100) : 0;
+			dvntCheckLinkEl.thanhTienDo.style.width = `${phanTram}%`;
+			dvntCheckLinkEl.textTienDo.textContent = tong > 0
+				? `Đang xử lý ${soDaXong}/${tong} link (${phanTram}%).`
+				: "Chưa bắt đầu kiểm tra.";
+		}
+
+		function dvntCheckLinkCapNhatThongKe() {
+			const tong = dvntCheckLinkDuLieuKetQua.length;
+			const dem = { hoat_dong: 0, loi: 0, timeout: 0, bi_chan: 0, khong_phai_anh: 0 };
+			dvntCheckLinkDuLieuKetQua.forEach((item) => {
+				dem[item.trangThai] += 1;
+			});
+
+			dvntCheckLinkEl.tong.textContent = String(tong);
+			dvntCheckLinkEl.hoatDong.textContent = String(dem.hoat_dong);
+			dvntCheckLinkEl.loi.textContent = String(dem.loi);
+			dvntCheckLinkEl.timeout.textContent = String(dem.timeout);
+			dvntCheckLinkEl.khongAnh.textContent = String(dem.khong_phai_anh);
+			dvntCheckLinkEl.biChan.textContent = String(dem.bi_chan);
+		}
+
+		function dvntCheckLinkTrangThaiHtml(maTrangThai) {
+			return `<span class="dvntCheckLink__status dvntCheckLink__status--${maTrangThai}">${dvntCheckLinkTrangThai[maTrangThai]}</span>`;
+		}
+
+		function dvntCheckLinkRenderBang() {
+			if (!dvntCheckLinkDuLieuDangLoc.length) {
+				dvntCheckLinkEl.bodyBang.innerHTML = "";
+				if (dvntCheckLinkDuLieuKetQua.length) {
+					dvntCheckLinkCapNhatState("noresult");
+				}
+				return;
+			}
+
+			const dongBang = dvntCheckLinkDuLieuDangLoc.map((item, index) => {
+				const laBanGhiAnh = String(item.loaiAnh || "").toLowerCase().startsWith("image/") || dvntCheckLinkLaDuoiAnhPhoBien(item.url);
+				const preview = item.preview && laBanGhiAnh
+					? `<img class="dvntCheckLink__preview" src="${item.preview}" alt="Preview ảnh ${index + 1}" loading="lazy">`
+					: `<div class="dvntCheckLink__preview" aria-hidden="true"></div>`;
+
+				return `<tr>
+					<td>${index + 1}</td>
+					<td><a class="dvntCheckLink__link-text" href="${item.url}" target="_blank" rel="noopener noreferrer">${item.url}</a></td>
+					<td>${preview}</td>
+					<td>${dvntCheckLinkTrangThaiHtml(item.trangThai)}</td>
+					<td>${item.maPhanHoi}</td>
+					<td>${item.loaiAnh}</td>
+					<td>${item.kichThuoc}</td>
+					<td>${item.thoiGianPhanHoi} ms</td>
+					<td>
+						<div class="dvntCheckLink__actions">
+							<a class="dvntCheckLink__action-btn" href="${item.url}" target="_blank" rel="noopener noreferrer">Mở</a>
+							<button class="dvntCheckLink__action-btn" type="button" data-action="copy" data-url="${item.url}">Sao chép</button>
+							<button class="dvntCheckLink__action-btn" type="button" data-action="recheck" data-url="${item.url}">Kiểm tra lại</button>
+							<button class="dvntCheckLink__action-btn" type="button" data-action="delete" data-url="${item.url}">Xoá</button>
+						</div>
+					</td>
+				</tr>`;
+			}).join("");
+
+			dvntCheckLinkEl.bodyBang.innerHTML = dongBang;
+			dvntCheckLinkCapNhatState("success");
+		}
+
+		function dvntCheckLinkApDungBoLoc() {
+			const tuKhoa = dvntCheckLinkEl.timKiem.value.trim().toLowerCase();
+			const trangThai = dvntCheckLinkEl.locTrangThai.value;
+			const domain = dvntCheckLinkEl.locDomain.value.trim().toLowerCase();
+			const chiLoi = dvntCheckLinkEl.onlyLoi.checked;
+			const chiHoatDong = dvntCheckLinkEl.onlyHoatDong.checked;
+			const kieuSapXep = dvntCheckLinkEl.sapXep.value;
+
+			dvntCheckLinkDuLieuDangLoc = dvntCheckLinkDuLieuKetQua.filter((item) => {
+				if (tuKhoa && !item.url.toLowerCase().includes(tuKhoa)) return false;
+				if (trangThai !== "tat_ca" && item.trangThai !== trangThai) return false;
+				if (chiLoi && item.trangThai !== "loi") return false;
+				if (chiHoatDong && item.trangThai !== "hoat_dong") return false;
+				if (domain && !item.domain.toLowerCase().includes(domain)) return false;
+				return true;
+			});
+
+			if (kieuSapXep === "thoi_gian_tang") {
+				dvntCheckLinkDuLieuDangLoc.sort((a, b) => a.thoiGianPhanHoi - b.thoiGianPhanHoi);
+			}
+			if (kieuSapXep === "thoi_gian_giam") {
+				dvntCheckLinkDuLieuDangLoc.sort((a, b) => b.thoiGianPhanHoi - a.thoiGianPhanHoi);
+			}
+			if (kieuSapXep === "trang_thai") {
+				dvntCheckLinkDuLieuDangLoc.sort((a, b) => dvntCheckLinkUuTienTrangThai[a.trangThai] - dvntCheckLinkUuTienTrangThai[b.trangThai]);
+			}
+
+			dvntCheckLinkRenderBang();
+		}
+
+		function dvntCheckLinkCapNhatState(loaiState) {
+			const dsState = [
+				dvntCheckLinkEl.stateEmpty,
+				dvntCheckLinkEl.stateLoading,
+				dvntCheckLinkEl.stateError,
+				dvntCheckLinkEl.stateSuccess,
+				dvntCheckLinkEl.stateNoResult
+			];
+			dsState.forEach((el) => el.classList.remove("dvntCheckLink__state--visible"));
+
+			if (loaiState === "empty") dvntCheckLinkEl.stateEmpty.classList.add("dvntCheckLink__state--visible");
+			if (loaiState === "loading") dvntCheckLinkEl.stateLoading.classList.add("dvntCheckLink__state--visible");
+			if (loaiState === "error") dvntCheckLinkEl.stateError.classList.add("dvntCheckLink__state--visible");
+			if (loaiState === "success") dvntCheckLinkEl.stateSuccess.classList.add("dvntCheckLink__state--visible");
+			if (loaiState === "noresult") dvntCheckLinkEl.stateNoResult.classList.add("dvntCheckLink__state--visible");
+		}
+
+		function dvntCheckLinkXuLyDanhSachTuTextarea() {
+			const domainBatBuoc = dvntCheckLinkEl.domainTuyChon.value.trim().toLowerCase();
+			const danhSachNhap = dvntCheckLinkEl.textarea.value
+				.split(/[\n,;]+/)
+				.map((dong) => dong.trim())
+				.filter(Boolean);
+
+			let danhSach = danhSachNhap
+				.map((item) => dvntCheckLinkChuanHoaUrl(item))
+				.filter(Boolean);
+
+			const thongTinLoc = {
+				tongNhap: danhSachNhap.length,
+				sauChuanHoa: danhSach.length,
+				biLoaiKhongHopLe: danhSachNhap.length - danhSach.length,
+				biLoaiKhongPhaiDuoiAnh: 0,
+				biLoaiDomain: 0
+			};
+
+			if (dvntCheckLinkEl.optLoaiTrung.checked) {
+				danhSach = [...new Set(danhSach)];
+			}
+
+			if (dvntCheckLinkEl.optChiAnhPhoBien.checked) {
+				const truocKhiLocAnh = danhSach.length;
+				danhSach = danhSach.filter((url) => dvntCheckLinkLaDuoiAnhPhoBien(url));
+				thongTinLoc.biLoaiKhongPhaiDuoiAnh = truocKhiLocAnh - danhSach.length;
+			}
+
+			if (domainBatBuoc) {
+				const truocKhiLocDomain = danhSach.length;
+				danhSach = danhSach.filter((url) => dvntCheckLinkLayDomain(url).toLowerCase().includes(domainBatBuoc));
+				thongTinLoc.biLoaiDomain = truocKhiLocDomain - danhSach.length;
+			}
+
+			return { danhSach, thongTinLoc };
+		}
+
+		function dvntCheckLinkTaiXuongTenFile(tenFile, noiDung, mimeType) {
+			const blob = new Blob([noiDung], { type: mimeType });
+			const url = URL.createObjectURL(blob);
+			const a = document.createElement("a");
+			a.href = url;
+			a.download = tenFile;
+			a.click();
+			URL.revokeObjectURL(url);
+		}
+
+		function dvntCheckLinkXuatCSV() {
+			if (!dvntCheckLinkDuLieuKetQua.length) return;
+			const tieuDe = ["STT", "URL", "TrangThai", "Ma", "LoaiAnh", "KichThuoc", "ThoiGianMs"];
+			const dong = dvntCheckLinkDuLieuKetQua.map((item) => [
+				item.stt,
+				item.url,
+				dvntCheckLinkTrangThai[item.trangThai],
+				item.maPhanHoi,
+				item.loaiAnh,
+				item.kichThuoc,
+				item.thoiGianPhanHoi
+			]);
+			const csv = [tieuDe, ...dong].map((r) => r.map((c) => `"${String(c).replaceAll("\"", "\"\"")}"`).join(",")).join("\n");
+			dvntCheckLinkTaiXuongTenFile("ket-qua-check-link-anh.csv", csv, "text/csv;charset=utf-8");
+		}
+
+		function dvntCheckLinkXuatTXT() {
+			if (!dvntCheckLinkDuLieuKetQua.length) return;
+			const txt = dvntCheckLinkDuLieuKetQua
+				.map((item) => `${item.url} | ${dvntCheckLinkTrangThai[item.trangThai]} | ${item.maPhanHoi}`)
+				.join("\n");
+			dvntCheckLinkTaiXuongTenFile("ket-qua-check-link-anh.txt", txt, "text/plain;charset=utf-8");
+		}
+
+		function dvntCheckLinkLayLichSu() {
+			try {
+				return JSON.parse(localStorage.getItem("dvntCheckLinkLichSu") || "[]");
+			} catch (loiLichSu) {
+				return [];
+			}
+		}
+
+		function dvntCheckLinkLuuLichSu() {
+			const lichSuCu = dvntCheckLinkLayLichSu();
+			const soLoi = dvntCheckLinkDuLieuKetQua.filter((item) => item.trangThai === "loi").length;
+			const banGhi = {
+				id: Date.now(),
+				thoiGian: new Date().toLocaleString("vi-VN"),
+				tong: dvntCheckLinkDuLieuKetQua.length,
+				loi: soLoi,
+				duLieu: dvntCheckLinkDuLieuKetQua
+			};
+			const moi = [banGhi, ...lichSuCu].slice(0, 5);
+			localStorage.setItem("dvntCheckLinkLichSu", JSON.stringify(moi));
+			dvntCheckLinkRenderLichSu();
+		}
+
+		function dvntCheckLinkRenderLichSu() {
+			const lichSu = dvntCheckLinkLayLichSu();
+			if (!lichSu.length) {
+				dvntCheckLinkEl.lichSu.innerHTML = "<li class='dvntCheckLink__history-item'><p class='dvntCheckLink__history-text'>Chưa có lịch sử kiểm tra.</p></li>";
+				return;
+			}
+
+			dvntCheckLinkEl.lichSu.innerHTML = lichSu.map((item) => `
+				<li class="dvntCheckLink__history-item">
+					<p class="dvntCheckLink__history-text">${item.thoiGian} • ${item.tong} link • ${item.loi} link lỗi</p>
+					<button class="dvntCheckLink__action-btn" type="button" data-action="mo-lich-su" data-id="${item.id}">Mở lại</button>
+				</li>
+			`).join("");
+		}
+
+		async function dvntCheckLinkXuLyBatDauKiemTra() {
+			const ketQuaNhap = dvntCheckLinkXuLyDanhSachTuTextarea();
+			const danhSach = ketQuaNhap.danhSach;
+			if (!danhSach.length) {
+				dvntCheckLinkDuLieuKetQua = [];
+				dvntCheckLinkDuLieuDangLoc = [];
+				dvntCheckLinkEl.bodyBang.innerHTML = "";
+				dvntCheckLinkCapNhatThongKe();
+				dvntCheckLinkCapNhatState("empty");
+				dvntCheckLinkEl.textTienDo.textContent = `Không có URL hợp lệ. Đã nhập ${ketQuaNhap.thongTinLoc.tongNhap}, hợp lệ ${ketQuaNhap.thongTinLoc.sauChuanHoa}. Có thể tắt tùy chọn lọc ảnh phổ biến hoặc kiểm tra lại định dạng URL.`;
+				dvntCheckLinkEl.thanhTienDo.style.width = "0%";
+				return;
+			}
+
+			dvntCheckLinkEl.textTienDo.textContent = `Bắt đầu kiểm tra ${danhSach.length} link...`;
+			await dvntCheckLinkThucThiKiemTra(danhSach);
+		}
+
+		async function dvntCheckLinkXuLyHanhDongBang(event) {
+			const nut = event.target.closest("[data-action]");
+			if (!nut) return;
+
+			const hanhDong = nut.dataset.action;
+			const url = nut.dataset.url;
+			const id = Number(nut.dataset.id || 0);
+
+			if (hanhDong === "copy" && url) {
+				const daSaoChep = await dvntCheckLinkSaoChepVanBan(url);
+				nut.textContent = daSaoChep ? "Đã sao chép" : "Không thể sao chép";
+				setTimeout(() => { nut.textContent = "Sao chép"; }, 900);
+			}
+
+			if (hanhDong === "delete" && url) {
+				dvntCheckLinkDuLieuKetQua = dvntCheckLinkDuLieuKetQua.filter((item) => item.url !== url);
+				dvntCheckLinkCapNhatThongKe();
+				dvntCheckLinkApDungBoLoc();
+			}
+
+			if (hanhDong === "recheck" && url) {
+				const viTri = dvntCheckLinkDuLieuKetQua.findIndex((item) => item.url === url);
+				if (viTri >= 0) {
+					dvntCheckLinkCapNhatState("loading");
+					const ketQuaMoi = await dvntCheckLinkKiemTraMotLink(url, viTri + 1);
+					dvntCheckLinkDuLieuKetQua[viTri] = ketQuaMoi;
+					dvntCheckLinkCapNhatThongKe();
+					dvntCheckLinkApDungBoLoc();
+					dvntCheckLinkCapNhatState("success");
+				}
+			}
+
+			if (hanhDong === "mo-lich-su" && id) {
+				const lichSu = dvntCheckLinkLayLichSu();
+				const tim = lichSu.find((item) => item.id === id);
+				if (tim) {
+					dvntCheckLinkDuLieuKetQua = tim.duLieu;
+						dvntCheckLinkDuLieuKetQua.sort((a, b) => a.stt - b.stt);
+					dvntCheckLinkCapNhatThongKe();
+					dvntCheckLinkApDungBoLoc();
+					dvntCheckLinkCapNhatState("success");
+					dvntCheckLinkEl.textTienDo.textContent = `Đã mở lại lịch sử ngày ${tim.thoiGian}.`;
+					dvntCheckLinkEl.thanhTienDo.style.width = "100%";
+				}
+			}
+		}
+
+		function dvntCheckLinkGanSuKien() {
+			dvntCheckLinkEl.nutDanNhanh.addEventListener("click", async () => {
+				try {
+					const textClipboard = await navigator.clipboard.readText();
+					dvntCheckLinkEl.textarea.value = [dvntCheckLinkEl.textarea.value, textClipboard].filter(Boolean).join("\n");
+				} catch (loiClipboard) {
+					dvntCheckLinkEl.textTienDo.textContent = "Không đọc được clipboard. Hãy dán thủ công.";
+				}
+			});
+
+			dvntCheckLinkEl.nutXoaText.addEventListener("click", () => {
+				dvntCheckLinkEl.textarea.value = "";
+			});
+
+			dvntCheckLinkEl.nutTaiFile.addEventListener("click", () => {
+				dvntCheckLinkEl.fileInput.click();
+			});
+
+			dvntCheckLinkEl.fileInput.addEventListener("change", () => {
+				const file = dvntCheckLinkEl.fileInput.files[0];
+				if (!file) return;
+
+				if (!/\.(txt|csv)$/i.test(file.name)) {
+					dvntCheckLinkCapNhatState("error");
+					dvntCheckLinkEl.fileInput.value = "";
+					return;
+				}
+
+				const reader = new FileReader();
+				reader.onload = () => {
+					const noiDung = String(reader.result || "");
+					const danhSach = noiDung.split(/[\n,;]/).map((item) => item.trim()).filter(Boolean);
+					dvntCheckLinkEl.textarea.value = danhSach.join("\n");
+					dvntCheckLinkCapNhatState("empty");
+				};
+				reader.readAsText(file);
+			});
+
+			dvntCheckLinkEl.nutBatDau.addEventListener("click", dvntCheckLinkXuLyBatDauKiemTra);
+
+			[
+				dvntCheckLinkEl.timKiem,
+				dvntCheckLinkEl.locTrangThai,
+				dvntCheckLinkEl.locDomain,
+				dvntCheckLinkEl.sapXep,
+				dvntCheckLinkEl.onlyLoi,
+				dvntCheckLinkEl.onlyHoatDong
+			].forEach((el) => {
+				el.addEventListener("input", dvntCheckLinkApDungBoLoc);
+				el.addEventListener("change", dvntCheckLinkApDungBoLoc);
+			});
+
+			dvntCheckLinkEl.bulkCopyLoi.addEventListener("click", async () => {
+				const dsLoi = dvntCheckLinkDuLieuKetQua.filter((item) => item.trangThai === "loi").map((item) => item.url);
+				if (!dsLoi.length) return;
+				const daSaoChep = await dvntCheckLinkSaoChepVanBan(dsLoi.join("\n"));
+				dvntCheckLinkEl.textTienDo.textContent = daSaoChep
+					? `Đã sao chép ${dsLoi.length} link lỗi.`
+					: "Không thể sao chép tự động. Hãy dùng trình duyệt HTTPS hoặc sao chép thủ công.";
+			});
+
+			dvntCheckLinkEl.bulkCsv.addEventListener("click", dvntCheckLinkXuatCSV);
+			dvntCheckLinkEl.bulkTxt.addEventListener("click", dvntCheckLinkXuatTXT);
+
+			dvntCheckLinkEl.bulkXoa.addEventListener("click", () => {
+				dvntCheckLinkDuLieuKetQua = [];
+				dvntCheckLinkDuLieuDangLoc = [];
+				dvntCheckLinkEl.bodyBang.innerHTML = "";
+				dvntCheckLinkCapNhatThongKe();
+				dvntCheckLinkCapNhatState("empty");
+				dvntCheckLinkEl.textTienDo.textContent = "Đã xoá toàn bộ kết quả.";
+				dvntCheckLinkEl.thanhTienDo.style.width = "0%";
+			});
+
+			dvntCheckLinkEl.bulkThuLai.addEventListener("click", async () => {
+				await dvntCheckLinkKiemTraLaiDanhSachLoi();
+			});
+
+			dvntCheckLinkEl.bodyBang.addEventListener("click", dvntCheckLinkXuLyHanhDongBang);
+			dvntCheckLinkEl.lichSu.addEventListener("click", dvntCheckLinkXuLyHanhDongBang);
+		}
+
+		dvntCheckLinkGanSuKien();
+		dvntCheckLinkRenderLichSu();
+	</script>
+</body>
+</html>
