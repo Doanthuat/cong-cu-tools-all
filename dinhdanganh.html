@@ -1647,11 +1647,19 @@ document.querySelectorAll('input[name="format"]').forEach(radio => {
             this.previewImage.src = e.target.result;
             this.previewImage.onload = () => {
                 this.originalImage = this.previewImage;
-                const dimensions = `${this.previewImage.naturalWidth} × ${this.previewImage.naturalHeight}`;
+                // SVG có thể không có kích thước rõ ràng
+                const isSvg = file.name.toLowerCase().endsWith('.svg') || file.type === 'image/svg+xml';
+                let natW = this.previewImage.naturalWidth;
+                let natH = this.previewImage.naturalHeight;
+                if (isSvg && (!natW || !natH)) {
+                    natW = natW || 800;
+                    natH = natH || 600;
+                }
+                const dimensions = `${natW} × ${natH}`;
                 this.fileDimensions.textContent = dimensions;
                 
-                this.widthInput.value = this.previewImage.naturalWidth;
-                this.heightInput.value = this.previewImage.naturalHeight;
+                this.widthInput.value = natW;
+                this.heightInput.value = natH;
             };
         };
         reader.readAsDataURL(file);
@@ -1702,8 +1710,8 @@ document.querySelectorAll('input[name="format"]').forEach(radio => {
     const sharpenEnabled = this.sharpenEnabled.checked;
     const sharpenAmount = parseInt(this.sharpenSlider.value) / 100;
     
-    let width = img.naturalWidth || img.width;
-    let height = img.naturalHeight || img.height;
+    let width = img.naturalWidth || img.width || img._fallbackWidth || 800;
+    let height = img.naturalHeight || img.height || img._fallbackHeight || 600;
     
     // QUAN TRỌNG: Kiểm tra xem có cần xử lý không
     const needsProcessing = this.resizeEnabled.checked || 
@@ -1731,28 +1739,67 @@ document.querySelectorAll('input[name="format"]').forEach(radio => {
         height = parseInt(this.heightInput.value) || height;
     }
 
-    // Sử dụng toBlob() thay vì toDataURL() để giảm dung lượng
+    // Tạo canvas chung cho cả SVG và raster
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = width;
+    canvas.height = height;
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    ctx.drawImage(img, 0, 0, width, height);
+
+    // Áp dụng sharpen nếu cần
+    if (sharpenEnabled && sharpenAmount > 0.1) {
+        this.applySharpenEffectOptimized(ctx, width, height, sharpenAmount);
+    }
+
+    // === Xử lý đặc biệt cho định dạng SVG (vector) ===
+    if (format === 'svg') {
+        const pngDataUrl = canvas.toDataURL('image/png');
+        const svgContent = '<?xml version="1.0" encoding="UTF-8"?>\n' +
+            '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" ' +
+            'width="' + width + '" height="' + height + '" ' +
+            'viewBox="0 0 ' + width + ' ' + height + '">\n' +
+            '  <image width="' + width + '" height="' + height + '" href="' + pngDataUrl + '"/>\n' +
+            '</svg>';
+        const svgBlob = new Blob([svgContent], { type: 'image/svg+xml;charset=utf-8' });
+        const svgDataUrl = await new Promise((res) => {
+            const r = new FileReader();
+            r.onload = (ev) => res(ev.target.result);
+            r.readAsDataURL(svgBlob);
+        });
+        return {
+            originalFile: file,
+            convertedDataUrl: svgDataUrl,
+            format: 'svg',
+            width: width,
+            height: height,
+            originalSize: file.size,
+            convertedSize: svgBlob.size,
+            sharpenApplied: sharpenEnabled
+        };
+    }
+
+    // === Xử lý các định dạng raster bằng toBlob() ===
+    const mimeType = this.getMimeType(format);
     return new Promise((resolve) => {
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        
-        canvas.width = width;
-        canvas.height = height;
-        
-        // Tối ưu rendering
-        ctx.imageSmoothingEnabled = true;
-        ctx.imageSmoothingQuality = 'high';
-        
-        ctx.drawImage(img, 0, 0, width, height);
-        
-        // Áp dụng sharpen nếu cần
-        if (sharpenEnabled && sharpenAmount > 0.1) {
-            this.applySharpenEffectOptimized(ctx, width, height, sharpenAmount);
-        }
-        
-        // Sử dụng toBlob() thay vì toDataURL()
-        const mimeType = this.getMimeType(format);
         canvas.toBlob((blob) => {
+            // Fallback khi trình duyệt không hỗ trợ MIME type
+            if (!blob) {
+                const fallbackUrl = canvas.toDataURL('image/png');
+                const b64 = fallbackUrl.split(',')[1] || '';
+                resolve({
+                    originalFile: file,
+                    convertedDataUrl: fallbackUrl,
+                    format: format,
+                    width: width,
+                    height: height,
+                    originalSize: file.size,
+                    convertedSize: Math.floor((b64.length * 3) / 4),
+                    sharpenApplied: sharpenEnabled
+                });
+                return;
+            }
             const reader = new FileReader();
             reader.onload = (e) => {
                 resolve({
@@ -1777,7 +1824,15 @@ document.querySelectorAll('input[name="format"]').forEach(radio => {
             const reader = new FileReader();
             
             reader.onload = (e) => {
-                img.onload = () => resolve(img);
+                img.onload = () => {
+                    // SVG có thể không có naturalWidth/naturalHeight
+                    const isSvg = file.name.toLowerCase().endsWith('.svg') || file.type === 'image/svg+xml';
+                    if (isSvg && (!img.naturalWidth || !img.naturalHeight)) {
+                        img._fallbackWidth = img.width || 800;
+                        img._fallbackHeight = img.height || 600;
+                    }
+                    resolve(img);
+                };
                 img.onerror = reject;
                 img.src = e.target.result;
             };
