@@ -1,0 +1,2013 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="Công cụ đổi kích thước ảnh hàng loạt online miễn phí giúp tạo nhiều kích thước logo, favicon, app icon, ảnh social media, website và ecommerce chỉ từ một lần tải ảnh lên.">
+  <meta name="keywords" content="đổi kích thước ảnh hàng loạt, resize ảnh online, resize logo, favicon generator, app icon generator, social media image resize, ecommerce image resize">
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="DVNT Vlogs">
+  <meta name="theme-color" content="#01696f">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Đổi kích thước ảnh hàng loạt | dvntResizeImg">
+  <meta property="og:description" content="Upload 1 hoặc nhiều ảnh và tự động tạo đầy đủ kích thước cho logo, social media, website và ecommerce.">
+  <meta property="og:locale" content="vi_VN">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Đổi kích thước ảnh hàng loạt | dvntResizeImg">
+  <meta name="twitter:description" content="Công cụ resize ảnh online hiện đại, nhanh, responsive và tải ZIP tiện lợi.">
+  <title>Đổi kích thước ảnh hàng loạt | dvntResizeImg</title>
+  <link rel="preconnect" href="https://api.fontshare.com">
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&f[]=cabinet-grotesk@500,700,800&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" defer></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "dvntResizeImg",
+    "applicationCategory": "MultimediaApplication",
+    "operatingSystem": "Web",
+    "inLanguage": "vi",
+    "description": "Công cụ online giúp đổi kích thước ảnh hàng loạt cho logo, website, social media và ecommerce.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  }
+  </script>
+  <style>
+    :root,
+    [data-theme="light"] {
+      --text-xs: clamp(0.75rem, 0.72rem + 0.2vw, 0.875rem);
+      --text-sm: clamp(0.875rem, 0.82rem + 0.3vw, 1rem);
+      --text-base: clamp(1rem, 0.95rem + 0.22vw, 1.125rem);
+      --text-lg: clamp(1.125rem, 1rem + 0.7vw, 1.5rem);
+      --text-xl: clamp(1.5rem, 1.1rem + 1.4vw, 2.2rem);
+      --space-1: 0.25rem;
+      --space-2: 0.5rem;
+      --space-3: 0.75rem;
+      --space-4: 1rem;
+      --space-5: 1.25rem;
+      --space-6: 1.5rem;
+      --space-8: 2rem;
+      --space-10: 2.5rem;
+      --space-12: 3rem;
+      --space-16: 4rem;
+      --space-20: 5rem;
+      --radius-sm: 0.5rem;
+      --radius-md: 0.875rem;
+      --radius-lg: 1.25rem;
+      --radius-xl: 1.75rem;
+      --radius-full: 9999px;
+      --color-bg: #f7f6f2;
+      --color-surface: #f9f8f5;
+      --color-surface-2: #fbfbf9;
+      --color-surface-offset: #eeebe5;
+      --color-surface-accent: color-mix(in oklab, var(--color-primary) 6%, var(--color-surface));
+      --color-border: oklch(from #28251d l c h / 0.12);
+      --color-divider: #dcd9d5;
+      --color-text: #28251d;
+      --color-text-muted: #6c6a64;
+      --color-text-faint: #9a9892;
+      --color-text-inverse: #f9f8f4;
+      --color-primary: #01696f;
+      --color-primary-hover: #0c4e54;
+      --color-primary-active: #10393d;
+      --color-primary-highlight: #d6e4e2;
+      --color-success: #437a22;
+      --color-warning: #964219;
+      --color-error: #a12c7b;
+      --shadow-sm: 0 2px 8px oklch(0.2 0.01 80 / 0.05);
+      --shadow-md: 0 12px 30px oklch(0.2 0.01 80 / 0.08);
+      --shadow-lg: 0 20px 50px oklch(0.2 0.01 80 / 0.12);
+      --font-body: 'Satoshi', 'Inter', sans-serif;
+      --font-display: 'Cabinet Grotesk', 'Satoshi', sans-serif;
+      --transition-interactive: 180ms cubic-bezier(0.16, 1, 0.3, 1);
+      --content-default: 1180px;
+    }
+
+    [data-theme="dark"] {
+      --color-bg: #171614;
+      --color-surface: #1c1b19;
+      --color-surface-2: #23211f;
+      --color-surface-offset: #2a2825;
+      --color-surface-accent: color-mix(in oklab, var(--color-primary) 10%, var(--color-surface));
+      --color-border: oklch(from #f4f1ea l c h / 0.12);
+      --color-divider: #2f2d2a;
+      --color-text: #ece8df;
+      --color-text-muted: #bbb7ae;
+      --color-text-faint: #87837d;
+      --color-text-inverse: #171614;
+      --color-primary: #4f98a3;
+      --color-primary-hover: #67aab4;
+      --color-primary-active: #2c747e;
+      --color-primary-highlight: #243336;
+      --color-success: #73af4b;
+      --color-warning: #d18459;
+      --color-error: #d163a7;
+      --shadow-sm: 0 2px 8px oklch(0 0 0 / 0.2);
+      --shadow-md: 0 12px 30px oklch(0 0 0 / 0.28);
+      --shadow-lg: 0 20px 50px oklch(0 0 0 / 0.4);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme]) {
+        --color-bg: #171614;
+        --color-surface: #1c1b19;
+        --color-surface-2: #23211f;
+        --color-surface-offset: #2a2825;
+        --color-surface-accent: color-mix(in oklab, var(--color-primary) 10%, var(--color-surface));
+        --color-border: oklch(from #f4f1ea l c h / 0.12);
+        --color-divider: #2f2d2a;
+        --color-text: #ece8df;
+        --color-text-muted: #bbb7ae;
+        --color-text-faint: #87837d;
+        --color-text-inverse: #171614;
+        --color-primary: #4f98a3;
+        --color-primary-hover: #67aab4;
+        --color-primary-active: #2c747e;
+      }
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html {
+      -webkit-text-size-adjust: none;
+      text-size-adjust: none;
+      scroll-behavior: smooth;
+    }
+    body {
+      min-height: 100dvh;
+      font-family: var(--font-body);
+      font-size: var(--text-base);
+      line-height: 1.6;
+      color: var(--color-text);
+      background:
+        radial-gradient(circle at top left, color-mix(in oklab, var(--color-primary) 9%, transparent), transparent 34%),
+        radial-gradient(circle at right top, color-mix(in oklab, var(--color-primary) 5%, transparent), transparent 28%),
+        var(--color-bg);
+    }
+    img, svg, canvas { display: block; max-width: 100%; height: auto; }
+    button, input, select { font: inherit; color: inherit; }
+    button { cursor: pointer; border: none; background: none; }
+    a { color: inherit; text-decoration: none; }
+    :focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 3px;
+      border-radius: var(--radius-sm);
+    }
+    .dvntResizeImg-sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .dvntResizeImg-page {
+      width: min(100% - var(--space-4) * 2, var(--content-default));
+      margin-inline: auto;
+      padding-block: var(--space-4) var(--space-16);
+    }
+    .dvntResizeImg-skip-link {
+      position: absolute;
+      top: -100%;
+      left: var(--space-4);
+      z-index: 1000;
+      background: var(--color-primary);
+      color: var(--color-text-inverse);
+      padding: var(--space-3) var(--space-4);
+      border-radius: var(--radius-full);
+    }
+    .dvntResizeImg-skip-link:focus { top: var(--space-4); }
+
+    .dvntResizeImg-header {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-4);
+      margin-bottom: var(--space-8);
+      padding: var(--space-3) var(--space-4);
+      background: color-mix(in oklab, var(--color-surface) 84%, transparent);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      backdrop-filter: blur(14px);
+      box-shadow: var(--shadow-sm);
+    }
+    .dvntResizeImg-header__brand {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      min-width: 0;
+    }
+    .dvntResizeImg-logo {
+      width: 2.75rem;
+      height: 2.75rem;
+      border-radius: 0.9rem;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--color-primary), color-mix(in oklab, var(--color-primary) 68%, white));
+      color: #fff;
+      box-shadow: var(--shadow-md);
+      flex-shrink: 0;
+    }
+    .dvntResizeImg-logo svg { width: 1.4rem; height: 1.4rem; }
+    .dvntResizeImg-header__title-wrap { min-width: 0; }
+    .dvntResizeImg-header__eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-size: var(--text-xs);
+      color: var(--color-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .dvntResizeImg-header__title {
+      font-family: var(--font-display);
+      font-size: var(--text-lg);
+      line-height: 1.1;
+    }
+    .dvntResizeImg-header__actions {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .dvntResizeImg-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      min-height: 2.75rem;
+      padding: 0.8rem 1rem;
+      border-radius: var(--radius-full);
+      font-size: var(--text-sm);
+      font-weight: 700;
+      transition: transform var(--transition-interactive), background var(--transition-interactive), color var(--transition-interactive), border-color var(--transition-interactive), box-shadow var(--transition-interactive);
+      border: 1px solid transparent;
+      white-space: nowrap;
+    }
+    .dvntResizeImg-button:hover { transform: translateY(-1px); }
+    .dvntResizeImg-button:active { transform: translateY(0); }
+    .dvntResizeImg-button--primary {
+      background: var(--color-primary);
+      color: var(--color-text-inverse);
+      box-shadow: var(--shadow-sm);
+    }
+    .dvntResizeImg-button--primary:hover { background: var(--color-primary-hover); }
+    .dvntResizeImg-button--secondary {
+      background: var(--color-surface);
+      border-color: var(--color-border);
+      color: var(--color-text);
+    }
+    .dvntResizeImg-button--secondary:hover { background: var(--color-surface-2); }
+    .dvntResizeImg-button--ghost {
+      color: var(--color-text-muted);
+      border-color: var(--color-border);
+      background: transparent;
+    }
+    .dvntResizeImg-button--ghost:hover {
+      color: var(--color-text);
+      background: var(--color-surface);
+    }
+    .dvntResizeImg-button[disabled] {
+      opacity: 0.45;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .dvntResizeImg-hero {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: var(--space-6);
+      margin-bottom: var(--space-6);
+    }
+    .dvntResizeImg-card {
+      background: color-mix(in oklab, var(--color-surface) 92%, transparent);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-sm);
+    }
+    .dvntResizeImg-hero__content,
+    .dvntResizeImg-hero__stats,
+    .dvntResizeImg-panel,
+    .dvntResizeImg-result-item,
+    .dvntResizeImg-preview__empty,
+    .dvntResizeImg-preview__canvas-wrap {
+      padding: var(--space-6);
+    }
+    .dvntResizeImg-hero__content {
+      position: relative;
+      overflow: hidden;
+      background:
+        linear-gradient(145deg, color-mix(in oklab, var(--color-primary) 10%, var(--color-surface)), var(--color-surface-2));
+    }
+    .dvntResizeImg-hero__content::after {
+      content: "";
+      position: absolute;
+      inset: auto -4rem -4rem auto;
+      width: 11rem;
+      height: 11rem;
+      border-radius: 50%;
+      background: color-mix(in oklab, var(--color-primary) 16%, transparent);
+      filter: blur(10px);
+      pointer-events: none;
+    }
+    .dvntResizeImg-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: 0.45rem 0.8rem;
+      border-radius: var(--radius-full);
+      background: var(--color-primary-highlight);
+      color: var(--color-primary);
+      font-size: var(--text-xs);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: var(--space-4);
+    }
+    .dvntResizeImg-hero__title {
+      font-family: var(--font-display);
+      font-size: var(--text-xl);
+      line-height: 1;
+      max-width: 14ch;
+      margin-bottom: var(--space-4);
+    }
+    .dvntResizeImg-hero__description {
+      color: var(--color-text-muted);
+      max-width: 60ch;
+      margin-bottom: var(--space-5);
+    }
+    .dvntResizeImg-hero__actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+      margin-bottom: var(--space-5);
+    }
+    .dvntResizeImg-hero__list {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-3);
+      list-style: none;
+    }
+    .dvntResizeImg-hero__list-item {
+      padding: var(--space-4);
+      border-radius: var(--radius-lg);
+      background: color-mix(in oklab, var(--color-surface-2) 88%, transparent);
+      border: 1px solid var(--color-border);
+    }
+    .dvntResizeImg-hero__list-label {
+      display: block;
+      font-size: var(--text-xs);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--color-text-faint);
+      margin-bottom: var(--space-1);
+    }
+    .dvntResizeImg-hero__list-value {
+      font-weight: 700;
+      font-size: var(--text-base);
+    }
+    .dvntResizeImg-hero__stats {
+      display: grid;
+      gap: var(--space-4);
+      align-content: start;
+      background: color-mix(in oklab, var(--color-surface) 96%, transparent);
+    }
+    .dvntResizeImg-stat-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-3);
+    }
+    .dvntResizeImg-stat-grid__item {
+      padding: var(--space-4);
+      border-radius: var(--radius-lg);
+      background: var(--color-surface-2);
+      border: 1px solid var(--color-border);
+    }
+    .dvntResizeImg-stat-grid__value {
+      font-family: var(--font-display);
+      font-size: var(--text-lg);
+      line-height: 1;
+      margin-bottom: var(--space-2);
+    }
+    .dvntResizeImg-stat-grid__label {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+    }
+    .dvntResizeImg-note {
+      padding: var(--space-4);
+      border-radius: var(--radius-lg);
+      border: 1px dashed var(--color-border);
+      color: var(--color-text-muted);
+      font-size: var(--text-sm);
+      background: color-mix(in oklab, var(--color-surface-offset) 65%, transparent);
+    }
+
+    .dvntResizeImg-main {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+      gap: var(--space-6);
+      align-items: start;
+    }
+    .dvntResizeImg-panel {
+      display: grid;
+      gap: var(--space-6);
+    }
+    .dvntResizeImg-panel__section {
+      display: grid;
+      gap: var(--space-4);
+    }
+    .dvntResizeImg-panel__header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: var(--space-3);
+      align-items: start;
+    }
+    .dvntResizeImg-panel__title {
+      font-family: var(--font-display);
+      font-size: var(--text-lg);
+      line-height: 1.08;
+    }
+    .dvntResizeImg-panel__description {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      max-width: 60ch;
+    }
+
+    .dvntResizeImg-upload {
+      position: relative;
+      display: grid;
+      place-items: center;
+      min-height: 16rem;
+      border: 1px dashed color-mix(in oklab, var(--color-primary) 45%, var(--color-border));
+      border-radius: var(--radius-xl);
+      background:
+        linear-gradient(180deg, color-mix(in oklab, var(--color-primary) 4%, var(--color-surface)), var(--color-surface-2));
+      overflow: hidden;
+      transition: border-color var(--transition-interactive), transform var(--transition-interactive), background var(--transition-interactive);
+    }
+    .dvntResizeImg-upload--dragover {
+      transform: translateY(-2px);
+      border-color: var(--color-primary);
+      background: linear-gradient(180deg, color-mix(in oklab, var(--color-primary) 12%, var(--color-surface)), var(--color-surface-2));
+    }
+    .dvntResizeImg-upload__input {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+    .dvntResizeImg-upload__content {
+      display: grid;
+      gap: var(--space-3);
+      text-align: center;
+      justify-items: center;
+      padding: var(--space-6);
+      pointer-events: none;
+    }
+    .dvntResizeImg-upload__icon {
+      width: 4.25rem;
+      height: 4.25rem;
+      display: grid;
+      place-items: center;
+      border-radius: 1.35rem;
+      color: var(--color-primary);
+      background: var(--color-primary-highlight);
+    }
+    .dvntResizeImg-upload__title {
+      font-family: var(--font-display);
+      font-size: var(--text-lg);
+    }
+    .dvntResizeImg-upload__description,
+    .dvntResizeImg-upload__hint {
+      color: var(--color-text-muted);
+      font-size: var(--text-sm);
+    }
+
+    .dvntResizeImg-toolbar {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-4);
+    }
+    .dvntResizeImg-field {
+      display: grid;
+      gap: var(--space-2);
+    }
+    .dvntResizeImg-field__label {
+      font-size: var(--text-sm);
+      font-weight: 700;
+    }
+    .dvntResizeImg-field__control,
+    .dvntResizeImg-field__select {
+      width: 100%;
+      min-height: 3rem;
+      padding: 0.85rem 1rem;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--color-border);
+      background: var(--color-surface-2);
+    }
+
+    .dvntResizeImg-switch-group,
+    .dvntResizeImg-format-group,
+    .dvntResizeImg-pack-grid {
+      display: grid;
+      gap: var(--space-3);
+    }
+    .dvntResizeImg-switch-group {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .dvntResizeImg-switch {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      min-height: 3.2rem;
+      padding: var(--space-3) var(--space-4);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--color-border);
+      background: var(--color-surface-2);
+      font-weight: 700;
+      text-align: center;
+      transition: var(--transition-interactive);
+    }
+    .dvntResizeImg-switch[aria-pressed="true"] {
+      background: var(--color-primary);
+      color: var(--color-text-inverse);
+      border-color: var(--color-primary);
+      box-shadow: var(--shadow-sm);
+    }
+    .dvntResizeImg-format-group {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .dvntResizeImg-format-option,
+    .dvntResizeImg-pack-option {
+      position: relative;
+      display: grid;
+      gap: var(--space-2);
+      padding: var(--space-4);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--color-border);
+      background: var(--color-surface-2);
+      transition: var(--transition-interactive);
+    }
+    .dvntResizeImg-format-option:hover,
+    .dvntResizeImg-pack-option:hover {
+      border-color: color-mix(in oklab, var(--color-primary) 44%, var(--color-border));
+      transform: translateY(-1px);
+    }
+    .dvntResizeImg-format-option__input,
+    .dvntResizeImg-pack-option__input {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+    .dvntResizeImg-format-option__title,
+    .dvntResizeImg-pack-option__title {
+      font-weight: 800;
+    }
+    .dvntResizeImg-format-option__description,
+    .dvntResizeImg-pack-option__description {
+      font-size: var(--text-xs);
+      color: var(--color-text-muted);
+    }
+    .dvntResizeImg-format-option--active,
+    .dvntResizeImg-pack-option--active {
+      background: var(--color-surface-accent);
+      border-color: color-mix(in oklab, var(--color-primary) 60%, var(--color-border));
+      box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-primary) 28%, transparent);
+    }
+    .dvntResizeImg-pack-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .dvntResizeImg-chip-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+    }
+    .dvntResizeImg-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: 0.55rem 0.85rem;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--color-border);
+      background: var(--color-surface-2);
+      font-size: var(--text-xs);
+      color: var(--color-text-muted);
+      cursor: pointer;
+      user-select: none;
+      transition: background var(--transition-interactive), border-color var(--transition-interactive), color var(--transition-interactive), opacity var(--transition-interactive), transform var(--transition-interactive);
+    }
+    .dvntResizeImg-chip:hover {
+      transform: translateY(-1px);
+      border-color: color-mix(in oklab, var(--color-primary) 30%, var(--color-border));
+    }
+    .dvntResizeImg-chip--selected {
+      background: var(--color-primary);
+      color: var(--color-text-inverse);
+      border-color: var(--color-primary);
+      font-weight: 700;
+      box-shadow: var(--shadow-sm);
+    }
+    .dvntResizeImg-chip--selected:hover {
+      background: var(--color-primary-hover);
+      border-color: var(--color-primary-hover);
+    }
+    .dvntResizeImg-chip--custom {
+      background: var(--color-surface-accent);
+      border-color: color-mix(in oklab, var(--color-primary) 45%, var(--color-border));
+      color: var(--color-primary);
+      font-weight: 700;
+    }
+    .dvntResizeImg-chip--custom.dvntResizeImg-chip--selected {
+      background: var(--color-primary);
+      color: var(--color-text-inverse);
+      border-color: var(--color-primary);
+    }
+    .dvntResizeImg-chip-toolbar {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      flex-wrap: wrap;
+    }
+    .dvntResizeImg-chip-toolbar__count {
+      font-size: var(--text-xs);
+      color: var(--color-text-muted);
+      margin-left: auto;
+    }
+
+    .dvntResizeImg-preview {
+      position: sticky;
+      top: 6.5rem;
+      display: grid;
+      gap: var(--space-4);
+    }
+    .dvntResizeImg-preview__stage {
+      display: grid;
+      gap: var(--space-4);
+    }
+    .dvntResizeImg-preview__empty {
+      min-height: 18rem;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      border: 1px dashed var(--color-border);
+      border-radius: var(--radius-xl);
+      background: linear-gradient(180deg, var(--color-surface), var(--color-surface-2));
+      color: var(--color-text-muted);
+    }
+    .dvntResizeImg-preview__canvas-wrap {
+      display: none;
+      gap: var(--space-4);
+      border-radius: var(--radius-xl);
+      background: linear-gradient(180deg, var(--color-surface), var(--color-surface-2));
+      border: 1px solid var(--color-border);
+    }
+    .dvntResizeImg-preview__canvas-wrap--active { display: grid; }
+    .dvntResizeImg-preview__canvas-box {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      background-image:
+        linear-gradient(45deg, color-mix(in oklab, var(--color-surface-offset) 80%, transparent) 25%, transparent 25%),
+        linear-gradient(-45deg, color-mix(in oklab, var(--color-surface-offset) 80%, transparent) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, color-mix(in oklab, var(--color-surface-offset) 80%, transparent) 75%),
+        linear-gradient(-45deg, transparent 75%, color-mix(in oklab, var(--color-surface-offset) 80%, transparent) 75%);
+      background-size: 24px 24px;
+      background-position: 0 0, 0 12px, 12px -12px, -12px 0;
+      display: grid;
+      place-items: center;
+      min-height: 18rem;
+    }
+    .dvntResizeImg-preview__meta {
+      display: flex;
+      justify-content: space-between;
+      gap: var(--space-3);
+      flex-wrap: wrap;
+      color: var(--color-text-muted);
+      font-size: var(--text-sm);
+    }
+    .dvntResizeImg-preview__meta strong { color: var(--color-text); }
+
+    .dvntResizeImg-results {
+      display: grid;
+      gap: var(--space-4);
+    }
+    .dvntResizeImg-results__list {
+      display: grid;
+      gap: var(--space-3);
+      max-height: 34rem;
+      overflow: auto;
+      padding-right: var(--space-1);
+    }
+    .dvntResizeImg-results__list::-webkit-scrollbar { width: 0.5rem; }
+    .dvntResizeImg-results__list::-webkit-scrollbar-thumb {
+      background: color-mix(in oklab, var(--color-primary) 25%, var(--color-divider));
+      border-radius: var(--radius-full);
+    }
+    .dvntResizeImg-result-item {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: var(--space-4);
+      align-items: center;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--color-border);
+      background: var(--color-surface-2);
+    }
+    .dvntResizeImg-result-item__thumb {
+      width: 4.75rem;
+      height: 4.75rem;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      background: var(--color-surface-offset);
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+    .dvntResizeImg-result-item__thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .dvntResizeImg-result-item__info {
+      min-width: 0;
+      display: grid;
+      gap: var(--space-1);
+    }
+    .dvntResizeImg-result-item__title {
+      font-weight: 800;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .dvntResizeImg-result-item__meta {
+      font-size: var(--text-xs);
+      color: var(--color-text-muted);
+    }
+    .dvntResizeImg-result-item__actions {
+      display: flex;
+      gap: var(--space-2);
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .dvntResizeImg-status {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      flex-wrap: wrap;
+      padding: var(--space-4);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--color-border);
+      background: color-mix(in oklab, var(--color-surface) 94%, transparent);
+      color: var(--color-text-muted);
+      font-size: var(--text-sm);
+    }
+    .dvntResizeImg-status__dot {
+      width: 0.65rem;
+      height: 0.65rem;
+      border-radius: 50%;
+      background: var(--color-warning);
+      box-shadow: 0 0 0 0.25rem color-mix(in oklab, var(--color-warning) 16%, transparent);
+      flex-shrink: 0;
+    }
+    .dvntResizeImg-status--success .dvntResizeImg-status__dot {
+      background: var(--color-success);
+      box-shadow: 0 0 0 0.25rem color-mix(in oklab, var(--color-success) 14%, transparent);
+    }
+    .dvntResizeImg-status--error .dvntResizeImg-status__dot {
+      background: var(--color-error);
+      box-shadow: 0 0 0 0.25rem color-mix(in oklab, var(--color-error) 14%, transparent);
+    }
+
+    .dvntResizeImg-footer {
+      margin-top: var(--space-8);
+      padding: var(--space-5);
+      border-top: 1px solid var(--color-divider);
+      color: var(--color-text-muted);
+      font-size: var(--text-sm);
+      text-align: center;
+    }
+
+    @media (max-width: 1080px) {
+      .dvntResizeImg-hero,
+      .dvntResizeImg-main {
+        grid-template-columns: 1fr;
+      }
+      .dvntResizeImg-preview {
+        position: static;
+      }
+      .dvntResizeImg-hero__title { max-width: 18ch; }
+    }
+
+    @media (max-width: 768px) {
+      .dvntResizeImg-page {
+        width: min(100% - var(--space-3) * 2, var(--content-default));
+      }
+      .dvntResizeImg-header {
+        padding: var(--space-3);
+        border-radius: var(--radius-lg);
+      }
+      .dvntResizeImg-header,
+      .dvntResizeImg-header__actions,
+      .dvntResizeImg-panel__header,
+      .dvntResizeImg-preview__meta,
+      .dvntResizeImg-result-item {
+        gap: var(--space-3);
+      }
+      .dvntResizeImg-header,
+      .dvntResizeImg-header__actions {
+        flex-wrap: wrap;
+      }
+      .dvntResizeImg-toolbar,
+      .dvntResizeImg-switch-group,
+      .dvntResizeImg-format-group,
+      .dvntResizeImg-pack-grid,
+      .dvntResizeImg-hero__list,
+      .dvntResizeImg-stat-grid {
+        grid-template-columns: 1fr;
+      }
+      .dvntResizeImg-result-item {
+        grid-template-columns: 1fr;
+        justify-items: start;
+      }
+      .dvntResizeImg-result-item__actions {
+        width: 100%;
+        justify-content: stretch;
+      }
+      .dvntResizeImg-result-item__actions .dvntResizeImg-button {
+        flex: 1 1 auto;
+      }
+      .dvntResizeImg-button {
+        min-width: 100%;
+      }
+      .dvntResizeImg-header__actions .dvntResizeImg-button,
+      .dvntResizeImg-hero__actions .dvntResizeImg-button,
+      .dvntResizeImg-result-item__actions .dvntResizeImg-button {
+        min-width: unset;
+      }
+      .dvntResizeImg-hero__content,
+      .dvntResizeImg-hero__stats,
+      .dvntResizeImg-panel,
+      .dvntResizeImg-result-item,
+      .dvntResizeImg-preview__empty,
+      .dvntResizeImg-preview__canvas-wrap {
+        padding: var(--space-5);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="dvntResizeImg-skip-link" href="#dvntResizeImg-main-content">Bỏ qua đến nội dung chính</a>
+
+  <div class="dvntResizeImg-page">
+    <header class="dvntResizeImg-header" role="banner">
+      <div class="dvntResizeImg-header__brand">
+        <div class="dvntResizeImg-logo" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="4" y="4" width="16" height="16" rx="4"></rect>
+            <path d="M8 15.5 11.5 8 13.9 13.1 16 10.5"></path>
+          </svg>
+        </div>
+        <div class="dvntResizeImg-header__title-wrap">
+          <span class="dvntResizeImg-header__eyebrow">Công cụ ảnh online</span>
+          <h1 class="dvntResizeImg-header__title">dvntResizeImg</h1>
+        </div>
+      </div>
+      <div class="dvntResizeImg-header__actions">
+        <button class="dvntResizeImg-button dvntResizeImg-button--ghost" type="button" data-theme-toggle aria-label="Chuyển chế độ sáng tối">
+          <span aria-hidden="true">🌙</span>
+          <span>Giao diện</span>
+        </button>
+        <button class="dvntResizeImg-button dvntResizeImg-button--secondary" type="button" data-scroll-to-upload>
+          Bắt đầu resize
+        </button>
+      </div>
+    </header>
+
+    <section class="dvntResizeImg-hero" aria-labelledby="dvntResizeImg-hero-title">
+      <article class="dvntResizeImg-card dvntResizeImg-hero__content">
+        <span class="dvntResizeImg-badge">Resize logo · social · website · ecommerce</span>
+        <h2 class="dvntResizeImg-hero__title" id="dvntResizeImg-hero-title">Đổi kích thước ảnh hàng loạt nhanh, đẹp và đúng chuẩn.</h2>
+        <p class="dvntResizeImg-hero__description">Upload 1 hoặc nhiều ảnh, chọn bộ preset phù hợp, xem preview realtime và tải từng ảnh hoặc tải toàn bộ bằng ZIP chỉ trong vài giây.</p>
+        <div class="dvntResizeImg-hero__actions">
+          <button class="dvntResizeImg-button dvntResizeImg-button--primary" type="button" data-trigger-upload>
+            Tải ảnh lên ngay
+          </button>
+          <button class="dvntResizeImg-button dvntResizeImg-button--secondary" type="button" data-download-zip disabled>
+            Tải tất cả dạng ZIP
+          </button>
+        </div>
+        <ul class="dvntResizeImg-hero__list" role="list">
+          <li class="dvntResizeImg-hero__list-item">
+            <span class="dvntResizeImg-hero__list-label">Chế độ resize</span>
+            <span class="dvntResizeImg-hero__list-value">Smart Crop · Fit · Padding</span>
+          </li>
+          <li class="dvntResizeImg-hero__list-item">
+            <span class="dvntResizeImg-hero__list-label">Định dạng xuất</span>
+            <span class="dvntResizeImg-hero__list-value">PNG · JPG · WebP</span>
+          </li>
+          <li class="dvntResizeImg-hero__list-item">
+            <span class="dvntResizeImg-hero__list-label">Kịch bản sử dụng</span>
+            <span class="dvntResizeImg-hero__list-value">Logo · Social · Web · Sàn TMĐT</span>
+          </li>
+        </ul>
+      </article>
+
+      <aside class="dvntResizeImg-card dvntResizeImg-hero__stats" aria-label="Thông tin nhanh về bộ công cụ">
+        <div class="dvntResizeImg-panel__header">
+          <div>
+            <h2 class="dvntResizeImg-panel__title">Preset có sẵn</h2>
+            <p class="dvntResizeImg-panel__description">Tối ưu cho favicon, app icon, social avatar, website hero và ảnh bán hàng.</p>
+          </div>
+        </div>
+        <div class="dvntResizeImg-stat-grid">
+          <div class="dvntResizeImg-stat-grid__item">
+            <div class="dvntResizeImg-stat-grid__value">15+</div>
+            <p class="dvntResizeImg-stat-grid__label">Kích thước logo mặc định</p>
+          </div>
+          <div class="dvntResizeImg-stat-grid__item">
+            <div class="dvntResizeImg-stat-grid__value">3</div>
+            <p class="dvntResizeImg-stat-grid__label">Pack logo chuyên dụng</p>
+          </div>
+          <div class="dvntResizeImg-stat-grid__item">
+            <div class="dvntResizeImg-stat-grid__value">3</div>
+            <p class="dvntResizeImg-stat-grid__label">Pack ảnh phổ biến</p>
+          </div>
+          <div class="dvntResizeImg-stat-grid__item">
+            <div class="dvntResizeImg-stat-grid__value">ZIP</div>
+            <p class="dvntResizeImg-stat-grid__label">Tải gộp nhanh</p>
+          </div>
+        </div>
+        <div class="dvntResizeImg-note">
+          Công cụ xử lý trực tiếp trong trình duyệt để tăng tốc độ preview, hỗ trợ nhiều ảnh và giữ nền trong suốt khi xuất PNG cho logo.
+        </div>
+      </aside>
+    </section>
+
+    <main class="dvntResizeImg-main" id="dvntResizeImg-main-content">
+      <section class="dvntResizeImg-card dvntResizeImg-panel" aria-labelledby="dvntResizeImg-tool-title">
+        <div class="dvntResizeImg-panel__section">
+          <div class="dvntResizeImg-panel__header">
+            <div>
+              <h2 class="dvntResizeImg-panel__title" id="dvntResizeImg-tool-title">Bộ điều khiển resize ảnh</h2>
+              <p class="dvntResizeImg-panel__description">Quy trình đơn giản: tải ảnh lên, chọn nhóm kích thước, tạo ảnh, rồi tải từng ảnh hoặc tải trọn bộ.</p>
+            </div>
+          </div>
+
+          <label class="dvntResizeImg-upload" id="dvntResizeImg-upload-area">
+            <input class="dvntResizeImg-upload__input" id="dvntResizeImg-file-input" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml" multiple>
+            <div class="dvntResizeImg-upload__content">
+              <div class="dvntResizeImg-upload__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 16V4"></path>
+                  <path d="m7 9 5-5 5 5"></path>
+                  <path d="M20 16.6A4.4 4.4 0 0 1 16.2 21H7.6A4.6 4.6 0 0 1 3 16.4a4.3 4.3 0 0 1 3.6-4.3"></path>
+                </svg>
+              </div>
+              <h3 class="dvntResizeImg-upload__title">Kéo thả ảnh vào đây hoặc bấm để chọn</h3>
+              <p class="dvntResizeImg-upload__description">Hỗ trợ PNG, JPG, WebP và SVG. Có thể xử lý nhiều ảnh cùng lúc.</p>
+              <p class="dvntResizeImg-upload__hint">Logo nên dùng PNG hoặc SVG để giữ nền trong suốt tốt hơn.</p>
+            </div>
+          </label>
+        </div>
+
+        <div class="dvntResizeImg-panel__section">
+          <div class="dvntResizeImg-panel__header">
+            <div>
+              <h2 class="dvntResizeImg-panel__title">1. Chọn nhóm resize</h2>
+              <p class="dvntResizeImg-panel__description">Chuyển nhanh giữa preset cho logo và preset cho ảnh thông thường.</p>
+            </div>
+          </div>
+          <div class="dvntResizeImg-switch-group" role="group" aria-label="Chọn loại preset">
+            <button class="dvntResizeImg-switch" type="button" data-loai-anh="logo" aria-pressed="false">Logo</button>
+            <button class="dvntResizeImg-switch" type="button" data-loai-anh="image" aria-pressed="false">Ảnh thường</button>
+            <button class="dvntResizeImg-switch" type="button" data-loai-anh="tuyBien" aria-pressed="true">Tuỳ biến</button>
+          </div>
+        </div>
+
+        <div class="dvntResizeImg-panel__section" id="dvntResizeImg-section-pack">
+          <div class="dvntResizeImg-panel__header">
+            <div>
+              <h2 class="dvntResizeImg-panel__title">2. Chọn pack kích thước</h2>
+              <p class="dvntResizeImg-panel__description">Các bộ kích thước được thiết kế theo đúng nhu cầu favicon, app, social, website và ecommerce.</p>
+            </div>
+          </div>
+          <div class="dvntResizeImg-pack-grid" id="dvntResizeImg-pack-grid"></div>
+        </div>
+
+        <div class="dvntResizeImg-panel__section" id="dvntResizeImg-section-tuy-bien" style="display:none;">
+          <div class="dvntResizeImg-panel__header">
+            <div>
+              <h2 class="dvntResizeImg-panel__title">2. Nhập kích thước cơ sở (×2 lên & ÷2 xuống)</h2>
+              <p class="dvntResizeImg-panel__description">Nhập kích thước gốc, hệ thống tự động tạo các cấp <strong>nhỏ hơn (÷2)</strong> và <strong>lớn hơn (×2)</strong> trong giới hạn 1–10 000 px. VD: 1216×809 → ... ÷4·304×202, ÷2·608×404, <u>x1·1216×809</u>, x2·2432×1618, x4·4864×3236 ...</p>
+            </div>
+          </div>
+          <div class="dvntResizeImg-toolbar" style="grid-template-columns:1fr 1fr 1fr;">
+            <div class="dvntResizeImg-field">
+              <label class="dvntResizeImg-field__label" for="dvntResizeImg-tuyBien-rong">Ngang cơ sở (px)</label>
+              <input class="dvntResizeImg-field__control" id="dvntResizeImg-tuyBien-rong" type="number" min="1" max="10000" value="2" autocomplete="off">
+            </div>
+            <div class="dvntResizeImg-field">
+              <label class="dvntResizeImg-field__label" for="dvntResizeImg-tuyBien-cao">Dọc cơ sở (px)</label>
+              <input class="dvntResizeImg-field__control" id="dvntResizeImg-tuyBien-cao" type="number" min="1" max="10000" value="4" autocomplete="off">
+            </div>
+            <div class="dvntResizeImg-field">
+              <label class="dvntResizeImg-field__label" for="dvntResizeImg-tuyBien-soLan">Số lần nhân</label>
+              <input class="dvntResizeImg-field__control" id="dvntResizeImg-tuyBien-soLan" type="number" min="1" max="20" value="20" autocomplete="off">
+            </div>
+          </div>
+        </div>
+
+        <div class="dvntResizeImg-panel__section">
+          <div class="dvntResizeImg-toolbar">
+            <div class="dvntResizeImg-field">
+              <label class="dvntResizeImg-field__label" for="dvntResizeImg-che-do">3. Chế độ xử lý ảnh</label>
+              <select class="dvntResizeImg-field__select" id="dvntResizeImg-che-do">
+                <option value="fit">Fit - thu gọn vừa khung</option>
+                <option value="padding">Padding - thêm nền vừa khung</option>
+                <option value="smartCrop">Smart Crop - cắt đầy khung</option>
+              </select>
+            </div>
+            <div class="dvntResizeImg-field">
+              <label class="dvntResizeImg-field__label" for="dvntResizeImg-chat-luong">4. Chất lượng đầu ra</label>
+              <input class="dvntResizeImg-field__control" id="dvntResizeImg-chat-luong" type="range" min="0.5" max="1" step="0.05" value="1" aria-describedby="dvntResizeImg-chat-luong-hint">
+              <span class="dvntResizeImg-field__label" id="dvntResizeImg-chat-luong-hint">Chất lượng hiện tại: <strong id="dvntResizeImg-chat-luong-value">100%</strong></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="dvntResizeImg-panel__section">
+          <div class="dvntResizeImg-panel__header">
+            <div>
+              <h2 class="dvntResizeImg-panel__title">5. Chọn định dạng xuất</h2>
+              <p class="dvntResizeImg-panel__description">PNG phù hợp logo, JPG nhẹ cho ảnh thường, WebP tối ưu dung lượng web.</p>
+            </div>
+          </div>
+          <div class="dvntResizeImg-format-group" id="dvntResizeImg-format-group">
+            <label class="dvntResizeImg-format-option dvntResizeImg-format-option--active">
+              <input class="dvntResizeImg-format-option__input" type="radio" name="dinhDangXuat" value="image/png" checked>
+              <span class="dvntResizeImg-format-option__title">PNG</span>
+              <span class="dvntResizeImg-format-option__description">Giữ nền trong suốt, phù hợp logo và icon.</span>
+            </label>
+            <label class="dvntResizeImg-format-option">
+              <input class="dvntResizeImg-format-option__input" type="radio" name="dinhDangXuat" value="image/jpeg">
+              <span class="dvntResizeImg-format-option__title">JPG</span>
+              <span class="dvntResizeImg-format-option__description">Dung lượng nhẹ, phù hợp ảnh thường.</span>
+            </label>
+            <label class="dvntResizeImg-format-option">
+              <input class="dvntResizeImg-format-option__input" type="radio" name="dinhDangXuat" value="image/webp">
+              <span class="dvntResizeImg-format-option__title">WebP</span>
+              <span class="dvntResizeImg-format-option__description">Tối ưu tải web, chất lượng tốt hơn.</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="dvntResizeImg-panel__section" id="dvntResizeImg-section-ty-le">
+          <div class="dvntResizeImg-panel__header">
+            <div>
+              <h2 class="dvntResizeImg-panel__title">Tuỳ biến kích thước (tỷ lệ)</h2>
+              <p class="dvntResizeImg-panel__description">Nhập kích thước cơ sở, các kích thước còn lại sẽ tự động scale theo tỷ lệ của preset. Ví dụ: nhập 2×5 → 4×10, 8×20, 16×40... Để trống cả hai = giữ nguyên preset.</p>
+            </div>
+          </div>
+          <div class="dvntResizeImg-toolbar">
+            <div class="dvntResizeImg-field">
+              <label class="dvntResizeImg-field__label" for="dvntResizeImg-ghi-de-rong">Ngang cơ sở (px)</label>
+              <input class="dvntResizeImg-field__control" id="dvntResizeImg-ghi-de-rong" type="number" min="1" max="10000" placeholder="VD: 2" autocomplete="off">
+            </div>
+            <div class="dvntResizeImg-field">
+              <label class="dvntResizeImg-field__label" for="dvntResizeImg-ghi-de-cao">Dọc cơ sở (px)</label>
+              <input class="dvntResizeImg-field__control" id="dvntResizeImg-ghi-de-cao" type="number" min="1" max="10000" placeholder="VD: 5" autocomplete="off">
+            </div>
+          </div>
+        </div>
+
+        <div class="dvntResizeImg-panel__section">
+          <div class="dvntResizeImg-panel__header">
+            <div>
+              <h2 class="dvntResizeImg-panel__title">Kích thước sẽ được tạo</h2>
+              <p class="dvntResizeImg-panel__description">Bấm vào từng kích thước để chọn/bỏ chọn. Chỉ các kích thước được chọn mới được tạo ảnh.</p>
+            </div>
+            <div class="dvntResizeImg-chip-toolbar">
+              <button class="dvntResizeImg-button dvntResizeImg-button--ghost" id="dvntResizeImg-chon-tat-ca" type="button" style="min-height:2.2rem;padding:0.5rem 0.8rem;font-size:var(--text-xs);">Chọn tất cả</button>
+              <button class="dvntResizeImg-button dvntResizeImg-button--ghost" id="dvntResizeImg-bo-chon-tat-ca" type="button" style="min-height:2.2rem;padding:0.5rem 0.8rem;font-size:var(--text-xs);">Bỏ chọn tất cả</button>
+              <span class="dvntResizeImg-chip-toolbar__count" id="dvntResizeImg-chip-count"></span>
+            </div>
+          </div>
+          <div class="dvntResizeImg-chip-list" id="dvntResizeImg-chip-list"></div>
+        </div>
+
+        <div class="dvntResizeImg-panel__section">
+          <div class="dvntResizeImg-panel__header">
+            <div>
+              <h2 class="dvntResizeImg-panel__title">6. Đổi tên hình ảnh</h2>
+              <p class="dvntResizeImg-panel__description">Nhập tên tuỳ chỉnh cho ảnh đầu ra. Để trống sẽ lấy tên ảnh gốc.</p>
+            </div>
+          </div>
+          <div class="dvntResizeImg-field">
+            <label class="dvntResizeImg-field__label" for="dvntResizeImg-ten-tuy-chinh">Tên tuỳ chỉnh</label>
+            <input class="dvntResizeImg-field__control" id="dvntResizeImg-ten-tuy-chinh" type="text" placeholder="Để trống = lấy tên ảnh gốc" autocomplete="off">
+          </div>
+        </div>
+
+        <div class="dvntResizeImg-panel__section">
+          <div class="dvntResizeImg-status" id="dvntResizeImg-status" aria-live="polite">
+            <span class="dvntResizeImg-status__dot" aria-hidden="true"></span>
+            <span id="dvntResizeImg-status-text">Chưa có ảnh nào được tải lên. Hãy bắt đầu bằng cách chọn ảnh.</span>
+          </div>
+          <div class="dvntResizeImg-hero__actions">
+            <button class="dvntResizeImg-button dvntResizeImg-button--primary" id="dvntResizeImg-tao-anh" type="button" disabled>Tạo toàn bộ kích thước</button>
+            <button class="dvntResizeImg-button dvntResizeImg-button--secondary" id="dvntResizeImg-tai-tung-tam" type="button" disabled>Tải từng tấm</button>
+            <button class="dvntResizeImg-button dvntResizeImg-button--secondary" id="dvntResizeImg-tai-zip" type="button" disabled>Tải ZIP</button>
+          </div>
+        </div>
+      </section>
+
+      <aside class="dvntResizeImg-preview" aria-labelledby="dvntResizeImg-preview-title">
+        <section class="dvntResizeImg-card dvntResizeImg-panel dvntResizeImg-preview__stage">
+          <div class="dvntResizeImg-panel__header">
+            <div>
+              <h2 class="dvntResizeImg-panel__title" id="dvntResizeImg-preview-title">Preview realtime</h2>
+              <p class="dvntResizeImg-panel__description">Xem nhanh ảnh gốc hoặc kích thước đầu tiên sau khi tạo.</p>
+            </div>
+          </div>
+
+          <div class="dvntResizeImg-preview__empty" id="dvntResizeImg-preview-empty">
+            <div>
+              <strong>Chưa có preview</strong>
+              <p>Ảnh sẽ hiển thị tại đây sau khi bạn tải lên hoặc tạo bộ resize.</p>
+            </div>
+          </div>
+
+          <div class="dvntResizeImg-preview__canvas-wrap" id="dvntResizeImg-preview-wrap">
+            <div class="dvntResizeImg-preview__canvas-box">
+              <canvas id="dvntResizeImg-preview-canvas" width="600" height="400" aria-label="Xem trước ảnh resize"></canvas>
+            </div>
+            <div class="dvntResizeImg-preview__meta">
+              <span><strong id="dvntResizeImg-preview-name">Chưa chọn</strong></span>
+              <span id="dvntResizeImg-preview-size">0 x 0</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="dvntResizeImg-card dvntResizeImg-panel dvntResizeImg-results" aria-labelledby="dvntResizeImg-results-title">
+          <div class="dvntResizeImg-panel__header">
+            <div>
+              <h2 class="dvntResizeImg-panel__title" id="dvntResizeImg-results-title">Danh sách ảnh đầu ra</h2>
+              <p class="dvntResizeImg-panel__description">Sau khi xử lý, bạn có thể tải từng ảnh riêng lẻ hoặc tải tất cả trong một lần.</p>
+            </div>
+          </div>
+          <div class="dvntResizeImg-results__list" id="dvntResizeImg-results-list">
+            <div class="dvntResizeImg-note">Chưa có kết quả. Hãy tải ảnh lên và nhấn “Tạo toàn bộ kích thước”.</div>
+          </div>
+        </section>
+      </aside>
+    </main>
+
+    <footer class="dvntResizeImg-footer">
+      dvntResizeImg · Công cụ resize ảnh online chuẩn SEO, responsive và tối ưu cho logo, website, social media, ecommerce.
+    </footer>
+  </div>
+
+  <script>
+    (() => {
+      const danhSachPreset = {
+        logo: {
+          favicon: {
+            ten: 'Favicon Pack',
+            moTa: 'Tạo nhanh favicon và icon cơ bản cho website.',
+            kichThuoc: [
+              { ten: 'Favicon 16', rong: 16, cao: 16 },
+              { ten: 'Favicon 32', rong: 32, cao: 32 },
+              { ten: 'Favicon 48', rong: 48, cao: 48 },
+              { ten: 'Favicon 64', rong: 64, cao: 64 },
+              { ten: 'Favicon 96', rong: 96, cao: 96 },
+              { ten: 'Favicon 128', rong: 128, cao: 128 }
+            ]
+          },
+          appIcon: {
+            ten: 'App Icon Pack',
+            moTa: 'Phù hợp PWA, ứng dụng mobile và launcher icon.',
+            kichThuoc: [
+              { ten: 'App 72', rong: 72, cao: 72 },
+              { ten: 'App 96', rong: 96, cao: 96 },
+              { ten: 'App 128', rong: 128, cao: 128 },
+              { ten: 'App 144', rong: 144, cao: 144 },
+              { ten: 'App 152', rong: 152, cao: 152 },
+              { ten: 'App 180', rong: 180, cao: 180 },
+              { ten: 'App 192', rong: 192, cao: 192 },
+              { ten: 'App 256', rong: 256, cao: 256 },
+              { ten: 'App 384', rong: 384, cao: 384 },
+              { ten: 'App 512', rong: 512, cao: 512 },
+              { ten: 'App 1024', rong: 1024, cao: 1024 }
+            ]
+          },
+          socialAvatar: {
+            ten: 'Social Avatar Pack',
+            moTa: 'Tối ưu avatar mạng xã hội, hồ sơ cá nhân và thương hiệu.',
+            kichThuoc: [
+              { ten: 'Avatar 180', rong: 180, cao: 180 },
+              { ten: 'Avatar 256', rong: 256, cao: 256 },
+              { ten: 'Avatar 320', rong: 320, cao: 320 },
+              { ten: 'Avatar 512', rong: 512, cao: 512 }
+            ]
+          },
+          fullLogo: {
+            ten: 'Logo Full Pack',
+            moTa: 'Đầy đủ kích thước logo và icon mặc định phổ biến.',
+            kichThuoc: [
+              { ten: 'Logo 16', rong: 16, cao: 16 },
+              { ten: 'Logo 32', rong: 32, cao: 32 },
+              { ten: 'Logo 48', rong: 48, cao: 48 },
+              { ten: 'Logo 64', rong: 64, cao: 64 },
+              { ten: 'Logo 72', rong: 72, cao: 72 },
+              { ten: 'Logo 96', rong: 96, cao: 96 },
+              { ten: 'Logo 128', rong: 128, cao: 128 },
+              { ten: 'Logo 144', rong: 144, cao: 144 },
+              { ten: 'Logo 152', rong: 152, cao: 152 },
+              { ten: 'Logo 180', rong: 180, cao: 180 },
+              { ten: 'Logo 192', rong: 192, cao: 192 },
+              { ten: 'Logo 256', rong: 256, cao: 256 },
+              { ten: 'Logo 384', rong: 384, cao: 384 },
+              { ten: 'Logo 512', rong: 512, cao: 512 },
+              { ten: 'Logo 1024', rong: 1024, cao: 1024 }
+            ]
+          },
+          kichThuocPhoBien: {
+            ten: 'Kích thước phổ biến',
+            moTa: '20 kích thước thông dụng cho web, ứng dụng và in ấn.',
+            kichThuoc: [
+              { ten: '24px', rong: 24, cao: 24 },
+              { ten: '36px', rong: 36, cao: 36 },
+              { ten: '40px', rong: 40, cao: 40 },
+              { ten: '56px', rong: 56, cao: 56 },
+              { ten: '60px', rong: 60, cao: 60 },
+              { ten: '80px', rong: 80, cao: 80 },
+              { ten: '100px', rong: 100, cao: 100 },
+              { ten: '120px', rong: 120, cao: 120 },
+              { ten: '160px', rong: 160, cao: 160 },
+              { ten: '200px', rong: 200, cao: 200 },
+              { ten: '240px', rong: 240, cao: 240 },
+              { ten: '300px', rong: 300, cao: 300 },
+              { ten: '320px', rong: 320, cao: 320 },
+              { ten: '400px', rong: 400, cao: 400 },
+              { ten: '480px', rong: 480, cao: 480 },
+              { ten: '640px', rong: 640, cao: 640 },
+              { ten: '768px', rong: 768, cao: 768 },
+              { ten: '1024px', rong: 1024, cao: 1024 },
+              { ten: '1536px', rong: 1536, cao: 1536 },
+              { ten: '2048px', rong: 2048, cao: 2048 }
+            ]
+          }
+        },
+        image: {
+          social: {
+            ten: 'Social Media Pack',
+            moTa: 'Instagram, Facebook, YouTube, TikTok từ một ảnh gốc.',
+            kichThuoc: [
+              { ten: 'Instagram Post', rong: 1080, cao: 1080 },
+              { ten: 'Instagram Story', rong: 1080, cao: 1920 },
+              { ten: 'Facebook Cover', rong: 851, cao: 315 },
+              { ten: 'YouTube Thumbnail', rong: 1280, cao: 720 },
+              { ten: 'TikTok Cover', rong: 1080, cao: 1920 }
+            ]
+          },
+          website: {
+            ten: 'Website Pack',
+            moTa: 'Phù hợp ảnh hero desktop, hero mobile, OG image và thumbnail.',
+            kichThuoc: [
+              { ten: 'Hero Desktop', rong: 1920, cao: 1080 },
+              { ten: 'Hero Mobile', rong: 1080, cao: 1350 },
+              { ten: 'OG Image', rong: 1200, cao: 630 },
+              { ten: 'Thumbnail', rong: 400, cao: 400 }
+            ]
+          },
+          ecommerce: {
+            ten: 'Ecommerce Pack',
+            moTa: 'Kích thước gợi ý cho Shopee, Lazada, Amazon và Etsy.',
+            kichThuoc: [
+              { ten: 'Shopee', rong: 1000, cao: 1000 },
+              { ten: 'Lazada', rong: 1200, cao: 1200 },
+              { ten: 'Amazon', rong: 1600, cao: 1600 },
+              { ten: 'Etsy', rong: 2000, cao: 2000 }
+            ]
+          },
+          tongHop: {
+            ten: 'Tổng hợp phổ biến',
+            moTa: '20 kích thước thông dụng cho banner, email, blog và in ấn.',
+            kichThuoc: [
+              { ten: 'Email Header', rong: 600, cao: 200 },
+              { ten: 'Email Banner', rong: 600, cao: 400 },
+              { ten: 'Blog Thumb', rong: 350, cao: 250 },
+              { ten: 'Blog Featured', rong: 800, cao: 450 },
+              { ten: 'Blog Wide', rong: 1200, cao: 400 },
+              { ten: 'Banner Small', rong: 728, cao: 90 },
+              { ten: 'Banner Medium', rong: 300, cao: 250 },
+              { ten: 'Banner Large', rong: 970, cao: 250 },
+              { ten: 'Banner Skyscraper', rong: 160, cao: 600 },
+              { ten: 'Pinterest Pin', rong: 1000, cao: 1500 },
+              { ten: 'Twitter Post', rong: 1024, cao: 512 },
+              { ten: 'Twitter Header', rong: 1500, cao: 500 },
+              { ten: 'LinkedIn Post', rong: 1200, cao: 627 },
+              { ten: 'LinkedIn Cover', rong: 1584, cao: 396 },
+              { ten: 'Zalo Cover', rong: 1080, cao: 480 },
+              { ten: 'Slide 16:9', rong: 1920, cao: 1080 },
+              { ten: 'Slide 4:3', rong: 1024, cao: 768 },
+              { ten: 'Print A4 300dpi', rong: 2480, cao: 3508 },
+              { ten: 'Print A5 300dpi', rong: 1748, cao: 2480 },
+              { ten: 'Print 4x6 300dpi', rong: 1200, cao: 1800 }
+            ]
+          }
+        }
+      };
+
+      const trangThai = {
+        loaiAnh: 'tuyBien',
+        packDangChon: 'fullLogo',
+        cheDoXuLy: 'fit',
+        dinhDangXuat: 'image/png',
+        chatLuong: 0.92,
+        danhSachTapTin: [],
+        ketQuaDaTao: [],
+        anhDangPreview: null,
+        chuoiTaiNguyen: [],
+        chiSoDaChon: new Set()
+      };
+
+      const phanTu = {
+        html: document.documentElement,
+        nutChuyenGiaoDien: document.querySelector('[data-theme-toggle]'),
+        nutCuonUpload: document.querySelector('[data-scroll-to-upload]'),
+        nutMoUpload: document.querySelector('[data-trigger-upload]'),
+        nutTaiZipHero: document.querySelector('[data-download-zip]'),
+        khuVucUpload: document.getElementById('dvntResizeImg-upload-area'),
+        dauVaoTapTin: document.getElementById('dvntResizeImg-file-input'),
+        luoiPack: document.getElementById('dvntResizeImg-pack-grid'),
+        danhSachChip: document.getElementById('dvntResizeImg-chip-list'),
+        nutChonTatCa: document.getElementById('dvntResizeImg-chon-tat-ca'),
+        nutBoChonTatCa: document.getElementById('dvntResizeImg-bo-chon-tat-ca'),
+        soLuongChip: document.getElementById('dvntResizeImg-chip-count'),
+        danhSachKetQua: document.getElementById('dvntResizeImg-results-list'),
+        khungPreviewRong: document.getElementById('dvntResizeImg-preview-empty'),
+        khungPreviewCoAnh: document.getElementById('dvntResizeImg-preview-wrap'),
+        canvasPreview: document.getElementById('dvntResizeImg-preview-canvas'),
+        tenPreview: document.getElementById('dvntResizeImg-preview-name'),
+        kichThuocPreview: document.getElementById('dvntResizeImg-preview-size'),
+        thanhTrangThai: document.getElementById('dvntResizeImg-status'),
+        chuTrangThai: document.getElementById('dvntResizeImg-status-text'),
+        nutTaoAnh: document.getElementById('dvntResizeImg-tao-anh'),
+        nutTaiZip: document.getElementById('dvntResizeImg-tai-zip'),
+        nutTaiTungTam: document.getElementById('dvntResizeImg-tai-tung-tam'),
+        tenTuyChiNh: document.getElementById('dvntResizeImg-ten-tuy-chinh'),
+        ghiDeRong: document.getElementById('dvntResizeImg-ghi-de-rong'),
+        ghiDeCao: document.getElementById('dvntResizeImg-ghi-de-cao'),
+        sectionPack: document.getElementById('dvntResizeImg-section-pack'),
+        sectionTuyBien: document.getElementById('dvntResizeImg-section-tuy-bien'),
+        sectionTyLe: document.getElementById('dvntResizeImg-section-ty-le'),
+        tuyBienRong: document.getElementById('dvntResizeImg-tuyBien-rong'),
+        tuyBienCao: document.getElementById('dvntResizeImg-tuyBien-cao'),
+        tuyBienSoLan: document.getElementById('dvntResizeImg-tuyBien-soLan'),
+        thanhChatLuong: document.getElementById('dvntResizeImg-chat-luong'),
+        giaTriChatLuong: document.getElementById('dvntResizeImg-chat-luong-value'),
+        cheDoXuLy: document.getElementById('dvntResizeImg-che-do'),
+        nhomFormat: document.getElementById('dvntResizeImg-format-group')
+      };
+
+      function khoiTaoGiaoDien() {
+        caiDatGiaoDienMacDinh();
+        ganSuKien();
+        capNhatHienThiSection(); // hiển thị đúng section theo loaiAnh mặc định
+        if (trangThai.loaiAnh !== 'tuyBien') {
+          renderPack();
+        }
+        renderKichThuoc();
+        capNhatGiaTriChatLuong();
+      }
+
+      function caiDatGiaoDienMacDinh() {
+        const giaoDienHeThong = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        phanTu.html.setAttribute('data-theme', giaoDienHeThong);
+        capNhatNutGiaoDien(giaoDienHeThong);
+      }
+
+      function ganSuKien() {
+        phanTu.nutChuyenGiaoDien?.addEventListener('click', xuLyChuyenGiaoDien);
+        phanTu.nutCuonUpload?.addEventListener('click', () => phanTu.khuVucUpload.scrollIntoView({ behavior: 'smooth', block: 'center' }));
+        phanTu.nutMoUpload?.addEventListener('click', () => phanTu.dauVaoTapTin.click());
+        phanTu.dauVaoTapTin.addEventListener('change', (suKien) => xuLyTapTin(suKien.target.files));
+        phanTu.khuVucUpload.addEventListener('dragover', (suKien) => {
+          suKien.preventDefault();
+          phanTu.khuVucUpload.classList.add('dvntResizeImg-upload--dragover');
+        });
+        phanTu.khuVucUpload.addEventListener('dragleave', () => {
+          phanTu.khuVucUpload.classList.remove('dvntResizeImg-upload--dragover');
+        });
+        phanTu.khuVucUpload.addEventListener('drop', (suKien) => {
+          suKien.preventDefault();
+          phanTu.khuVucUpload.classList.remove('dvntResizeImg-upload--dragover');
+          xuLyTapTin(suKien.dataTransfer.files);
+        });
+        document.querySelectorAll('[data-loai-anh]').forEach((nut) => {
+          nut.addEventListener('click', () => {
+            trangThai.loaiAnh = nut.dataset.loaiAnh;
+            if (trangThai.loaiAnh === 'logo') {
+              trangThai.packDangChon = 'fullLogo';
+            } else if (trangThai.loaiAnh === 'image') {
+              trangThai.packDangChon = 'social';
+            }
+            // Với 'tuyBien' không cần packDangChon vì dùng hàm taoKichThuocTuyBien()
+            document.querySelectorAll('[data-loai-anh]').forEach((nutKhac) => {
+              nutKhac.setAttribute('aria-pressed', String(nutKhac === nut));
+            });
+            if (trangThai.loaiAnh === 'logo') {
+              trangThai.dinhDangXuat = 'image/png';
+              const radioPng = document.querySelector('input[name="dinhDangXuat"][value="image/png"]');
+              if (radioPng) {
+                radioPng.checked = true;
+              }
+              capNhatLuaChonFormat();
+            }
+            capNhatHienThiSection();
+            // Chỉ gọi renderPack() khi KHÔNG phải chế độ tuỳ biến
+            // vì danhSachPreset['tuyBien'] không tồn tại → gây lỗi âm thầm
+            if (trangThai.loaiAnh !== 'tuyBien') {
+              renderPack();
+            }
+            renderKichThuoc();
+            const nhan = trangThai.loaiAnh === 'logo' ? 'logo' : trangThai.loaiAnh === 'image' ? 'ảnh thường' : 'tuỳ biến';
+            capNhatTrangThai(`Đã chuyển sang nhóm ${nhan}.`, 'success');
+          });
+        });
+        phanTu.tuyBienRong.addEventListener('input', () => renderKichThuoc());
+        phanTu.tuyBienCao.addEventListener('input', () => renderKichThuoc());
+        phanTu.tuyBienSoLan.addEventListener('input', () => renderKichThuoc());
+        phanTu.cheDoXuLy.addEventListener('change', () => {
+          trangThai.cheDoXuLy = phanTu.cheDoXuLy.value;
+          capNhatTrangThai(`Đã chọn chế độ ${layNhanCheDo(trangThai.cheDoXuLy)}.`, 'success');
+        });
+        phanTu.thanhChatLuong.addEventListener('input', () => {
+          trangThai.chatLuong = Number(phanTu.thanhChatLuong.value);
+          capNhatGiaTriChatLuong();
+        });
+        phanTu.nhomFormat.addEventListener('change', (suKien) => {
+          const mucTieu = suKien.target;
+          if (!mucTieu.matches('input[name="dinhDangXuat"]')) return;
+          trangThai.dinhDangXuat = mucTieu.value;
+          capNhatLuaChonFormat();
+        });
+        phanTu.ghiDeRong.addEventListener('input', () => renderKichThuoc());
+        phanTu.ghiDeCao.addEventListener('input', () => renderKichThuoc());
+        phanTu.nutChonTatCa.addEventListener('click', () => {
+          const danhSach = layDanhSachKichThuocDangChon();
+          trangThai.chiSoDaChon = new Set(danhSach.map((_, i) => i));
+          renderKichThuoc(true);
+        });
+        phanTu.nutBoChonTatCa.addEventListener('click', () => {
+          trangThai.chiSoDaChon.clear();
+          renderKichThuoc(true);
+        });
+        phanTu.nutTaoAnh.addEventListener('click', taoTatCaKichThuoc);
+        phanTu.nutTaiZip.addEventListener('click', taiTatCaZip);
+        phanTu.nutTaiZipHero.addEventListener('click', taiTatCaZip);
+        phanTu.nutTaiTungTam.addEventListener('click', taiTungTam);
+      }
+
+      function xuLyChuyenGiaoDien() {
+        const giaoDienMoi = phanTu.html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        phanTu.html.setAttribute('data-theme', giaoDienMoi);
+        capNhatNutGiaoDien(giaoDienMoi);
+      }
+
+      function capNhatNutGiaoDien(giaoDien) {
+        if (!phanTu.nutChuyenGiaoDien) return;
+        phanTu.nutChuyenGiaoDien.innerHTML = giaoDien === 'dark'
+          ? '<span aria-hidden="true">☀️</span><span>Giao diện</span>'
+          : '<span aria-hidden="true">🌙</span><span>Giao diện</span>';
+        phanTu.nutChuyenGiaoDien.setAttribute('aria-label', giaoDien === 'dark' ? 'Chuyển sang giao diện sáng' : 'Chuyển sang giao diện tối');
+      }
+
+      function renderPack() {
+        const danhSachPack = danhSachPreset[trangThai.loaiAnh];
+        phanTu.luoiPack.innerHTML = '';
+        Object.entries(danhSachPack).forEach(([maPack, pack]) => {
+          const label = document.createElement('label');
+          label.className = `dvntResizeImg-pack-option${trangThai.packDangChon === maPack ? ' dvntResizeImg-pack-option--active' : ''}`;
+          label.innerHTML = `
+            <input class="dvntResizeImg-pack-option__input" type="radio" name="packKichThuoc" value="${maPack}" ${trangThai.packDangChon === maPack ? 'checked' : ''}>
+            <span class="dvntResizeImg-pack-option__title">${pack.ten}</span>
+            <span class="dvntResizeImg-pack-option__description">${pack.moTa}</span>
+          `;
+          const dauVao = label.querySelector('input');
+          dauVao.addEventListener('change', () => {
+            trangThai.packDangChon = maPack;
+            renderPack();
+            renderKichThuoc();
+            capNhatTrangThai(`Đã chọn ${pack.ten}.`, 'success');
+          });
+          phanTu.luoiPack.appendChild(label);
+        });
+      }
+
+      function renderKichThuoc(giuLuaChon = false) {
+        const danhSachKichThuoc = layDanhSachKichThuocDangChon();
+        const coGhiDe = parseInt(phanTu.ghiDeRong.value, 10) || parseInt(phanTu.ghiDeCao.value, 10);
+        if (!giuLuaChon) {
+          trangThai.chiSoDaChon = new Set(danhSachKichThuoc.map((_, i) => i));
+        }
+        phanTu.danhSachChip.innerHTML = '';
+        danhSachKichThuoc.forEach((kichThuoc, chiSo) => {
+          const daChon = trangThai.chiSoDaChon.has(chiSo);
+          const span = document.createElement('span');
+          let lop = 'dvntResizeImg-chip';
+          if (daChon) lop += ' dvntResizeImg-chip--selected';
+          if (coGhiDe) lop += ' dvntResizeImg-chip--custom';
+          span.className = lop;
+          span.textContent = `${kichThuoc.ten} \u00b7 ${kichThuoc.rong}x${kichThuoc.cao}`;
+          span.addEventListener('click', () => {
+            if (trangThai.chiSoDaChon.has(chiSo)) {
+              trangThai.chiSoDaChon.delete(chiSo);
+            } else {
+              trangThai.chiSoDaChon.add(chiSo);
+            }
+            renderKichThuoc(true);
+          });
+          phanTu.danhSachChip.appendChild(span);
+        });
+        const tong = danhSachKichThuoc.length;
+        const daChon = trangThai.chiSoDaChon.size;
+        phanTu.soLuongChip.textContent = `${daChon}/${tong} \u0111\u00e3 ch\u1ecdn`;
+      }
+
+      function capNhatGiaTriChatLuong() {
+        phanTu.giaTriChatLuong.textContent = `${Math.round(Number(phanTu.thanhChatLuong.value) * 100)}%`;
+      }
+
+      function capNhatLuaChonFormat() {
+        document.querySelectorAll('.dvntResizeImg-format-option').forEach((muc) => {
+          const dauVao = muc.querySelector('input');
+          muc.classList.toggle('dvntResizeImg-format-option--active', dauVao.checked);
+        });
+      }
+
+      async function xuLyTapTin(danhSachTapTinTaiLen) {
+        const mangTapTin = Array.from(danhSachTapTinTaiLen || []).filter((tapTin) => tapTin.type.startsWith('image/') || tapTin.name.toLowerCase().endsWith('.svg'));
+        if (!mangTapTin.length) {
+          capNhatTrangThai('Không tìm thấy ảnh hợp lệ. Hãy chọn PNG, JPG, WebP hoặc SVG.', 'error');
+          return;
+        }
+
+        capNhatTrangThai('Đang đọc ảnh và chuẩn bị preview...', 'warning');
+        xoaKetQuaCu();
+        const danhSachDaDoc = [];
+
+        for (const tapTin of mangTapTin) {
+          try {
+            const duLieuAnh = await docTapTinThanhAnh(tapTin);
+            danhSachDaDoc.push({
+              tapTin,
+              tenGoc: tapTin.name.replace(/\.[^.]+$/, ''),
+              duLieuAnh
+            });
+          } catch (loi) {
+            console.error(loi);
+          }
+        }
+
+        if (!danhSachDaDoc.length) {
+          capNhatTrangThai('Không thể đọc các ảnh đã chọn.', 'error');
+          return;
+        }
+
+        trangThai.danhSachTapTin = danhSachDaDoc;
+        phanTu.nutTaoAnh.disabled = false;
+        capNhatNutTaiXuong();
+        vePreviewAnhGoc(danhSachDaDoc[0]);
+        capNhatTrangThai(`Đã tải ${danhSachDaDoc.length} ảnh. Sẵn sàng tạo kích thước mới.`, 'success');
+      }
+
+      function docTapTinThanhAnh(tapTin) {
+        return new Promise((resolve, reject) => {
+          const urlTam = URL.createObjectURL(tapTin);
+          const doiTuongAnh = new Image();
+          doiTuongAnh.onload = () => {
+            resolve({
+              anh: doiTuongAnh,
+              urlTam,
+              rong: doiTuongAnh.naturalWidth || 0,
+              cao: doiTuongAnh.naturalHeight || 0
+            });
+          };
+          doiTuongAnh.onerror = () => {
+            URL.revokeObjectURL(urlTam);
+            reject(new Error(`Không thể tải ảnh ${tapTin.name}`));
+          };
+          doiTuongAnh.src = urlTam;
+        });
+      }
+
+      function vePreviewAnhGoc(mucAnh) {
+        if (!mucAnh) return;
+        hienPreviewCanvas();
+        veCanvasTheoTyLe(phanTu.canvasPreview, mucAnh.duLieuAnh.anh, mucAnh.duLieuAnh.rong, mucAnh.duLieuAnh.cao, 'fit');
+        phanTu.tenPreview.textContent = mucAnh.tapTin.name;
+        phanTu.kichThuocPreview.textContent = `${mucAnh.duLieuAnh.rong} x ${mucAnh.duLieuAnh.cao}`;
+      }
+
+      function hienPreviewCanvas() {
+        phanTu.khungPreviewRong.style.display = 'none';
+        phanTu.khungPreviewCoAnh.classList.add('dvntResizeImg-preview__canvas-wrap--active');
+      }
+
+      function layDanhSachKichThuocDangChon() {
+        if (trangThai.loaiAnh === 'tuyBien') {
+          return taoKichThuocTuyBien();
+        }
+        const pack = danhSachPreset[trangThai.loaiAnh][trangThai.packDangChon];
+        if (!pack || !pack.kichThuoc.length) return [];
+        const rongCoSo = parseInt(phanTu.ghiDeRong.value, 10);
+        const caoCoSo = parseInt(phanTu.ghiDeCao.value, 10);
+        if (!rongCoSo && !caoCoSo) return pack.kichThuoc;
+        const kichThuocDauTien = pack.kichThuoc[0];
+        const rongGoc = kichThuocDauTien.rong;
+        const caoGoc = kichThuocDauTien.cao;
+        return pack.kichThuoc.map((kt) => {
+          const heSoRong = kt.rong / rongGoc;
+          const heSoCao = kt.cao / caoGoc;
+          return {
+            ten: kt.ten,
+            rong: rongCoSo ? Math.round((rongCoSo) * heSoRong) : kt.rong,
+            cao: caoCoSo ? Math.round((caoCoSo) * heSoCao) : kt.cao
+          };
+        });
+      }
+
+      function taoKichThuocTuyBien() {
+        const rongGoc = parseInt(phanTu.tuyBienRong.value, 10) || 2;
+        const caoGoc = parseInt(phanTu.tuyBienCao.value, 10) || 4;
+        const soLanMoiChieu = Math.min(Math.max(parseInt(phanTu.tuyBienSoLan.value, 10) || 20, 1), 20);
+        const gioiHanMax = 10000;
+        const gioiHanMin = 1;
+
+        const danhSachNho = []; // nhỏ hơn base (÷2, ÷4, ÷8...)
+        const danhSachLon = []; // base + lớn hơn (x1, x2, x4...)
+
+        // Sinh kích thước nhỏ hơn: chia đôi liên tục (từ lớn → nhỏ rồi reverse)
+        for (let i = 1; i <= soLanMoiChieu; i++) {
+          const heSo = Math.pow(2, i);
+          const r = Math.round(rongGoc / heSo);
+          const c = Math.round(caoGoc / heSo);
+          if (r < gioiHanMin || c < gioiHanMin) break;
+          danhSachNho.unshift({ ten: `÷${heSo}`, rong: r, cao: c });
+        }
+
+        // Base (x1)
+        danhSachLon.push({ ten: 'x1', rong: rongGoc, cao: caoGoc });
+
+        // Sinh kích thước lớn hơn: nhân đôi liên tục
+        for (let i = 1; i <= soLanMoiChieu; i++) {
+          const heSo = Math.pow(2, i);
+          const r = rongGoc * heSo;
+          const c = caoGoc * heSo;
+          if (r > gioiHanMax || c > gioiHanMax) break;
+          danhSachLon.push({ ten: `x${heSo}`, rong: r, cao: c });
+        }
+
+        return [...danhSachNho, ...danhSachLon];
+      }
+
+      function capNhatHienThiSection() {
+        const laTuyBien = trangThai.loaiAnh === 'tuyBien';
+        phanTu.sectionPack.style.display = laTuyBien ? 'none' : '';
+        phanTu.sectionTuyBien.style.display = laTuyBien ? '' : 'none';
+        if (phanTu.sectionTyLe) {
+          phanTu.sectionTyLe.style.display = laTuyBien ? 'none' : '';
+        }
+      }
+
+      function layNhanCheDo(cheDo) {
+        if (cheDo === 'fit') return 'Fit';
+        if (cheDo === 'padding') return 'Padding';
+        return 'Smart Crop';
+      }
+
+      function layPhanMoRongTheoMime(mime) {
+        if (mime === 'image/png') return 'png';
+        if (mime === 'image/webp') return 'webp';
+        return 'jpg';
+      }
+
+      async function taoTatCaKichThuoc() {
+        if (!trangThai.danhSachTapTin.length) {
+          capNhatTrangThai('Bạn cần tải ít nhất một ảnh trước khi xử lý.', 'error');
+          return;
+        }
+
+        xoaKetQuaCu();
+        phanTu.nutTaoAnh.disabled = true;
+        capNhatTrangThai('Đang tạo các kích thước ảnh, vui lòng chờ...', 'warning');
+
+        const tatCaKichThuoc = layDanhSachKichThuocDangChon();
+        const danhSachKichThuoc = tatCaKichThuoc.filter((_, i) => trangThai.chiSoDaChon.has(i));
+        if (!danhSachKichThuoc.length) {
+          capNhatTrangThai('B\u1ea1n ch\u01b0a ch\u1ecdn k\u00edch th\u01b0\u1edbc n\u00e0o. H\u00e3y b\u1ea5m v\u00e0o c\u00e1c chip \u0111\u1ec3 ch\u1ecdn.', 'error');
+          phanTu.nutTaoAnh.disabled = false;
+          return;
+        }
+        const ketQuaMoi = [];
+        const mimeXuat = trangThai.dinhDangXuat;
+        const phanMoRong = layPhanMoRongTheoMime(mimeXuat);
+
+        try {
+          for (const mucAnh of trangThai.danhSachTapTin) {
+            for (const kichThuoc of danhSachKichThuoc) {
+              const blob = await taoBlobResize(mucAnh.duLieuAnh.anh, kichThuoc.rong, kichThuoc.cao, trangThai.cheDoXuLy, mimeXuat, trangThai.chatLuong, trangThai.loaiAnh === 'logo');
+              const tenTuyChinhNhap = (phanTu.tenTuyChiNh.value || '').trim();
+              const tenGocSuDung = tenTuyChinhNhap || mucAnh.tenGoc;
+              const tenTapTin = `${tenGocSuDung}-${kichThuoc.rong}x${kichThuoc.cao}.${phanMoRong}`;
+              const urlXemTruoc = URL.createObjectURL(blob);
+              trangThai.chuoiTaiNguyen.push(urlXemTruoc);
+              ketQuaMoi.push({
+                tenTapTin,
+                kichThuoc,
+                blob,
+                urlXemTruoc,
+                tenAnhGoc: mucAnh.tapTin.name
+              });
+            }
+          }
+
+          trangThai.ketQuaDaTao = ketQuaMoi;
+          renderKetQua();
+          if (ketQuaMoi[0]) {
+            await vePreviewTuBlob(ketQuaMoi[0]);
+          }
+          capNhatNutTaiXuong();
+          capNhatTrangThai(`Đã tạo ${ketQuaMoi.length} ảnh đầu ra thành công.`, 'success');
+        } catch (loi) {
+          console.error(loi);
+          capNhatTrangThai('Đã xảy ra lỗi khi tạo ảnh. Hãy thử lại với ảnh khác hoặc giảm số lượng ảnh.', 'error');
+        } finally {
+          phanTu.nutTaoAnh.disabled = false;
+        }
+      }
+
+      function taoBlobResize(doiTuongAnh, rongDich, caoDich, cheDo, mimeXuat, chatLuong, laLogo) {
+        return new Promise((resolve, reject) => {
+          const canvasTam = document.createElement('canvas');
+          const nguCanh = window.devicePixelRatio > 1 ? 2 : 1;
+          canvasTam.width = rongDich * nguCanh;
+          canvasTam.height = caoDich * nguCanh;
+          const boVe = canvasTam.getContext('2d', { alpha: true });
+          if (!boVe) {
+            reject(new Error('Không khởi tạo được canvas.'));
+            return;
+          }
+
+          boVe.scale(nguCanh, nguCanh);
+          boVe.imageSmoothingEnabled = true;
+          boVe.imageSmoothingQuality = 'high';
+
+          const laDinhDangTrongSuat = mimeXuat === 'image/png' || mimeXuat === 'image/webp';
+          if (!(laLogo && laDinhDangTrongSuat) && mimeXuat !== 'image/png' && mimeXuat !== 'image/webp') {
+            boVe.fillStyle = '#ffffff';
+            boVe.fillRect(0, 0, rongDich, caoDich);
+          }
+          if (cheDo === 'padding' && !(laLogo && laDinhDangTrongSuat)) {
+            boVe.fillStyle = '#ffffff';
+            boVe.fillRect(0, 0, rongDich, caoDich);
+          }
+
+          veCanvasTheoTyLe(canvasTam, doiTuongAnh, rongDich, caoDich, cheDo, true);
+          canvasTam.toBlob((blob) => {
+            if (blob) resolve(blob);
+            else reject(new Error('Không thể xuất blob từ canvas.'));
+          }, mimeXuat, chatLuong);
+        });
+      }
+
+      function veCanvasTheoTyLe(canvas, doiTuongAnh, rongDich, caoDich, cheDo, boQuaXoa = false) {
+        const boVe = canvas.getContext('2d', { alpha: true });
+        if (!boVe) return;
+
+        const tyLeAnh = doiTuongAnh.naturalWidth / doiTuongAnh.naturalHeight;
+        const tyLeKhung = rongDich / caoDich;
+        let rongVe = rongDich;
+        let caoVe = caoDich;
+        let x = 0;
+        let y = 0;
+
+        if (!boQuaXoa) {
+          boVe.clearRect(0, 0, canvas.width, canvas.height);
+          const heSoRong = canvas.width / rongDich;
+          const heSoCao = canvas.height / caoDich;
+          boVe.save();
+          boVe.scale(heSoRong, heSoCao);
+          xuLyVe(boVe);
+          boVe.restore();
+          return;
+        }
+
+        xuLyVe(boVe);
+
+        function xuLyVe(nguCanhVe) {
+          if (cheDo === 'fit' || cheDo === 'padding') {
+            if (tyLeAnh > tyLeKhung) {
+              rongVe = rongDich;
+              caoVe = rongDich / tyLeAnh;
+              x = 0;
+              y = (caoDich - caoVe) / 2;
+            } else {
+              caoVe = caoDich;
+              rongVe = caoDich * tyLeAnh;
+              x = (rongDich - rongVe) / 2;
+              y = 0;
+            }
+            nguCanhVe.drawImage(doiTuongAnh, x, y, rongVe, caoVe);
+            return;
+          }
+
+          if (tyLeAnh > tyLeKhung) {
+            caoVe = caoDich;
+            rongVe = caoDich * tyLeAnh;
+            x = (rongDich - rongVe) / 2;
+            y = 0;
+          } else {
+            rongVe = rongDich;
+            caoVe = rongDich / tyLeAnh;
+            x = 0;
+            y = (caoDich - caoVe) / 2;
+          }
+          nguCanhVe.drawImage(doiTuongAnh, x, y, rongVe, caoVe);
+        }
+      }
+
+      async function vePreviewTuBlob(mucKetQua) {
+        const doiTuongAnh = await docBlobThanhAnh(mucKetQua.blob);
+        hienPreviewCanvas();
+        const canvas = phanTu.canvasPreview;
+        const boVe = canvas.getContext('2d');
+        boVe.clearRect(0, 0, canvas.width, canvas.height);
+        veCanvasTheoTyLe(canvas, doiTuongAnh, canvas.width, canvas.height, 'fit');
+        phanTu.tenPreview.textContent = mucKetQua.tenTapTin;
+        phanTu.kichThuocPreview.textContent = `${mucKetQua.kichThuoc.rong} x ${mucKetQua.kichThuoc.cao}`;
+      }
+
+      function docBlobThanhAnh(blob) {
+        return new Promise((resolve, reject) => {
+          const urlTam = URL.createObjectURL(blob);
+          const doiTuongAnh = new Image();
+          doiTuongAnh.onload = () => {
+            URL.revokeObjectURL(urlTam);
+            resolve(doiTuongAnh);
+          };
+          doiTuongAnh.onerror = () => {
+            URL.revokeObjectURL(urlTam);
+            reject(new Error('Không thể tạo preview từ blob.'));
+          };
+          doiTuongAnh.src = urlTam;
+        });
+      }
+
+      function renderKetQua() {
+        if (!trangThai.ketQuaDaTao.length) {
+          phanTu.danhSachKetQua.innerHTML = '<div class="dvntResizeImg-note">Chưa có kết quả. Hãy tải ảnh lên và nhấn “Tạo toàn bộ kích thước”.</div>';
+          return;
+        }
+
+        phanTu.danhSachKetQua.innerHTML = '';
+        trangThai.ketQuaDaTao.forEach((mucKetQua, chiSo) => {
+          const baiKetQua = document.createElement('article');
+          baiKetQua.className = 'dvntResizeImg-result-item';
+          baiKetQua.innerHTML = `
+            <div class="dvntResizeImg-result-item__thumb">
+              <img src="${mucKetQua.urlXemTruoc}" alt="${mucKetQua.tenTapTin}" loading="lazy" width="76" height="76">
+            </div>
+            <div class="dvntResizeImg-result-item__info">
+              <h3 class="dvntResizeImg-result-item__title">${mucKetQua.tenTapTin}</h3>
+              <p class="dvntResizeImg-result-item__meta">${mucKetQua.tenAnhGoc} · ${mucKetQua.kichThuoc.rong}x${mucKetQua.kichThuoc.cao}</p>
+            </div>
+            <div class="dvntResizeImg-result-item__actions">
+              <button class="dvntResizeImg-button dvntResizeImg-button--ghost" type="button" data-xem-preview="${chiSo}">Xem</button>
+              <button class="dvntResizeImg-button dvntResizeImg-button--secondary" type="button" data-tai-mot="${chiSo}">Tải</button>
+            </div>
+          `;
+          baiKetQua.querySelector('[data-xem-preview]').addEventListener('click', () => vePreviewTuBlob(mucKetQua));
+          baiKetQua.querySelector('[data-tai-mot]').addEventListener('click', () => taiMotAnh(mucKetQua));
+          phanTu.danhSachKetQua.appendChild(baiKetQua);
+        });
+      }
+
+      function taiMotAnh(mucKetQua) {
+        taiBlob(mucKetQua.blob, mucKetQua.tenTapTin);
+      }
+
+      async function taiTatCaZip() {
+        if (!trangThai.ketQuaDaTao.length) {
+          capNhatTrangThai('Chưa có ảnh nào để tải ZIP.', 'error');
+          return;
+        }
+        if (typeof JSZip === 'undefined') {
+          capNhatTrangThai('Không tải được thư viện ZIP. Hãy kiểm tra kết nối mạng rồi thử lại.', 'error');
+          return;
+        }
+
+        capNhatTrangThai('Đang nén ảnh thành file ZIP...', 'warning');
+        const zip = new JSZip();
+        const thuMuc = zip.folder('dvntResizeImg-output');
+        trangThai.ketQuaDaTao.forEach((mucKetQua) => {
+          thuMuc.file(mucKetQua.tenTapTin, mucKetQua.blob);
+        });
+        const blobZip = await zip.generateAsync({ type: 'blob' });
+        taiBlob(blobZip, `dvntResizeImg-${trangThai.packDangChon}.zip`);
+        capNhatTrangThai('Đã nén và tải ZIP thành công.', 'success');
+      }
+
+      function taiBlob(blob, tenTapTin) {
+        const urlTam = URL.createObjectURL(blob);
+        const theA = document.createElement('a');
+        theA.href = urlTam;
+        theA.download = tenTapTin;
+        document.body.appendChild(theA);
+        theA.click();
+        theA.remove();
+        setTimeout(() => URL.revokeObjectURL(urlTam), 1000);
+      }
+
+      function capNhatTrangThai(noiDung, loai) {
+        phanTu.chuTrangThai.textContent = noiDung;
+        phanTu.thanhTrangThai.classList.remove('dvntResizeImg-status--success', 'dvntResizeImg-status--error');
+        if (loai === 'success') {
+          phanTu.thanhTrangThai.classList.add('dvntResizeImg-status--success');
+        }
+        if (loai === 'error') {
+          phanTu.thanhTrangThai.classList.add('dvntResizeImg-status--error');
+        }
+      }
+
+      function capNhatNutTaiXuong() {
+        const coKetQua = trangThai.ketQuaDaTao.length > 0;
+        phanTu.nutTaiZip.disabled = !coKetQua;
+        phanTu.nutTaiTungTam.disabled = !coKetQua;
+        phanTu.nutTaiZipHero.disabled = !coKetQua;
+      }
+
+      async function taiTungTam() {
+        if (!trangThai.ketQuaDaTao.length) {
+          capNhatTrangThai('Chưa có ảnh nào để tải.', 'error');
+          return;
+        }
+        capNhatTrangThai(`Đang tải ${trangThai.ketQuaDaTao.length} ảnh từng tấm...`, 'warning');
+        phanTu.nutTaiTungTam.disabled = true;
+        for (let i = 0; i < trangThai.ketQuaDaTao.length; i++) {
+          const mucKetQua = trangThai.ketQuaDaTao[i];
+          taiBlob(mucKetQua.blob, mucKetQua.tenTapTin);
+          if (i < trangThai.ketQuaDaTao.length - 1) {
+            await new Promise((resolve) => setTimeout(resolve, 350));
+          }
+        }
+        phanTu.nutTaiTungTam.disabled = false;
+        capNhatTrangThai(`Đã tải xong ${trangThai.ketQuaDaTao.length} ảnh từng tấm.`, 'success');
+      }
+
+      function xoaKetQuaCu() {
+        trangThai.ketQuaDaTao = [];
+        renderKetQua();
+        capNhatNutTaiXuong();
+        trangThai.chuoiTaiNguyen.forEach((url) => URL.revokeObjectURL(url));
+        trangThai.chuoiTaiNguyen = [];
+      }
+
+      window.addEventListener('beforeunload', () => {
+        trangThai.chuoiTaiNguyen.forEach((url) => URL.revokeObjectURL(url));
+        trangThai.danhSachTapTin.forEach((mucAnh) => {
+          if (mucAnh?.duLieuAnh?.urlTam) URL.revokeObjectURL(mucAnh.duLieuAnh.urlTam);
+        });
+      });
+
+      khoiTaoGiaoDien();
+      capNhatLuaChonFormat();
+    })();
+  </script>
+</body>
+</html>
