@@ -185,7 +185,7 @@
     .dvntResizeImg-skip-link:focus { top: var(--space-4); }
 
     .dvntResizeImg-header {
-      position: sticky;
+     
       top: 0;
       z-index: 30;
       display: flex;
@@ -879,6 +879,19 @@
   </style>
 </head>
 <body>
+  <!-- HEADER -->
+    <header class="doitenhinhanhsticky__header" id="doitenhinhanhsticky__header">
+        <!-- render header -->
+    </header>
+    <!-- Đoạn scrip render header -->
+    <script>
+        fetch('./templates/header.html')
+            .then(response => response.text())
+            .then(data => {
+                document.querySelector("#doitenhinhanhsticky__header").innerHTML = data;
+            })
+            .catch(error => console.error('Lỗi:', error));
+    </script>
   <a class="dvntResizeImg-skip-link" href="#dvntResizeImg-main-content">Bỏ qua đến nội dung chính</a>
 
   <div class="dvntResizeImg-page">
@@ -1185,9 +1198,16 @@
       </aside>
     </main>
 
-    <footer class="dvntResizeImg-footer">
-      dvntResizeImg · Công cụ resize ảnh online chuẩn SEO, responsive và tối ưu cho logo, website, social media, ecommerce.
-    </footer>
+    <!-- FOOTER -->
+    <footer class="dvnt-footer" id="dvnt-footer"></footer>
+        <script>
+        fetch('./templates/footer.html')
+            .then(response => response.text())
+            .then(data => {
+                document.querySelector("#dvnt-footer").innerHTML = data;
+            })
+            .catch(error => console.error('Lỗi:', error));
+    </script>
   </div>
 
   <script>
