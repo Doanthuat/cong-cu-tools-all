@@ -548,7 +548,7 @@
       box-shadow: var(--shadow-sm);
     }
     .dvntResizeImg-format-group {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(4, minmax(0, 1fr));
     }
     .dvntResizeImg-format-option,
     .dvntResizeImg-pack-option {
@@ -946,7 +946,7 @@
           </li>
           <li class="dvntResizeImg-hero__list-item">
             <span class="dvntResizeImg-hero__list-label">Định dạng xuất</span>
-            <span class="dvntResizeImg-hero__list-value">PNG · JPG · WebP</span>
+            <span class="dvntResizeImg-hero__list-value">PNG · JPG · WebP · SVG</span>
           </li>
           <li class="dvntResizeImg-hero__list-item">
             <span class="dvntResizeImg-hero__list-label">Kịch bản sử dụng</span>
@@ -1082,7 +1082,7 @@
           <div class="dvntResizeImg-panel__header">
             <div>
               <h2 class="dvntResizeImg-panel__title">5. Chọn định dạng xuất</h2>
-              <p class="dvntResizeImg-panel__description">PNG phù hợp logo, JPG nhẹ cho ảnh thường, WebP tối ưu dung lượng web.</p>
+              <p class="dvntResizeImg-panel__description">PNG phù hợp logo, JPG nhẹ cho ảnh thường, WebP tối ưu dung lượng web, SVG cho vector scale không vỡ.</p>
             </div>
           </div>
           <div class="dvntResizeImg-format-group" id="dvntResizeImg-format-group">
@@ -1100,6 +1100,11 @@
               <input class="dvntResizeImg-format-option__input" type="radio" name="dinhDangXuat" value="image/webp">
               <span class="dvntResizeImg-format-option__title">WebP</span>
               <span class="dvntResizeImg-format-option__description">Tối ưu tải web, chất lượng tốt hơn.</span>
+            </label>
+            <label class="dvntResizeImg-format-option">
+              <input class="dvntResizeImg-format-option__input" type="radio" name="dinhDangXuat" value="image/svg+xml">
+              <span class="dvntResizeImg-format-option__title">SVG</span>
+              <span class="dvntResizeImg-format-option__description">Vector scale tự do, nét ở mọi kích thước.</span>
             </label>
           </div>
         </div>
@@ -1741,6 +1746,7 @@
       function layPhanMoRongTheoMime(mime) {
         if (mime === 'image/png') return 'png';
         if (mime === 'image/webp') return 'webp';
+        if (mime === 'image/svg+xml') return 'svg';
         return 'jpg';
       }
 
@@ -1815,8 +1821,8 @@
           boVe.imageSmoothingEnabled = true;
           boVe.imageSmoothingQuality = 'high';
 
-          const laDinhDangTrongSuat = mimeXuat === 'image/png' || mimeXuat === 'image/webp';
-          if (!(laLogo && laDinhDangTrongSuat) && mimeXuat !== 'image/png' && mimeXuat !== 'image/webp') {
+          const laDinhDangTrongSuat = mimeXuat === 'image/png' || mimeXuat === 'image/webp' || mimeXuat === 'image/svg+xml';
+          if (!(laLogo && laDinhDangTrongSuat) && mimeXuat !== 'image/png' && mimeXuat !== 'image/webp' && mimeXuat !== 'image/svg+xml') {
             boVe.fillStyle = '#ffffff';
             boVe.fillRect(0, 0, rongDich, caoDich);
           }
@@ -1826,6 +1832,22 @@
           }
 
           veCanvasTheoTyLe(canvasTam, doiTuongAnh, rongDich, caoDich, cheDo, true);
+
+          // SVG export: wrap the canvas content as a PNG data URL inside an SVG <image>
+          if (mimeXuat === 'image/svg+xml') {
+            const pngDataUrl = canvasTam.toDataURL('image/png', chatLuong);
+            const noiDungSvg = [
+              `<?xml version="1.0" encoding="UTF-8"?>`,
+              `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"`,
+              `  width="${rongDich}" height="${caoDich}" viewBox="0 0 ${rongDich} ${caoDich}">`,
+              `  <image width="${rongDich}" height="${caoDich}" href="${pngDataUrl}" />`,
+              `</svg>`
+            ].join('\n');
+            const blobSvg = new Blob([noiDungSvg], { type: 'image/svg+xml;charset=utf-8' });
+            resolve(blobSvg);
+            return;
+          }
+
           canvasTam.toBlob((blob) => {
             if (blob) resolve(blob);
             else reject(new Error('Không thể xuất blob từ canvas.'));
