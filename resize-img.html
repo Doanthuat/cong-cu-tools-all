@@ -144,9 +144,7 @@
       line-height: 1.6;
       color: var(--color-text);
       background:
-        radial-gradient(circle at top left, color-mix(in oklab, var(--color-primary) 9%, transparent), transparent 34%),
-        radial-gradient(circle at right top, color-mix(in oklab, var(--color-primary) 5%, transparent), transparent 28%),
-        var(--color-bg);
+        linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
     }
     img, svg, canvas { display: block; max-width: 100%; height: auto; }
     button, input, select { font: inherit; color: inherit; }
@@ -877,6 +875,13 @@
         transition-duration: 0.01ms !important;
         scroll-behavior: auto !important;
       }
+    }
+    /* mÀU */
+    .dvntResizeImg-card,
+    .dvntResizeImg-hero__stats,
+    .dvntResizeImg-hero__content,
+    .dvntResizeImg-header{
+          background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
     }
   </style>
 </head>
