@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="vi" data-theme="light">
 <head>
@@ -641,6 +642,7 @@
       gap: var(--space-2);
     }
     .dvntResizeImg-field__label {
+      
       font-size: var(--text-sm);
       font-weight: 700;
     }
@@ -1194,6 +1196,12 @@
               <input class="dvntResizeImg-field__control" id="dvntResizeImg-tuyBien-soLan" type="number" min="1" max="20" value="20" autocomplete="off">
             </div>
           </div>
+
+          <div class="dvntResizeImg-field" style="margin-top: var(--space-4);">
+            <label class="dvntResizeImg-field__label" for="dvntResizeImg-tuyBien-danhSach">Hoặc nhập danh sách kích thước (mỗi dòng 1 kích thước)</label>
+            <textarea class="dvntResizeImg-field__control" id="dvntResizeImg-tuyBien-danhSach" rows="5" placeholder="VD:&#10;800x800&#10;1200x628&#10;Facebook Cover: 1640x924" autocomplete="off" spellcheck="false" style="resize: vertical;"></textarea>
+            <span style="color: burlywood;" class="dvntResizeImg-field__label" id="dvntResizeImg-tuyBien-danhSach-hint">Để trống để dùng chế độ ×2 lên & ÷2 xuống.</span>
+          </div>
         </div>
 
         <div class="dvntResizeImg-panel__section">
@@ -1556,6 +1564,8 @@
         tuyBienRong: document.getElementById('dvntResizeImg-tuyBien-rong'),
         tuyBienCao: document.getElementById('dvntResizeImg-tuyBien-cao'),
         tuyBienSoLan: document.getElementById('dvntResizeImg-tuyBien-soLan'),
+        tuyBienDanhSach: document.getElementById('dvntResizeImg-tuyBien-danhSach'),
+        tuyBienDanhSachHint: document.getElementById('dvntResizeImg-tuyBien-danhSach-hint'),
         thanhChatLuong: document.getElementById('dvntResizeImg-chat-luong'),
         giaTriChatLuong: document.getElementById('dvntResizeImg-chat-luong-value'),
         cheDoXuLy: document.getElementById('dvntResizeImg-che-do'),
@@ -1565,6 +1575,7 @@
       function khoiTaoGiaoDien() {
         caiDatGiaoDienMacDinh();
         ganSuKien();
+        capNhatGoiYDanhSachThuCong();
         capNhatHienThiSection(); // hiển thị đúng section theo loaiAnh mặc định
         if (trangThai.loaiAnh !== 'tuyBien') {
           renderPack();
@@ -1630,6 +1641,10 @@
         phanTu.tuyBienRong.addEventListener('input', () => renderKichThuoc());
         phanTu.tuyBienCao.addEventListener('input', () => renderKichThuoc());
         phanTu.tuyBienSoLan.addEventListener('input', () => renderKichThuoc());
+        phanTu.tuyBienDanhSach?.addEventListener('input', () => {
+          capNhatGoiYDanhSachThuCong();
+          renderKichThuoc();
+        });
         phanTu.cheDoXuLy.addEventListener('change', () => {
           trangThai.cheDoXuLy = phanTu.cheDoXuLy.value;
           capNhatTrangThai(`Đã chọn chế độ ${layNhanCheDo(trangThai.cheDoXuLy)}.`, 'success');
@@ -1738,6 +1753,50 @@
         });
       }
 
+      function phanTichDanhSachKichThuocThuCong(rawText) {
+        const vanBan = String(rawText || '').replace(/\u00d7/g, 'x');
+        const cacDong = vanBan.split(/\r?\n/).map((s) => s.trim()).filter(Boolean);
+        const danhSach = [];
+        const daCo = new Set();
+
+        for (const dong of cacDong) {
+          const cacMuc = dong.split(/[;,]+/).map((s) => s.trim()).filter(Boolean);
+          for (const muc of cacMuc) {
+            const match = muc.match(/(\d{1,5})\s*(?:x|\*|,|\s)\s*(\d{1,5})/i);
+            if (!match) continue;
+            const rong = Number(match[1]);
+            const cao = Number(match[2]);
+            if (!Number.isFinite(rong) || !Number.isFinite(cao)) continue;
+            if (rong < 1 || cao < 1 || rong > 10000 || cao > 10000) continue;
+
+            const key = `${rong}x${cao}`;
+            if (daCo.has(key)) continue;
+            daCo.add(key);
+
+            const tenRaw = muc.slice(0, match.index).replace(/[:=\-–—]\s*$/, '').trim();
+            const ten = tenRaw || `Tuỳ chỉnh ${rong}x${cao}`;
+            danhSach.push({ ten, rong, cao });
+          }
+        }
+
+        return danhSach;
+      }
+
+      function capNhatGoiYDanhSachThuCong() {
+        if (!phanTu.tuyBienDanhSach || !phanTu.tuyBienDanhSachHint) return;
+        const text = (phanTu.tuyBienDanhSach.value || '').trim();
+        if (!text) {
+          phanTu.tuyBienDanhSachHint.textContent = 'Để trống để dùng chế độ ×2 lên & ÷2 xuống.';
+          return;
+        }
+        const ds = phanTichDanhSachKichThuocThuCong(text);
+        if (!ds.length) {
+          phanTu.tuyBienDanhSachHint.textContent = 'Không tìm thấy kích thước hợp lệ. Định dạng: 800x800 hoặc Tên: 1200x628 (1–10000px).';
+          return;
+        }
+        phanTu.tuyBienDanhSachHint.innerHTML = `Đã nhận <strong>${ds.length}</strong> kích thước hợp lệ.`;
+      }
+
       async function xuLyTapTin(danhSachTapTinTaiLen) {
         const mangTapTin = Array.from(danhSachTapTinTaiLen || []).filter((tapTin) => tapTin.type.startsWith('image/') || tapTin.name.toLowerCase().endsWith('.svg'));
         if (!mangTapTin.length) {
@@ -1831,6 +1890,11 @@
       }
 
       function taoKichThuocTuyBien() {
+        const thuCongText = (phanTu.tuyBienDanhSach?.value || '').trim();
+        if (thuCongText) {
+          const dsThuCong = phanTichDanhSachKichThuocThuCong(thuCongText);
+          if (dsThuCong.length) return dsThuCong;
+        }
         const rongGoc = parseInt(phanTu.tuyBienRong.value, 10) || 2;
         const caoGoc = parseInt(phanTu.tuyBienCao.value, 10) || 4;
         const soLanMoiChieu = Math.min(Math.max(parseInt(phanTu.tuyBienSoLan.value, 10) || 20, 1), 20);
