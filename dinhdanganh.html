@@ -175,7 +175,7 @@
     </script>
     <div class="container" style="margin-top: 115px;">
         <header class="header">
-            <h1>🖼️ Chuyển đổi đuôi ảnh</h1>
+            <h1>Chuyển đổi đuôi ảnh</h1>
             <p>Chuyển đổi ảnh giữa 80+ định dạng khác nhau - Công cụ chuyên nghiệp nhất <br>
             </p>
            
@@ -200,14 +200,14 @@
             <label class="mode-option">
                 <input type="radio" name="uploadMode" value="multiple">
                 <span class="mode-card">
-                    <strong>📁 Chọn nhiều ảnh</strong>
+                    <strong>Chọn nhiều ảnh</strong>
                     <small>Xử lý hàng loạt</small>
                 </span>
             </label>
             <label class="mode-option">
                 <input type="radio" name="uploadMode" value="folder">
                 <span class="mode-card">
-                    <strong>📂 Chọn thư mục</strong>
+                    <strong> Chọn thư mục</strong>
                     <small>Tất cả ảnh trong folder</small>
                 </span>
             </label>
@@ -234,11 +234,11 @@
 <!-- Supported Formats Display -->
 <div class="supported-formats">
     <button class="toggle-formats" id="toggleFormats">
-        📋 Xem tất cả định dạng hỗ trợ
+         Xem tất cả định dạng hỗ trợ
     </button>
     <div class="formats-list" id="formatsList" style="display: none;">
         <div class="format-category">
-            <h4>📸 Định dạng phổ biến</h4>
+            <h4> Định dạng phổ biến</h4>
             <div class="format-tags">
                 <span>JPG</span><span>JPEG</span><span>PNG</span><span>GIF</span><span>WebP</span><span>BMP</span><span>TIFF</span>
             </div>
@@ -250,12 +250,12 @@
     <!-- File Preview Grid -->
     <div class="file-preview-grid" id="filePreviewGrid" style="display: none;">
         <div class="grid-header">
-            <h3>📋 Danh sách ảnh đã chọn (<span id="fileCount">0</span>)</h3>
+            <h3>Danh sách ảnh đã chọn (<span id="fileCount">0</span>)</h3>
             <div class="grid-controls">
-                <button class="control-btn" id="selectAllBtn">✅ Chọn tất cả</button>
-                <button class="control-btn" id="deselectAllBtn">❌ Bỏ chọn tất cả</button>
-                <button class="control-btn danger" id="removeSelectedBtn">🗑️ Xóa đã chọn</button>
-                <button class="control-btn" id="addMoreBtn">➕ Thêm ảnh</button>
+                <button class="control-btn" id="selectAllBtn"> Chọn tất cả</button>
+                <button class="control-btn" id="deselectAllBtn"> Bỏ chọn tất cả</button>
+                <button class="control-btn danger" id="removeSelectedBtn"> Xóa đã chọn</button>
+                <button class="control-btn" id="addMoreBtn">Thêm ảnh</button>
             </div>
         </div>
         
@@ -271,13 +271,13 @@
 
     <!-- Quick Actions for Multiple Files -->
     <div class="quick-actions" id="quickActions" style="display: none;">
-        <h3>⚡ Thao tác nhanh</h3>
+        <h3> Thao tác nhanh</h3>
         <div class="action-buttons">
-            <button class="action-btn" id="sortByNameBtn">🔤 Sắp xếp theo tên</button>
-            <button class="action-btn" id="sortBySizeBtn">📏 Sắp xếp theo kích thước</button>
-            <button class="action-btn" id="sortByDateBtn">📅 Sắp xếp theo ngày</button>
-            <button class="action-btn" id="filterImagesBtn">🖼️ Lọc chỉ ảnh</button>
-            <button class="action-btn" id="removeSmallBtn">🔍 Xóa ảnh nhỏ</button>
+            <button class="action-btn" id="sortByNameBtn"> Sắp xếp theo tên</button>
+            <button class="action-btn" id="sortBySizeBtn"> Sắp xếp theo kích thước</button>
+            <button class="action-btn" id="sortByDateBtn"> Sắp xếp theo ngày</button>
+            <button class="action-btn" id="filterImagesBtn"> Lọc chỉ ảnh</button>
+            <button class="action-btn" id="removeSmallBtn"> Xóa ảnh nhỏ</button>
         </div>
     </div>
 </div>
@@ -340,7 +340,7 @@
 
                     <!-- Modern Formats -->
                     <div class="format-group">
-                        <h4>🆕 Định dạng hiện đại</h4>
+                        <h4> Định dạng hiện đại</h4>
                         <div class="format-grid">
                             <label class="format-option">
                                 <input type="radio" name="format" value="avif">
@@ -375,7 +375,7 @@
 
                     <!-- Professional Formats -->
                     <div class="format-group">
-                        <h4>🎨 Định dạng chuyên nghiệp</h4>
+                        <h4> Định dạng chuyên nghiệp</h4>
                         <div class="format-grid">
                             <label class="format-option">
                                 <input type="radio" name="format" value="tiff">
@@ -410,7 +410,7 @@
 
                     <!-- System & Icon Formats -->
                     <div class="format-group">
-                        <h4>🖥️ Icon & Hệ thống</h4>
+                        <h4>Icon & Hệ thống</h4>
                         <div class="format-grid">
                             <label class="format-option">
                                 <input type="radio" name="format" value="ico">
@@ -453,7 +453,7 @@
                             <label for="qualitySlider">Chất lượng: <span id="qualityValue">90</span>%</label>
                             <input type="range" id="qualitySlider" min="10" max="100" value="90">
                         <div class="quality-warning" id="qualityWarning" style="display: none;">
-                            ⚠️ <strong>Lưu ý:</strong> Canvas API có thể tạo file lớn hơn ảnh gốc do phải giải nén và nén lại. 
+                            <strong>Lưu ý:</strong> Canvas API có thể tạo file lớn hơn ảnh gốc do phải giải nén và nén lại. 
                             Với quality thấp, nên sử dụng công cụ nén chuyên dụng.
                         </div>
                             <div class="quality-presets">
@@ -535,25 +535,25 @@
                     
                     <!-- Filename Settings -->
                     <div class="setting-group">
-                        <label for="customFileName">📝 Tên file tải xuống (tùy chọn):</label>
+                        <label for="customFileName"> Tên file tải xuống (tùy chọn):</label>
                         <div class="filename-input-group">
                             <input type="text" id="customFileName" placeholder="Nhập tên file tùy chỉnh">
                             <span class="file-extension" id="fileExtension">.png</span>
                         </div>
-                        <small class="filename-hint">💡 Để trống để sử dụng tên file gốc</small>
+                        <small class="filename-hint"> Để trống để sử dụng tên file gốc</small>
                     </div>
                 </div>
 
                 <!-- Batch Processing -->
                 <div class="batch-section">
-                    <h3>📦 Xử lý hàng loạt:</h3>
+                    <h3> Xử lý hàng loạt:</h3>
                     <label>
                         <input type="checkbox" id="batchMode"> Chế độ xử lý nhiều ảnh
                     </label>
                     <div class="batch-controls" id="batchControls" style="display: none;">
                         <input type="file" id="batchInput" multiple accept="image/*" hidden>
                         <button class="batch-select-btn" id="batchSelectBtn">
-                            📁 Chọn nhiều ảnh
+                             Chọn nhiều ảnh
                         </button>
                         <div class="batch-list" id="batchList"></div>
                     </div>
@@ -561,7 +561,7 @@
 
                 <!-- Convert Button -->
                 <button class="convert-btn" id="convertBtn">
-                    <span>🔄 Chuyển đổi ảnh</span>
+                    <span> Chuyển đổi ảnh</span>
                 </button>
             </div>
 
@@ -570,7 +570,7 @@
                 <div class="download-preview">
                     <img id="convertedImage" alt="Converted">
                     <div class="download-info">
-                        <h3>✅ Chuyển đổi thành công!</h3>
+                        <h3> Chuyển đổi thành công!</h3>
                         <div class="conversion-stats">
                             <div class="stat-item">
                                 <span class="stat-label">Định dạng:</span>
@@ -596,13 +596,13 @@
                         
                         <div class="download-actions">
                             <button class="download-btn" id="downloadBtn">
-                                📥 Tải xuống
+                                 Tải xuống
                             </button>
                             <button class="download-all-btn" id="downloadAllBtn" style="display: none;">
-                                📦 Tải xuống tất cả (ZIP)
+                                 Tải xuống tất cả (ZIP)
                             </button>
                             <button class="reset-btn" id="resetBtn">
-                                🔄 Chuyển đổi ảnh khác
+                                 Chuyển đổi ảnh khác
                             </button>
                         </div>
                     </div>
