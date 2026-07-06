@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Công cụ upload ảnh lấy link nhanh chóng. Kéo thả hoặc chọn ảnh, tải lên và sao chép link ảnh dễ dàng." />
+  <meta name="description"
+    content="Công cụ upload ảnh lấy link nhanh chóng. Kéo thả hoặc chọn ảnh, tải lên và sao chép link ảnh dễ dàng." />
   <meta name="keywords" content="upload ảnh, lấy link ảnh, host ảnh miễn phí, chia sẻ ảnh" />
   <meta name="robots" content="index, follow" />
   <meta property="og:title" content="Upload Ảnh Lấy Link - Nhanh & Miễn Phí" />
@@ -173,1028 +175,1225 @@
   ]
 }
 </script>
-<style>
+  <style>
     /* =====================================================
    DVNT UPLOAD ẢNH LẤY LINK — style.css
    BEM prefix: dvntUpAnh__
    Author: Antigravity · 2026
    ===================================================== */
 
-/* ── 1. RESET & TOKEN ─────────────────────────────── */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-:root {
-  /* Color Palette */
-  --c-bg:           #0f0f17;
-  --c-surface:      #16161f;
-  --c-surface-2:    #1e1e2a;
-  --c-border:       rgba(255,255,255,.08);
-  --c-border-hover: rgba(124,58,237,.55);
-
-  --c-primary:      #7C3AED;
-  --c-primary-light:#9D5CF5;
-  --c-primary-dark: #5B21B6;
-  --c-primary-glow: rgba(124,58,237,.35);
-
-  --c-accent:       #4F46E5;
-  --c-success:      #10B981;
-  --c-success-bg:   rgba(16,185,129,.12);
-  --c-error:        #EF4444;
-  --c-error-bg:     rgba(239,68,68,.12);
-  --c-warning:      #F59E0B;
-
-  --c-text:         #F1F0FF;
-  --c-text-muted:   #8B8BA7;
-  --c-text-sub:     #64648A;
-
-  /* Gradient */
-  --grad-primary: linear-gradient(135deg, #7C3AED, #4F46E5);
-  --grad-surface: linear-gradient(160deg, #1e1e2a 0%, #16161f 100%);
-
-  /* Typography */
-  --font-base: 'Inter', system-ui, -apple-system, sans-serif;
-
-  /* Radius */
-  --r-sm:  8px;
-  --r-md:  14px;
-  --r-lg:  20px;
-  --r-xl:  28px;
-  --r-pill: 999px;
-
-  /* Shadows */
-  --shadow-card:    0 0 0 1px rgba(255,255,255,.05), 0 24px 48px rgba(0,0,0,.5);
-  --shadow-btn:     0 4px 16px rgba(124,58,237,.4);
-  --shadow-input:   0 0 0 3px rgba(124,58,237,.35);
-
-  /* Transition */
-  --t-fast: 0.15s ease;
-  --t-med:  0.25s ease;
-  --t-slow: 0.4s cubic-bezier(.4,0,.2,1);
-}
-
-html { scroll-behavior: smooth; }
-
-body {
-  font-family: var(--font-base);
-  background-color: var(--c-bg);
-  color: var(--c-text);
-  min-height: 100vh;
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-  background-image: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(124,58,237,.18) 0%, transparent 70%);
-}
-
-/* ── 2. WRAPPER ───────────────────────────────────── */
-.dvntUpAnh__wrapper {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  max-width: 860px;
-  margin: 0 auto;
-  padding: 0 16px;
-}
-
-/* ── 2B. REVIEW PAGE MODE ───────────────────────── */
-.dvntReview {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 22px;
-}
-
-.dvntReview[hidden] {
-  display: none !important;
-}
-
-.dvntReview__panel {
-  width: min(80vw, 100%);
-  border: 1px solid rgba(255,255,255,.1);
-  border-radius: 24px;
-  padding: 20px;
-  background:
-    radial-gradient(100% 120% at 100% 0%, rgba(34,211,238,.24) 0%, transparent 55%),
-    radial-gradient(100% 100% at 0% 100%, rgba(251,146,60,.25) 0%, transparent 58%),
-    linear-gradient(170deg, #1d222e 0%, #151823 100%);
-  box-shadow: inset 0 0 0 1px rgba(255,255,255,.05), 0 24px 60px rgba(0,0,0,.55);
-}
-
-.dvntReview.dvntTheme--elegant .dvntReview__panel {
-  background:
-    radial-gradient(110% 100% at 100% 0%, rgba(212,175,55,.24) 0%, transparent 62%),
-    radial-gradient(95% 100% at 0% 100%, rgba(255,233,160,.18) 0%, transparent 64%),
-    linear-gradient(160deg, #1f1a12 0%, #15110d 100%);
-  border-color: rgba(212,175,55,.45);
-}
-
-.dvntReview.dvntTheme--elegant .dvntReview__badge {
-  color: #f5d878;
-  border-color: rgba(245,216,120,.45);
-  background: rgba(245,216,120,.14);
-}
-
-.dvntReview.dvntTheme--cute .dvntReview__panel {
-  background:
-    radial-gradient(120% 110% at 0% 0%, rgba(255,170,201,.26) 0%, transparent 58%),
-    radial-gradient(120% 110% at 100% 100%, rgba(167,139,250,.26) 0%, transparent 58%),
-    linear-gradient(160deg, #261d33 0%, #1f1830 100%);
-  border-color: rgba(244,114,182,.44);
-}
-
-.dvntReview.dvntTheme--cute .dvntReview__badge {
-  color: #f9a8d4;
-  border-color: rgba(249,168,212,.42);
-  background: rgba(249,168,212,.16);
-}
-
-.dvntReview__head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 12px;
-}
-
-.dvntReview__badge {
-  font-size: .72rem;
-  text-transform: uppercase;
-  letter-spacing: .08em;
-  font-weight: 700;
-  color: #67e8f9;
-  border: 1px solid rgba(34,211,238,.38);
-  background: rgba(34,211,238,.14);
-  border-radius: var(--r-pill);
-  padding: 5px 11px;
-}
-
-.dvntReview__name {
-  color: #f8fafc;
-  font-weight: 700;
-  font-size: .92rem;
-  text-align: right;
-  word-break: break-all;
-}
-
-.dvntReview__media-wrap {
-  border-radius: 14px;
-  overflow: hidden;
-  border: 1px solid rgba(255,255,255,.12);
-  background: rgba(5,10,18,.75);
-  min-height: 520px;
-  max-height: 84vh;
-}
-
-.dvntReview__img,
-.dvntReview__video {
-  width: 100%;
-  height: 100%;
-  max-height: 84vh;
-  object-fit: contain;
-  display: block;
-}
-
-.dvntReview__foot {
-  margin-top: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.dvntReview__meta {
-  color: #cbd5e1;
-  font-size: .8rem;
-}
-
-body.dvntUpAnh__is-review #toast,
-body.dvntUpAnh__is-review .dvntUpAnh__wrapper,
-body.dvntUpAnh__is-review .dvnt-footer {
-  display: none !important;
-}
-
-/* ── 3. HEADER ────────────────────────────────────── */
-.dvntUpAnh__header {
-  padding: 36px 0 28px;
-  text-align: center;
-  margin-top: 100px;
-}
-
-.dvntUpAnh__header-inner {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-}
-
-.dvntUpAnh__header-logo {
-  flex-shrink: 0;
-  filter: drop-shadow(0 4px 12px rgba(124,58,237,.5));
-  animation: dvntLogoFloat 4s ease-in-out infinite;
-}
-
-@keyframes dvntLogoFloat {
-  0%, 100% { transform: translateY(0); }
-  50%       { transform: translateY(-4px); }
-}
-
-.dvntUpAnh__header-title {
-  font-size: clamp(1.4rem, 4vw, 2rem);
-  font-weight: 800;
-  background: var(--grad-primary);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  letter-spacing: -0.02em;
-  line-height: 1.2;
-}
-
-.dvntUpAnh__header-desc {
-  font-size: .92rem;
-  color: var(--c-text-muted);
-  margin-top: 4px;
-}
-
-/* ── 4. MAIN ──────────────────────────────────────── */
-.dvntUpAnh__main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  padding-bottom: 40px;
-}
-
-/* ── 5. CARD ──────────────────────────────────────── */
-.dvntUpAnh__card {
-  background: var(--c-surface);
-  border: 1px solid var(--c-border);
-  border-radius: var(--r-xl);
-  box-shadow: var(--shadow-card);
-  padding: 28px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  transition: border-color var(--t-med);
-}
-
-/* ── 6. DROP ZONE ─────────────────────────────────── */
-.dvntUpAnh__dropzone {
-  position: relative;
-  border: 2px dashed rgba(124,58,237,.4);
-  border-radius: var(--r-lg);
-  padding: 40px 24px 32px;
-  text-align: center;
-  cursor: pointer;
-  transition: all var(--t-med);
-  background: rgba(124,58,237,.04);
-  outline: none;
-}
-
-.dvntUpAnh__dropzone:hover,
-.dvntUpAnh__dropzone:focus-visible {
-  border-color: var(--c-primary);
-  background: rgba(124,58,237,.08);
-  box-shadow: 0 0 0 4px var(--c-primary-glow);
-  transform: translateY(-1px);
-}
-
-/* Drag-over state */
-.dvntUpAnh__dropzone--dragover {
-  border-color: var(--c-primary-light);
-  background: rgba(124,58,237,.14);
-  box-shadow: 0 0 0 6px var(--c-primary-glow), inset 0 0 32px rgba(124,58,237,.1);
-  transform: scale(1.01);
-}
-
-.dvntUpAnh__dropzone-icon {
-  margin-bottom: 14px;
-  display: inline-flex;
-  transition: transform var(--t-med);
-}
-
-.dvntUpAnh__dropzone:hover .dvntUpAnh__dropzone-icon,
-.dvntUpAnh__dropzone--dragover .dvntUpAnh__dropzone-icon {
-  transform: translateY(-4px) scale(1.08);
-}
-
-.dvntUpAnh__dropzone-text {
-  font-size: 1.05rem;
-  font-weight: 600;
-  color: var(--c-text);
-  margin-bottom: 4px;
-}
-
-.dvntUpAnh__dropzone-sub {
-  font-size: .85rem;
-  color: var(--c-text-muted);
-  margin-bottom: 20px;
-}
-
-.dvntUpAnh__dropzone-btn {
-  pointer-events: none; /* parent handles click */
-}
-
-.dvntUpAnh__dropzone-limit {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-  font-size: .78rem;
-  color: var(--c-text-sub);
-  margin-top: 14px;
-}
-
-.dvntUpAnh__file-input {
-  display: none; /* Ẩn hoàn toàn, mở bằng fileInput.click() */
-}
-
-/* ── 7. PREVIEW ───────────────────────────────────── */
-.dvntUpAnh__preview {
-  border: 1px solid var(--c-border);
-  border-radius: var(--r-md);
-  overflow: hidden;
-  animation: dvntFadeUp .3s ease;
-}
-
-@keyframes dvntFadeUp {
-  from { opacity: 0; transform: translateY(12px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-.dvntUpAnh__preview-inner {
-  display: flex;
-  gap: 20px;
-  padding: 16px;
-  align-items: flex-start;
-}
-
-.dvntUpAnh__preview-figure {
-  flex-shrink: 0;
-  width: 120px;
-  height: 100px;
-  border-radius: var(--r-sm);
-  overflow: hidden;
-  background: var(--c-surface-2);
-  border: 1px solid var(--c-border);
-}
-
-.dvntUpAnh__preview-img,
-.dvntUpAnh__preview-video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: transform var(--t-med);
-}
-
-.dvntUpAnh__preview-figure:hover .dvntUpAnh__preview-img,
-.dvntUpAnh__preview-figure:hover .dvntUpAnh__preview-video {
-  transform: scale(1.05);
-}
-
-.dvntUpAnh__preview-meta {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.dvntUpAnh__preview-name {
-  font-size: .9rem;
-  font-weight: 600;
-  word-break: break-all;
-  color: var(--c-text);
-}
-
-.dvntUpAnh__preview-info {
-  list-style: none;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px 18px;
-}
-
-.dvntUpAnh__preview-info-item {
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-}
-
-.dvntUpAnh__preview-info-label {
-  font-size: .7rem;
-  text-transform: uppercase;
-  letter-spacing: .06em;
-  color: var(--c-text-sub);
-}
-
-.dvntUpAnh__preview-info-value {
-  font-size: .85rem;
-  font-weight: 600;
-  color: var(--c-primary-light);
-}
-
-/* ── 7B. REVIEW TEMPLATE ─────────────────────────── */
-.dvntUpAnh__preview-template {
-  margin: 0 16px 16px;
-  border: 1px solid rgba(255,255,255,.09);
-  border-radius: var(--r-md);
-  padding: 18px;
-  background:
-    radial-gradient(120% 100% at 100% 0%, rgba(251,146,60,.22) 0%, transparent 62%),
-    radial-gradient(120% 100% at 0% 100%, rgba(34,211,238,.2) 0%, transparent 58%),
-    linear-gradient(155deg, #1f2430 0%, #171a23 100%);
-  box-shadow: inset 0 0 0 1px rgba(255,255,255,.05), 0 14px 30px rgba(0,0,0,.35);
-}
-
-.dvntUpAnh__preview-template.dvntTheme--elegant {
-  background:
-    radial-gradient(110% 100% at 100% 0%, rgba(212,175,55,.24) 0%, transparent 62%),
-    radial-gradient(95% 100% at 0% 100%, rgba(255,233,160,.18) 0%, transparent 64%),
-    linear-gradient(160deg, #1f1a12 0%, #15110d 100%);
-  border-color: rgba(212,175,55,.42);
-}
-
-.dvntUpAnh__preview-template.dvntTheme--elegant .dvntUpAnh__preview-template-chip {
-  color: #f5d878;
-  border-color: rgba(245,216,120,.45);
-  background: rgba(245,216,120,.14);
-}
-
-.dvntUpAnh__preview-template.dvntTheme--cute {
-  background:
-    radial-gradient(120% 110% at 0% 0%, rgba(255,170,201,.26) 0%, transparent 58%),
-    radial-gradient(120% 110% at 100% 100%, rgba(167,139,250,.26) 0%, transparent 58%),
-    linear-gradient(160deg, #261d33 0%, #1f1830 100%);
-  border-color: rgba(244,114,182,.4);
-}
-
-.dvntUpAnh__preview-template.dvntTheme--cute .dvntUpAnh__preview-template-chip {
-  color: #f9a8d4;
-  border-color: rgba(249,168,212,.42);
-  background: rgba(249,168,212,.16);
-}
-
-.dvntUpAnh__preview-template-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 12px;
-}
-
-.dvntUpAnh__preview-template-chip {
-  font-size: .68rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: .08em;
-  padding: 4px 10px;
-  border-radius: var(--r-pill);
-  border: 1px solid rgba(34,211,238,.35);
-  color: #67e8f9;
-  background: rgba(34,211,238,.13);
-}
-
-.dvntUpAnh__preview-template-note {
-  font-size: .75rem;
-  color: #f9d9a6;
-}
-
-.dvntUpAnh__preview-template-media {
-  border-radius: 12px;
-  overflow: hidden;
-  border: 1px solid rgba(255,255,255,.12);
-  background: rgba(11,14,20,.72);
-  min-height: 320px;
-  max-height: 620px;
-}
-
-.dvntUpAnh__preview-template-img,
-.dvntUpAnh__preview-template-video {
-  width: 100%;
-  height: 100%;
-  max-height: 620px;
-  object-fit: contain;
-  display: block;
-}
-
-.dvntUpAnh__preview-template-footer {
-  margin-top: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-}
-
-.dvntUpAnh__preview-template-name {
-  font-size: .84rem;
-  font-weight: 700;
-  color: #f8fafc;
-  word-break: break-all;
-}
-
-.dvntUpAnh__preview-template-meta {
-  font-size: .78rem;
-  color: #cbd5e1;
-  flex-shrink: 0;
-}
-
-.dvntUpAnh__template-picker {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin: 12px 16px 2px;
-}
-
-.dvntUpAnh__template-picker-btn {
-  padding: 6px 10px;
-  font-size: .75rem;
-  border-radius: var(--r-pill);
-  border: 1px solid var(--c-border);
-  background: var(--c-surface-2);
-  color: var(--c-text-muted);
-  cursor: pointer;
-  transition: all var(--t-fast);
-}
-
-.dvntUpAnh__template-picker-btn:hover {
-  border-color: rgba(255,255,255,.22);
-  color: var(--c-text);
-}
-
-.dvntUpAnh__template-picker-btn.is-active {
-  border-color: rgba(34,211,238,.5);
-  color: #67e8f9;
-  background: rgba(34,211,238,.15);
-}
-
-/* ── 8. PROGRESS BAR ──────────────────────────────── */
-.dvntUpAnh__progress-wrap {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  animation: dvntFadeUp .3s ease;
-}
-
-.dvntUpAnh__progress-track {
-  flex: 1;
-  height: 8px;
-  background: var(--c-surface-2);
-  border-radius: var(--r-pill);
-  overflow: hidden;
-}
-
-.dvntUpAnh__progress-bar {
-  height: 100%;
-  width: 0%;
-  background: var(--grad-primary);
-  border-radius: var(--r-pill);
-  transition: width .2s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.dvntUpAnh__progress-bar::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,.25) 50%, transparent 100%);
-  animation: dvntShimmer 1.2s linear infinite;
-}
-
-@keyframes dvntShimmer {
-  from { transform: translateX(-100%); }
-  to   { transform: translateX(200%); }
-}
-
-.dvntUpAnh__progress-text {
-  font-size: .8rem;
-  font-weight: 600;
-  color: var(--c-primary-light);
-  min-width: 36px;
-  text-align: right;
-}
-
-/* ── 9. BUTTONS ───────────────────────────────────── */
-.dvntUpAnh__btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 7px;
-  font-family: var(--font-base);
-  font-weight: 600;
-  font-size: .88rem;
-  border: none;
-  border-radius: var(--r-sm);
-  cursor: pointer;
-  padding: 8px 16px;
-  transition: all var(--t-fast);
-  text-decoration: none;
-  white-space: nowrap;
-  line-height: 1;
-  position: relative;
-  overflow: hidden;
-}
-
-.dvntUpAnh__btn::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: rgba(255,255,255,0);
-  transition: background var(--t-fast);
-}
-
-.dvntUpAnh__btn:hover::after { background: rgba(255,255,255,.06); }
-.dvntUpAnh__btn:active { transform: scale(.97); }
-
-/* Primary */
-.dvntUpAnh__btn--primary {
-  background: var(--grad-primary);
-  color: #fff;
-  box-shadow: var(--shadow-btn);
-}
-
-.dvntUpAnh__btn--primary:hover {
-  box-shadow: 0 6px 20px rgba(124,58,237,.55);
-  transform: translateY(-1px);
-}
-
-/* Ghost */
-.dvntUpAnh__btn--ghost {
-  background: var(--c-surface-2);
-  color: var(--c-text-muted);
-  border: 1px solid var(--c-border);
-}
-
-.dvntUpAnh__btn--ghost:hover {
-  background: var(--c-surface);
-  color: var(--c-text);
-  border-color: rgba(255,255,255,.15);
-}
-
-/* Danger */
-.dvntUpAnh__btn--danger {
-  background: var(--c-error-bg);
-  color: var(--c-error);
-  border: 1px solid rgba(239,68,68,.25);
-}
-
-.dvntUpAnh__btn--danger:hover {
-  background: rgba(239,68,68,.2);
-  border-color: var(--c-error);
-}
-
-.dvntUpAnh__btn--template-active {
-  background: rgba(34,211,238,.16);
-  color: #67e8f9;
-  border: 1px solid rgba(34,211,238,.38);
-}
-
-.dvntUpAnh__btn--template-active:hover {
-  background: rgba(34,211,238,.22);
-}
-
-/* Sizes */
-.dvntUpAnh__btn--lg { padding: 12px 24px; font-size: .95rem; border-radius: var(--r-md); }
-.dvntUpAnh__btn--sm { padding: 6px 12px; font-size: .8rem; }
-
-/* Disabled */
-.dvntUpAnh__btn:disabled,
-.dvntUpAnh__btn[disabled] {
-  opacity: .38;
-  pointer-events: none;
-  transform: none;
-  box-shadow: none;
-}
-
-/* ── 10. ACTIONS ──────────────────────────────────── */
-.dvntUpAnh__actions {
-  display: flex;
-  gap: 12px;
-}
-
-.dvntUpAnh__actions .dvntUpAnh__btn--lg {
-  flex: 1;
-}
-
-/* ── 11. RESULT ───────────────────────────────────── */
-.dvntUpAnh__result {
-  border-radius: var(--r-md);
-  overflow: hidden;
-  animation: dvntFadeUp .4s ease;
-}
-
-.dvntUpAnh__result-success,
-.dvntUpAnh__result-error {
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  text-align: center;
-}
-
-.dvntUpAnh__result-success[hidden],
-.dvntUpAnh__result-error[hidden] {
-  display: none !important;
-}
-
-.dvntUpAnh__result-success {
-  background: var(--c-success-bg);
-  border: 1px solid rgba(16,185,129,.25);
-  border-radius: var(--r-md);
-}
-
-.dvntUpAnh__result-error {
-  background: var(--c-error-bg);
-  border: 1px solid rgba(239,68,68,.25);
-  border-radius: var(--r-md);
-}
-
-.dvntUpAnh__result-badge {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.dvntUpAnh__result-badge--success {
-  background: rgba(16,185,129,.2);
-  color: var(--c-success);
-  box-shadow: 0 0 0 6px rgba(16,185,129,.1);
-  animation: dvntPop .4s cubic-bezier(.34,1.56,.64,1);
-}
-
-.dvntUpAnh__result-badge--error {
-  background: rgba(239,68,68,.2);
-  color: var(--c-error);
-  box-shadow: 0 0 0 6px rgba(239,68,68,.1);
-  animation: dvntPop .4s cubic-bezier(.34,1.56,.64,1);
-}
-
-@keyframes dvntPop {
-  from { transform: scale(0); opacity: 0; }
-  to   { transform: scale(1); opacity: 1; }
-}
-
-.dvntUpAnh__result-msg {
-  font-size: 1rem;
-  font-weight: 700;
-}
-
-.dvntUpAnh__result-sub {
-  font-size: .85rem;
-  color: var(--c-text-muted);
-}
-
-.dvntUpAnh__result-link-wrap {
-  width: 100%;
-  text-align: left;
-}
-
-.dvntUpAnh__result-link-label {
-  font-size: .75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: .06em;
-  color: var(--c-text-sub);
-  margin-bottom: 6px;
-  display: block;
-}
-
-.dvntUpAnh__result-link-row {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
-
-.dvntUpAnh__result-link-input {
-  flex: 1;
-  min-width: 0;
-  font-family: var(--font-base);
-  font-size: .85rem;
-  padding: 9px 13px;
-  background: var(--c-surface-2);
-  border: 1px solid var(--c-border);
-  border-radius: var(--r-sm);
-  color: var(--c-text);
-  outline: none;
-  transition: border-color var(--t-fast), box-shadow var(--t-fast);
-}
-
-.dvntUpAnh__result-link-input:focus {
-  border-color: var(--c-primary);
-  box-shadow: var(--shadow-input);
-}
-
-/* ── 12. HISTORY ──────────────────────────────────── */
-.dvntUpAnh__history {
-  background: var(--c-surface);
-  border: 1px solid var(--c-border);
-  border-radius: var(--r-xl);
-  box-shadow: var(--shadow-card);
-  padding: 22px 26px;
-}
-
-.dvntUpAnh__history-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 16px;
-}
-
-.dvntUpAnh__history-title {
-  font-size: 1rem;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--c-text);
-}
-
-.dvntUpAnh__history-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.dvntUpAnh__history-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 14px;
-  background: var(--c-surface-2);
-  border: 1px solid var(--c-border);
-  border-radius: var(--r-md);
-  transition: border-color var(--t-fast), transform var(--t-fast);
-  animation: dvntFadeUp .3s ease;
-}
-
-.dvntUpAnh__history-item:hover {
-  border-color: rgba(124,58,237,.35);
-  transform: translateX(2px);
-}
-
-.dvntUpAnh__history-item-thumb {
-  width: 52px;
-  height: 44px;
-  border-radius: var(--r-sm);
-  object-fit: cover;
-  flex-shrink: 0;
-  border: 1px solid var(--c-border);
-  background: var(--c-surface);
-}
-
-.dvntUpAnh__history-item-info {
-  flex: 1;
-  min-width: 0;
-}
-
-.dvntUpAnh__history-item-name {
-  font-size: .85rem;
-  font-weight: 600;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  color: var(--c-text);
-  margin-bottom: 2px;
-}
-
-.dvntUpAnh__history-item-link {
-  font-size: .75rem;
-  color: var(--c-text-sub);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: block;
-}
-
-.dvntUpAnh__history-item-actions {
-  display: flex;
-  gap: 6px;
-  flex-shrink: 0;
-}
-
-.dvntUpAnh__history-empty {
-  text-align: center;
-  padding: 28px 0;
-  color: var(--c-text-sub);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  font-size: .88rem;
-}
-
-/* ── 13. TOAST ────────────────────────────────────── */
-.dvntUpAnh__toast {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 9999;
-  font-family: var(--font-base);
-  font-size: .9rem;
-  font-weight: 600;
-  padding: 13px 20px;
-  border-radius: var(--r-md);
-  box-shadow: 0 8px 32px rgba(0,0,0,.4);
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  max-width: 340px;
-  pointer-events: none;
-  opacity: 0;
-  transform: translateX(20px) scale(.95);
-  transition: all .3s cubic-bezier(.4,0,.2,1);
-  backdrop-filter: blur(12px);
-}
-
-.dvntUpAnh__toast--show {
-  opacity: 1;
-  transform: translateX(0) scale(1);
-  pointer-events: auto;
-}
-
-.dvntUpAnh__toast--success {
-  background: rgba(16,185,129,.15);
-  border: 1px solid rgba(16,185,129,.4);
-  color: #6EE7B7;
-}
-
-.dvntUpAnh__toast--error {
-  background: rgba(239,68,68,.15);
-  border: 1px solid rgba(239,68,68,.4);
-  color: #FCA5A5;
-}
-
-.dvntUpAnh__toast--info {
-  background: rgba(124,58,237,.15);
-  border: 1px solid rgba(124,58,237,.4);
-  color: #C4B5FD;
-}
-
-/* ── 14. FOOTER ───────────────────────────────────── */
-.dvntUpAnh__footer {
-  padding: 20px 0;
-  text-align: center;
-  border-top: 1px solid var(--c-border);
-  margin-top: auto;
-}
-
-.dvntUpAnh__footer-text {
-  font-size: .78rem;
-  color: var(--c-text-sub);
-}
-
-/* ── 15. UPLOADING STATE ──────────────────────────── */
-.dvntUpAnh__card--uploading .dvntUpAnh__dropzone {
-  pointer-events: none;
-  opacity: .5;
-}
-
-/* ── 16. RESPONSIVE ───────────────────────────────── */
-@media (max-width: 600px) {
-  .dvntUpAnh__card { padding: 18px; }
-  .dvntUpAnh__history { padding: 16px; }
-
-  .dvntUpAnh__header-inner { flex-direction: column; gap: 10px; }
-  .dvntUpAnh__header-text  { text-align: center; }
-
-  .dvntUpAnh__dropzone { padding: 28px 16px 22px; }
-
-  .dvntUpAnh__preview-inner { flex-direction: column; align-items: center; }
-  .dvntUpAnh__preview-figure { width: 100%; height: 160px; }
-  .dvntUpAnh__preview-template { margin: 0 10px 12px; padding: 14px; }
-  .dvntUpAnh__template-picker { margin: 10px 10px 0; }
-  .dvntUpAnh__preview-template-media { min-height: 240px; }
-  .dvntUpAnh__preview-template-footer {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .dvntUpAnh__actions { flex-direction: column; }
-
-  .dvntUpAnh__result-link-row { flex-wrap: wrap; }
-  .dvntUpAnh__result-link-input { min-width: 100%; }
-
-  .dvntUpAnh__history-item { flex-wrap: wrap; }
-  .dvntUpAnh__history-item-thumb { width: 44px; height: 40px; }
-
-  .dvntUpAnh__toast { top: 12px; right: 12px; left: 12px; max-width: none; }
-  .dvntReview { padding: 12px; }
-  .dvntReview__panel { padding: 14px; border-radius: 18px; }
-  .dvntReview__head { flex-direction: column; align-items: flex-start; }
-  .dvntReview__name { text-align: left; }
-  .dvntReview__media-wrap { min-height: 300px; }
-}
-
-@media (max-width: 380px) {
-  .dvntUpAnh__header-title { font-size: 1.25rem; }
-  .dvntUpAnh__btn--lg { padding: 11px 16px; font-size: .88rem; }
-}
-
-</style>
+    /* ── 1. RESET & TOKEN ─────────────────────────────── */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      /* Color Palette */
+      --c-bg: #0f0f17;
+      --c-surface: #16161f;
+      --c-surface-2: #1e1e2a;
+      --c-border: rgba(255, 255, 255, .08);
+      --c-border-hover: rgba(124, 58, 237, .55);
+
+      --c-primary: #7C3AED;
+      --c-primary-light: #9D5CF5;
+      --c-primary-dark: #5B21B6;
+      --c-primary-glow: rgba(124, 58, 237, .35);
+
+      --c-accent: #4F46E5;
+      --c-success: #10B981;
+      --c-success-bg: rgba(16, 185, 129, .12);
+      --c-error: #EF4444;
+      --c-error-bg: rgba(239, 68, 68, .12);
+      --c-warning: #F59E0B;
+
+      --c-text: #F1F0FF;
+      --c-text-muted: #8B8BA7;
+      --c-text-sub: #64648A;
+
+      /* Gradient */
+      --grad-primary: linear-gradient(135deg, #7C3AED, #4F46E5);
+      --grad-surface: linear-gradient(160deg, #1e1e2a 0%, #16161f 100%);
+
+      /* Typography */
+      --font-base: 'Inter', system-ui, -apple-system, sans-serif;
+
+      /* Radius */
+      --r-sm: 8px;
+      --r-md: 14px;
+      --r-lg: 20px;
+      --r-xl: 28px;
+      --r-pill: 999px;
+
+      /* Shadows */
+      --shadow-card: 0 0 0 1px rgba(255, 255, 255, .05), 0 24px 48px rgba(0, 0, 0, .5);
+      --shadow-btn: 0 4px 16px rgba(124, 58, 237, .4);
+      --shadow-input: 0 0 0 3px rgba(124, 58, 237, .35);
+
+      /* Transition */
+      --t-fast: 0.15s ease;
+      --t-med: 0.25s ease;
+      --t-slow: 0.4s cubic-bezier(.4, 0, .2, 1);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-base);
+      background-color: var(--c-bg);
+      color: var(--c-text);
+      min-height: 100vh;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      background-image: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(124, 58, 237, .18) 0%, transparent 70%);
+    }
+
+    /* ── 2. WRAPPER ───────────────────────────────────── */
+    .dvntUpAnh__wrapper {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    /* ── 2B. REVIEW PAGE MODE ───────────────────────── */
+    .dvntReview {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 22px;
+    }
+
+    .dvntReview[hidden] {
+      display: none !important;
+    }
+
+    .dvntReview__panel {
+      width: min(80vw, 100%);
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: 24px;
+      padding: 20px;
+      background:
+        radial-gradient(100% 120% at 100% 0%, rgba(34, 211, 238, .24) 0%, transparent 55%),
+        radial-gradient(100% 100% at 0% 100%, rgba(251, 146, 60, .25) 0%, transparent 58%),
+        linear-gradient(170deg, #1d222e 0%, #151823 100%);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .05), 0 24px 60px rgba(0, 0, 0, .55);
+    }
+
+    .dvntReview.dvntTheme--elegant .dvntReview__panel {
+      background:
+        radial-gradient(110% 100% at 100% 0%, rgba(212, 175, 55, .24) 0%, transparent 62%),
+        radial-gradient(95% 100% at 0% 100%, rgba(255, 233, 160, .18) 0%, transparent 64%),
+        linear-gradient(160deg, #1f1a12 0%, #15110d 100%);
+      border-color: rgba(212, 175, 55, .45);
+    }
+
+    .dvntReview.dvntTheme--elegant .dvntReview__badge {
+      color: #f5d878;
+      border-color: rgba(245, 216, 120, .45);
+      background: rgba(245, 216, 120, .14);
+    }
+
+    .dvntReview.dvntTheme--cute .dvntReview__panel {
+      background:
+        radial-gradient(120% 110% at 0% 0%, rgba(255, 170, 201, .26) 0%, transparent 58%),
+        radial-gradient(120% 110% at 100% 100%, rgba(167, 139, 250, .26) 0%, transparent 58%),
+        linear-gradient(160deg, #261d33 0%, #1f1830 100%);
+      border-color: rgba(244, 114, 182, .44);
+    }
+
+    .dvntReview.dvntTheme--cute .dvntReview__badge {
+      color: #f9a8d4;
+      border-color: rgba(249, 168, 212, .42);
+      background: rgba(249, 168, 212, .16);
+    }
+
+    .dvntReview__head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .dvntReview__badge {
+      font-size: .72rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      font-weight: 700;
+      color: #67e8f9;
+      border: 1px solid rgba(34, 211, 238, .38);
+      background: rgba(34, 211, 238, .14);
+      border-radius: var(--r-pill);
+      padding: 5px 11px;
+    }
+
+    .dvntReview__name {
+      color: #f8fafc;
+      font-weight: 700;
+      font-size: .92rem;
+      text-align: right;
+      word-break: break-all;
+    }
+
+    .dvntReview__media-wrap {
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, .12);
+      background: rgba(5, 10, 18, .75);
+      min-height: 520px;
+      max-height: 84vh;
+      position: relative;
+      cursor: grab;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .dvntReview__media-wrap:active {
+      cursor: grabbing;
+    }
+
+    /* Canvas bên trong để transform zoom/pan */
+    .dvntReview__zoom-canvas {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform-origin: 0 0;
+      will-change: transform;
+      transition: transform .08s ease;
+    }
+
+    .dvntReview__zoom-canvas.dvntZoom--dragging {
+      transition: none;
+    }
+
+    .dvntReview__img,
+    .dvntReview__video {
+      width: 100%;
+      height: 100%;
+      max-height: 84vh;
+      object-fit: contain;
+      display: block;
+      pointer-events: none;
+      /* cho phép container nhận sự kiện chuột */
+    }
+
+    /* ── Zoom Controls ── */
+    .dvntReview__zoom-controls {
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      z-index: 10;
+      background: rgba(15, 15, 23, .78);
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-radius: 999px;
+      padding: 5px 10px;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, .4);
+    }
+
+    .dvntReview__zoom-btn {
+      background: none;
+      border: none;
+      color: #e2e8f0;
+      cursor: pointer;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      font-size: 1rem;
+      line-height: 1;
+      transition: background .15s, color .15s;
+      padding: 0;
+    }
+
+    .dvntReview__zoom-btn:hover {
+      background: rgba(124, 58, 237, .35);
+      color: #fff;
+    }
+
+    .dvntReview__zoom-level {
+      font-size: .72rem;
+      font-weight: 700;
+      color: #94a3b8;
+      min-width: 34px;
+      text-align: center;
+      font-family: var(--font-base);
+      pointer-events: none;
+    }
+
+    .dvntReview__foot {
+      margin-top: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .dvntReview__meta {
+      color: #cbd5e1;
+      font-size: .8rem;
+    }
+
+    body.dvntUpAnh__is-review #toast,
+    body.dvntUpAnh__is-review .dvntUpAnh__wrapper,
+    body.dvntUpAnh__is-review .dvnt-footer {
+      display: none !important;
+    }
+
+    /* ── 3. HEADER ────────────────────────────────────── */
+    .dvntUpAnh__header {
+      padding: 36px 0 28px;
+      text-align: center;
+      margin-top: 100px;
+    }
+
+    .dvntUpAnh__header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+    }
+
+    .dvntUpAnh__header-logo {
+      flex-shrink: 0;
+      filter: drop-shadow(0 4px 12px rgba(124, 58, 237, .5));
+      animation: dvntLogoFloat 4s ease-in-out infinite;
+    }
+
+    @keyframes dvntLogoFloat {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-4px);
+      }
+    }
+
+    .dvntUpAnh__header-title {
+      font-size: clamp(1.4rem, 4vw, 2rem);
+      font-weight: 800;
+      background: var(--grad-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+
+    .dvntUpAnh__header-desc {
+      font-size: .92rem;
+      color: var(--c-text-muted);
+      margin-top: 4px;
+    }
+
+    /* ── 4. MAIN ──────────────────────────────────────── */
+    .dvntUpAnh__main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      padding-bottom: 40px;
+    }
+
+    /* ── 5. CARD ──────────────────────────────────────── */
+    .dvntUpAnh__card {
+      background: var(--c-surface);
+      border: 1px solid var(--c-border);
+      border-radius: var(--r-xl);
+      box-shadow: var(--shadow-card);
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      transition: border-color var(--t-med);
+    }
+
+    /* ── 6. DROP ZONE ─────────────────────────────────── */
+    .dvntUpAnh__dropzone {
+      position: relative;
+      border: 2px dashed rgba(124, 58, 237, .4);
+      border-radius: var(--r-lg);
+      padding: 40px 24px 32px;
+      text-align: center;
+      cursor: pointer;
+      transition: all var(--t-med);
+      background: rgba(124, 58, 237, .04);
+      outline: none;
+    }
+
+    .dvntUpAnh__dropzone:hover,
+    .dvntUpAnh__dropzone:focus-visible {
+      border-color: var(--c-primary);
+      background: rgba(124, 58, 237, .08);
+      box-shadow: 0 0 0 4px var(--c-primary-glow);
+      transform: translateY(-1px);
+    }
+
+    /* Drag-over state */
+    .dvntUpAnh__dropzone--dragover {
+      border-color: var(--c-primary-light);
+      background: rgba(124, 58, 237, .14);
+      box-shadow: 0 0 0 6px var(--c-primary-glow), inset 0 0 32px rgba(124, 58, 237, .1);
+      transform: scale(1.01);
+    }
+
+    .dvntUpAnh__dropzone-icon {
+      margin-bottom: 14px;
+      display: inline-flex;
+      transition: transform var(--t-med);
+    }
+
+    .dvntUpAnh__dropzone:hover .dvntUpAnh__dropzone-icon,
+    .dvntUpAnh__dropzone--dragover .dvntUpAnh__dropzone-icon {
+      transform: translateY(-4px) scale(1.08);
+    }
+
+    .dvntUpAnh__dropzone-text {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--c-text);
+      margin-bottom: 4px;
+    }
+
+    .dvntUpAnh__dropzone-sub {
+      font-size: .85rem;
+      color: var(--c-text-muted);
+      margin-bottom: 20px;
+    }
+
+    .dvntUpAnh__dropzone-btn {
+      pointer-events: none;
+      /* parent handles click */
+    }
+
+    .dvntUpAnh__dropzone-limit {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      font-size: .78rem;
+      color: var(--c-text-sub);
+      margin-top: 14px;
+    }
+
+    .dvntUpAnh__file-input {
+      display: none;
+      /* Ẩn hoàn toàn, mở bằng fileInput.click() */
+    }
+
+    /* ── 7. PREVIEW ───────────────────────────────────── */
+    .dvntUpAnh__preview {
+      border: 1px solid var(--c-border);
+      border-radius: var(--r-md);
+      overflow: hidden;
+      animation: dvntFadeUp .3s ease;
+    }
+
+    @keyframes dvntFadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .dvntUpAnh__preview-inner {
+      display: flex;
+      gap: 20px;
+      padding: 16px;
+      align-items: flex-start;
+    }
+
+    .dvntUpAnh__preview-figure {
+      flex-shrink: 0;
+      width: 120px;
+      height: 100px;
+      border-radius: var(--r-sm);
+      overflow: hidden;
+      background: var(--c-surface-2);
+      border: 1px solid var(--c-border);
+    }
+
+    .dvntUpAnh__preview-img,
+    .dvntUpAnh__preview-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform var(--t-med);
+    }
+
+    .dvntUpAnh__preview-figure:hover .dvntUpAnh__preview-img,
+    .dvntUpAnh__preview-figure:hover .dvntUpAnh__preview-video {
+      transform: scale(1.05);
+    }
+
+    .dvntUpAnh__preview-meta {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .dvntUpAnh__preview-name {
+      font-size: .9rem;
+      font-weight: 600;
+      word-break: break-all;
+      color: var(--c-text);
+    }
+
+    .dvntUpAnh__preview-info {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 18px;
+    }
+
+    .dvntUpAnh__preview-info-item {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .dvntUpAnh__preview-info-label {
+      font-size: .7rem;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--c-text-sub);
+    }
+
+    .dvntUpAnh__preview-info-value {
+      font-size: .85rem;
+      font-weight: 600;
+      color: var(--c-primary-light);
+    }
+
+    /* ── 7B. REVIEW TEMPLATE ─────────────────────────── */
+    .dvntUpAnh__preview-template {
+      margin: 0 16px 16px;
+      border: 1px solid rgba(255, 255, 255, .09);
+      border-radius: var(--r-md);
+      padding: 18px;
+      background:
+        radial-gradient(120% 100% at 100% 0%, rgba(251, 146, 60, .22) 0%, transparent 62%),
+        radial-gradient(120% 100% at 0% 100%, rgba(34, 211, 238, .2) 0%, transparent 58%),
+        linear-gradient(155deg, #1f2430 0%, #171a23 100%);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .05), 0 14px 30px rgba(0, 0, 0, .35);
+    }
+
+    .dvntUpAnh__preview-template.dvntTheme--elegant {
+      background:
+        radial-gradient(110% 100% at 100% 0%, rgba(212, 175, 55, .24) 0%, transparent 62%),
+        radial-gradient(95% 100% at 0% 100%, rgba(255, 233, 160, .18) 0%, transparent 64%),
+        linear-gradient(160deg, #1f1a12 0%, #15110d 100%);
+      border-color: rgba(212, 175, 55, .42);
+    }
+
+    .dvntUpAnh__preview-template.dvntTheme--elegant .dvntUpAnh__preview-template-chip {
+      color: #f5d878;
+      border-color: rgba(245, 216, 120, .45);
+      background: rgba(245, 216, 120, .14);
+    }
+
+    .dvntUpAnh__preview-template.dvntTheme--cute {
+      background:
+        radial-gradient(120% 110% at 0% 0%, rgba(255, 170, 201, .26) 0%, transparent 58%),
+        radial-gradient(120% 110% at 100% 100%, rgba(167, 139, 250, .26) 0%, transparent 58%),
+        linear-gradient(160deg, #261d33 0%, #1f1830 100%);
+      border-color: rgba(244, 114, 182, .4);
+    }
+
+    .dvntUpAnh__preview-template.dvntTheme--cute .dvntUpAnh__preview-template-chip {
+      color: #f9a8d4;
+      border-color: rgba(249, 168, 212, .42);
+      background: rgba(249, 168, 212, .16);
+    }
+
+    .dvntUpAnh__preview-template-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .dvntUpAnh__preview-template-chip {
+      font-size: .68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      padding: 4px 10px;
+      border-radius: var(--r-pill);
+      border: 1px solid rgba(34, 211, 238, .35);
+      color: #67e8f9;
+      background: rgba(34, 211, 238, .13);
+    }
+
+    .dvntUpAnh__preview-template-note {
+      font-size: .75rem;
+      color: #f9d9a6;
+    }
+
+    .dvntUpAnh__preview-template-media {
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, .12);
+      background: rgba(11, 14, 20, .72);
+      min-height: 320px;
+      max-height: 620px;
+    }
+
+    .dvntUpAnh__preview-template-img,
+    .dvntUpAnh__preview-template-video {
+      width: 100%;
+      height: 100%;
+      max-height: 620px;
+      object-fit: contain;
+      display: block;
+    }
+
+    .dvntUpAnh__preview-template-footer {
+      margin-top: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .dvntUpAnh__preview-template-name {
+      font-size: .84rem;
+      font-weight: 700;
+      color: #f8fafc;
+      word-break: break-all;
+    }
+
+    .dvntUpAnh__preview-template-meta {
+      font-size: .78rem;
+      color: #cbd5e1;
+      flex-shrink: 0;
+    }
+
+    .dvntUpAnh__template-picker {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 12px 16px 2px;
+    }
+
+    .dvntUpAnh__template-picker-btn {
+      padding: 6px 10px;
+      font-size: .75rem;
+      border-radius: var(--r-pill);
+      border: 1px solid var(--c-border);
+      background: var(--c-surface-2);
+      color: var(--c-text-muted);
+      cursor: pointer;
+      transition: all var(--t-fast);
+    }
+
+    .dvntUpAnh__template-picker-btn:hover {
+      border-color: rgba(255, 255, 255, .22);
+      color: var(--c-text);
+    }
+
+    .dvntUpAnh__template-picker-btn.is-active {
+      border-color: rgba(34, 211, 238, .5);
+      color: #67e8f9;
+      background: rgba(34, 211, 238, .15);
+    }
+
+    /* ── 8. PROGRESS BAR ──────────────────────────────── */
+    .dvntUpAnh__progress-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      animation: dvntFadeUp .3s ease;
+    }
+
+    .dvntUpAnh__progress-track {
+      flex: 1;
+      height: 8px;
+      background: var(--c-surface-2);
+      border-radius: var(--r-pill);
+      overflow: hidden;
+    }
+
+    .dvntUpAnh__progress-bar {
+      height: 100%;
+      width: 0%;
+      background: var(--grad-primary);
+      border-radius: var(--r-pill);
+      transition: width .2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dvntUpAnh__progress-bar::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, .25) 50%, transparent 100%);
+      animation: dvntShimmer 1.2s linear infinite;
+    }
+
+    @keyframes dvntShimmer {
+      from {
+        transform: translateX(-100%);
+      }
+
+      to {
+        transform: translateX(200%);
+      }
+    }
+
+    .dvntUpAnh__progress-text {
+      font-size: .8rem;
+      font-weight: 600;
+      color: var(--c-primary-light);
+      min-width: 36px;
+      text-align: right;
+    }
+
+    /* ── 9. BUTTONS ───────────────────────────────────── */
+    .dvntUpAnh__btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      font-family: var(--font-base);
+      font-weight: 600;
+      font-size: .88rem;
+      border: none;
+      border-radius: var(--r-sm);
+      cursor: pointer;
+      padding: 8px 16px;
+      transition: all var(--t-fast);
+      text-decoration: none;
+      white-space: nowrap;
+      line-height: 1;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dvntUpAnh__btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 255, 255, 0);
+      transition: background var(--t-fast);
+    }
+
+    .dvntUpAnh__btn:hover::after {
+      background: rgba(255, 255, 255, .06);
+    }
+
+    .dvntUpAnh__btn:active {
+      transform: scale(.97);
+    }
+
+    /* Primary */
+    .dvntUpAnh__btn--primary {
+      background: var(--grad-primary);
+      color: #fff;
+      box-shadow: var(--shadow-btn);
+    }
+
+    .dvntUpAnh__btn--primary:hover {
+      box-shadow: 0 6px 20px rgba(124, 58, 237, .55);
+      transform: translateY(-1px);
+    }
+
+    /* Ghost */
+    .dvntUpAnh__btn--ghost {
+      background: var(--c-surface-2);
+      color: var(--c-text-muted);
+      border: 1px solid var(--c-border);
+    }
+
+    .dvntUpAnh__btn--ghost:hover {
+      background: var(--c-surface);
+      color: var(--c-text);
+      border-color: rgba(255, 255, 255, .15);
+    }
+
+    /* Danger */
+    .dvntUpAnh__btn--danger {
+      background: var(--c-error-bg);
+      color: var(--c-error);
+      border: 1px solid rgba(239, 68, 68, .25);
+    }
+
+    .dvntUpAnh__btn--danger:hover {
+      background: rgba(239, 68, 68, .2);
+      border-color: var(--c-error);
+    }
+
+    .dvntUpAnh__btn--template-active {
+      background: rgba(34, 211, 238, .16);
+      color: #67e8f9;
+      border: 1px solid rgba(34, 211, 238, .38);
+    }
+
+    .dvntUpAnh__btn--template-active:hover {
+      background: rgba(34, 211, 238, .22);
+    }
+
+    /* Sizes */
+    .dvntUpAnh__btn--lg {
+      padding: 12px 24px;
+      font-size: .95rem;
+      border-radius: var(--r-md);
+    }
+
+    .dvntUpAnh__btn--sm {
+      padding: 6px 12px;
+      font-size: .8rem;
+    }
+
+    /* Disabled */
+    .dvntUpAnh__btn:disabled,
+    .dvntUpAnh__btn[disabled] {
+      opacity: .38;
+      pointer-events: none;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* ── 10. ACTIONS ──────────────────────────────────── */
+    .dvntUpAnh__actions {
+      display: flex;
+      gap: 12px;
+    }
+
+    .dvntUpAnh__actions .dvntUpAnh__btn--lg {
+      flex: 1;
+    }
+
+    /* ── 11. RESULT ───────────────────────────────────── */
+    .dvntUpAnh__result {
+      border-radius: var(--r-md);
+      overflow: hidden;
+      animation: dvntFadeUp .4s ease;
+    }
+
+    .dvntUpAnh__result-success,
+    .dvntUpAnh__result-error {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      text-align: center;
+    }
+
+    .dvntUpAnh__result-success[hidden],
+    .dvntUpAnh__result-error[hidden] {
+      display: none !important;
+    }
+
+    .dvntUpAnh__result-success {
+      background: var(--c-success-bg);
+      border: 1px solid rgba(16, 185, 129, .25);
+      border-radius: var(--r-md);
+    }
+
+    .dvntUpAnh__result-error {
+      background: var(--c-error-bg);
+      border: 1px solid rgba(239, 68, 68, .25);
+      border-radius: var(--r-md);
+    }
+
+    .dvntUpAnh__result-badge {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .dvntUpAnh__result-badge--success {
+      background: rgba(16, 185, 129, .2);
+      color: var(--c-success);
+      box-shadow: 0 0 0 6px rgba(16, 185, 129, .1);
+      animation: dvntPop .4s cubic-bezier(.34, 1.56, .64, 1);
+    }
+
+    .dvntUpAnh__result-badge--error {
+      background: rgba(239, 68, 68, .2);
+      color: var(--c-error);
+      box-shadow: 0 0 0 6px rgba(239, 68, 68, .1);
+      animation: dvntPop .4s cubic-bezier(.34, 1.56, .64, 1);
+    }
+
+    @keyframes dvntPop {
+      from {
+        transform: scale(0);
+        opacity: 0;
+      }
+
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .dvntUpAnh__result-msg {
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .dvntUpAnh__result-sub {
+      font-size: .85rem;
+      color: var(--c-text-muted);
+    }
+
+    .dvntUpAnh__result-link-wrap {
+      width: 100%;
+      text-align: left;
+    }
+
+    .dvntUpAnh__result-link-label {
+      font-size: .75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--c-text-sub);
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    .dvntUpAnh__result-link-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .dvntUpAnh__result-link-input {
+      flex: 1;
+      min-width: 0;
+      font-family: var(--font-base);
+      font-size: .85rem;
+      padding: 9px 13px;
+      background: var(--c-surface-2);
+      border: 1px solid var(--c-border);
+      border-radius: var(--r-sm);
+      color: var(--c-text);
+      outline: none;
+      transition: border-color var(--t-fast), box-shadow var(--t-fast);
+    }
+
+    .dvntUpAnh__result-link-input:focus {
+      border-color: var(--c-primary);
+      box-shadow: var(--shadow-input);
+    }
+
+    /* ── 12. HISTORY ──────────────────────────────────── */
+    .dvntUpAnh__history {
+      background: var(--c-surface);
+      border: 1px solid var(--c-border);
+      border-radius: var(--r-xl);
+      box-shadow: var(--shadow-card);
+      padding: 22px 26px;
+    }
+
+    .dvntUpAnh__history-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .dvntUpAnh__history-title {
+      font-size: 1rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--c-text);
+    }
+
+    .dvntUpAnh__history-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .dvntUpAnh__history-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      background: var(--c-surface-2);
+      border: 1px solid var(--c-border);
+      border-radius: var(--r-md);
+      transition: border-color var(--t-fast), transform var(--t-fast);
+      animation: dvntFadeUp .3s ease;
+    }
+
+    .dvntUpAnh__history-item:hover {
+      border-color: rgba(124, 58, 237, .35);
+      transform: translateX(2px);
+    }
+
+    .dvntUpAnh__history-item-thumb {
+      width: 52px;
+      height: 44px;
+      border-radius: var(--r-sm);
+      object-fit: cover;
+      flex-shrink: 0;
+      border: 1px solid var(--c-border);
+      background: var(--c-surface);
+    }
+
+    .dvntUpAnh__history-item-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .dvntUpAnh__history-item-name {
+      font-size: .85rem;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: var(--c-text);
+      margin-bottom: 2px;
+    }
+
+    .dvntUpAnh__history-item-link {
+      font-size: .75rem;
+      color: var(--c-text-sub);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: block;
+    }
+
+    .dvntUpAnh__history-item-actions {
+      display: flex;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .dvntUpAnh__history-empty {
+      text-align: center;
+      padding: 28px 0;
+      color: var(--c-text-sub);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      font-size: .88rem;
+    }
+
+    /* ── 13. TOAST ────────────────────────────────────── */
+    .dvntUpAnh__toast {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 9999;
+      font-family: var(--font-base);
+      font-size: .9rem;
+      font-weight: 600;
+      padding: 13px 20px;
+      border-radius: var(--r-md);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, .4);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      max-width: 340px;
+      pointer-events: none;
+      opacity: 0;
+      transform: translateX(20px) scale(.95);
+      transition: all .3s cubic-bezier(.4, 0, .2, 1);
+      backdrop-filter: blur(12px);
+    }
+
+    .dvntUpAnh__toast--show {
+      opacity: 1;
+      transform: translateX(0) scale(1);
+      pointer-events: auto;
+    }
+
+    .dvntUpAnh__toast--success {
+      background: rgba(16, 185, 129, .15);
+      border: 1px solid rgba(16, 185, 129, .4);
+      color: #6EE7B7;
+    }
+
+    .dvntUpAnh__toast--error {
+      background: rgba(239, 68, 68, .15);
+      border: 1px solid rgba(239, 68, 68, .4);
+      color: #FCA5A5;
+    }
+
+    .dvntUpAnh__toast--info {
+      background: rgba(124, 58, 237, .15);
+      border: 1px solid rgba(124, 58, 237, .4);
+      color: #C4B5FD;
+    }
+
+    /* ── 14. FOOTER ───────────────────────────────────── */
+    .dvntUpAnh__footer {
+      padding: 20px 0;
+      text-align: center;
+      border-top: 1px solid var(--c-border);
+      margin-top: auto;
+    }
+
+    .dvntUpAnh__footer-text {
+      font-size: .78rem;
+      color: var(--c-text-sub);
+    }
+
+    /* ── 15. UPLOADING STATE ──────────────────────────── */
+    .dvntUpAnh__card--uploading .dvntUpAnh__dropzone {
+      pointer-events: none;
+      opacity: .5;
+    }
+
+    /* ── 16. RESPONSIVE ───────────────────────────────── */
+    @media (max-width: 600px) {
+      .dvntUpAnh__card {
+        padding: 18px;
+      }
+
+      .dvntUpAnh__history {
+        padding: 16px;
+      }
+
+      .dvntUpAnh__header-inner {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .dvntUpAnh__header-text {
+        text-align: center;
+      }
+
+      .dvntUpAnh__dropzone {
+        padding: 28px 16px 22px;
+      }
+
+      .dvntUpAnh__preview-inner {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .dvntUpAnh__preview-figure {
+        width: 100%;
+        height: 160px;
+      }
+
+      .dvntUpAnh__preview-template {
+        margin: 0 10px 12px;
+        padding: 14px;
+      }
+
+      .dvntUpAnh__template-picker {
+        margin: 10px 10px 0;
+      }
+
+      .dvntUpAnh__preview-template-media {
+        min-height: 240px;
+      }
+
+      .dvntUpAnh__preview-template-footer {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .dvntUpAnh__actions {
+        flex-direction: column;
+      }
+
+      .dvntUpAnh__result-link-row {
+        flex-wrap: wrap;
+      }
+
+      .dvntUpAnh__result-link-input {
+        min-width: 100%;
+      }
+
+      .dvntUpAnh__history-item {
+        flex-wrap: wrap;
+      }
+
+      .dvntUpAnh__history-item-thumb {
+        width: 44px;
+        height: 40px;
+      }
+
+      .dvntUpAnh__toast {
+        top: 12px;
+        right: 12px;
+        left: 12px;
+        max-width: none;
+      }
+
+      .dvntReview {
+        padding: 12px;
+      }
+
+      .dvntReview__panel {
+        padding: 14px;
+        border-radius: 18px;
+      }
+
+      .dvntReview__head {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .dvntReview__name {
+        text-align: left;
+      }
+
+      .dvntReview__media-wrap {
+        min-height: 300px;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .dvntUpAnh__header-title {
+        font-size: 1.25rem;
+      }
+
+      .dvntUpAnh__btn--lg {
+        padding: 11px 16px;
+        font-size: .88rem;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
   <!-- Toast Notification -->
@@ -1207,13 +1406,42 @@ body.dvntUpAnh__is-review .dvnt-footer {
         <span class="dvntReview__badge">Review</span>
         <p id="reviewViewerName" class="dvntReview__name"></p>
       </div>
-      <div class="dvntReview__media-wrap">
-        <img id="reviewViewerImg" class="dvntReview__img" src="" alt="Noi dung review" />
-        <video id="reviewViewerVideo" class="dvntReview__video" controls playsinline hidden style="display:none"></video>
+      <div class="dvntReview__media-wrap" id="reviewMediaWrap">
+        <!-- Zoom canvas -->
+        <div class="dvntReview__zoom-canvas" id="reviewZoomCanvas">
+          <img id="reviewViewerImg" class="dvntReview__img" src="" alt="Noi dung review" />
+          <video id="reviewViewerVideo" class="dvntReview__video" controls playsinline hidden
+            style="display:none"></video>
+        </div>
+        <!-- Zoom Controls -->
+        <div class="dvntReview__zoom-controls" id="reviewZoomControls" aria-label="Điều khiển zoom">
+          <button class="dvntReview__zoom-btn" id="reviewZoomOut" title="Thu nhỏ (−)" aria-label="Thu nhỏ">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round">
+              <line x1="5" y1="12" x2="19" y2="12" />
+            </svg>
+          </button>
+          <span class="dvntReview__zoom-level" id="reviewZoomLevel">100%</span>
+          <button class="dvntReview__zoom-btn" id="reviewZoomIn" title="Phóng to (+)" aria-label="Phóng to">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round">
+              <line x1="12" y1="5" x2="12" y2="19" />
+              <line x1="5" y1="12" x2="19" y2="12" />
+            </svg>
+          </button>
+          <button class="dvntReview__zoom-btn" id="reviewZoomReset" title="Đặt lại (R)" aria-label="Đặt lại zoom">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+              <path d="M3 3v5h5" />
+            </svg>
+          </button>
+        </div>
       </div>
       <div class="dvntReview__foot">
         <p id="reviewViewerMeta" class="dvntReview__meta"></p>
-        <a id="reviewViewerOpenRaw" class="dvntUpAnh__btn dvntUpAnh__btn--ghost" href="#" target="_blank" rel="noopener noreferrer">Mở file gốc</a>
+        <a id="reviewViewerOpenRaw" class="dvntUpAnh__btn dvntUpAnh__btn--ghost" href="#" target="_blank"
+          rel="noopener noreferrer">Mở file gốc</a>
       </div>
     </div>
   </section>
@@ -1223,28 +1451,28 @@ body.dvntUpAnh__is-review .dvnt-footer {
 
     <!-- ========== HEADER ========== -->
     <header class="doitenhinhanhsticky__header" id="doitenhinhanhsticky__header">
-        <!-- render header -->
+      <!-- render header -->
     </header>
     <!-- Đoạn scrip render header -->
     <script>
-        fetch('./templates/header.html')
-            .then(response => response.text())
-            .then(data => {
-                document.querySelector("#doitenhinhanhsticky__header").innerHTML = data;
-            })
-            .catch(error => console.error('Lỗi:', error));
+      fetch('./templates/header.html')
+        .then(response => response.text())
+        .then(data => {
+          document.querySelector("#doitenhinhanhsticky__header").innerHTML = data;
+        })
+        .catch(error => console.error('Lỗi:', error));
     </script>
     <div class="dvntUpAnh__header" role="banner">
       <div class="dvntUpAnh__header-inner">
         <div class="dvntUpAnh__header-logo" aria-hidden="true">
           <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="36" height="36" rx="10" fill="url(#logoGrad)"/>
-            <path d="M10 24l5-6 4 5 3-4 4 5H10z" fill="white" opacity=".9"/>
-            <circle cx="23" cy="14" r="3" fill="white"/>
+            <rect width="36" height="36" rx="10" fill="url(#logoGrad)" />
+            <path d="M10 24l5-6 4 5 3-4 4 5H10z" fill="white" opacity=".9" />
+            <circle cx="23" cy="14" r="3" fill="white" />
             <defs>
               <linearGradient id="logoGrad" x1="0" y1="0" x2="36" y2="36" gradientUnits="userSpaceOnUse">
-                <stop stop-color="#7C3AED"/>
-                <stop offset="1" stop-color="#4F46E5"/>
+                <stop stop-color="#7C3AED" />
+                <stop offset="1" stop-color="#4F46E5" />
               </linearGradient>
             </defs>
           </svg>
@@ -1263,57 +1491,52 @@ body.dvntUpAnh__is-review .dvnt-footer {
       <section class="dvntUpAnh__card" aria-label="Khu vực tải ảnh lên">
 
         <!-- Drop Zone -->
-        <div
-          id="dropZone"
-          class="dvntUpAnh__dropzone"
-          role="button"
-          tabindex="0"
-          aria-label="Kéo thả ảnh vào đây hoặc nhấn để chọn ảnh"
-          aria-describedby="dropzone-hint"
-        >
+        <div id="dropZone" class="dvntUpAnh__dropzone" role="button" tabindex="0"
+          aria-label="Kéo thả ảnh vào đây hoặc nhấn để chọn ảnh" aria-describedby="dropzone-hint">
           <div class="dvntUpAnh__dropzone-icon" aria-hidden="true">
             <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="28" cy="28" r="28" fill="url(#dropGrad)" opacity=".12"/>
-              <path d="M28 36V22M28 22l-5 5M28 22l5 5" stroke="url(#dropGrad2)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-              <rect x="18" y="38" width="20" height="2.5" rx="1.25" fill="url(#dropGrad2)" opacity=".7"/>
+              <circle cx="28" cy="28" r="28" fill="url(#dropGrad)" opacity=".12" />
+              <path d="M28 36V22M28 22l-5 5M28 22l5 5" stroke="url(#dropGrad2)" stroke-width="2.2"
+                stroke-linecap="round" stroke-linejoin="round" />
+              <rect x="18" y="38" width="20" height="2.5" rx="1.25" fill="url(#dropGrad2)" opacity=".7" />
               <defs>
                 <linearGradient id="dropGrad" x1="0" y1="0" x2="56" y2="56" gradientUnits="userSpaceOnUse">
-                  <stop stop-color="#7C3AED"/>
-                  <stop offset="1" stop-color="#4F46E5"/>
+                  <stop stop-color="#7C3AED" />
+                  <stop offset="1" stop-color="#4F46E5" />
                 </linearGradient>
                 <linearGradient id="dropGrad2" x1="18" y1="22" x2="38" y2="42" gradientUnits="userSpaceOnUse">
-                  <stop stop-color="#7C3AED"/>
-                  <stop offset="1" stop-color="#4F46E5"/>
+                  <stop stop-color="#7C3AED" />
+                  <stop offset="1" stop-color="#4F46E5" />
                 </linearGradient>
               </defs>
             </svg>
           </div>
           <p class="dvntUpAnh__dropzone-text">Kéo &amp; thả ảnh hoặc video vào đây</p>
-          <p class="dvntUpAnh__dropzone-sub" id="dropzone-hint">hoặc nhấn để chọn từ máy tính, Ctrl + V hoặc Cmd + V để dán ảnh</p>
-          <button
-            id="btnChooseFile"
-            class="dvntUpAnh__btn dvntUpAnh__btn--primary dvntUpAnh__dropzone-btn"
-            type="button"
-            aria-label="Chọn ảnh từ thiết bị"
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+          <p class="dvntUpAnh__dropzone-sub" id="dropzone-hint">hoặc nhấn để chọn từ máy tính, Ctrl + V hoặc Cmd + V để
+            dán ảnh</p>
+          <button id="btnChooseFile" class="dvntUpAnh__btn dvntUpAnh__btn--primary dvntUpAnh__dropzone-btn"
+            type="button" aria-label="Chọn ảnh từ thiết bị">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="3" y="3" width="18" height="18" rx="2" />
+              <circle cx="8.5" cy="8.5" r="1.5" />
+              <polyline points="21 15 16 10 5 21" />
             </svg>
             Chọn ảnh
           </button>
           <p class="dvntUpAnh__dropzone-limit">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              aria-hidden="true">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="8" x2="12" y2="12" />
+              <line x1="12" y1="16" x2="12.01" y2="16" />
+            </svg>
             Hỗ trợ: JPG, PNG, WEBP, GIF, MP4, WEBM · Ảnh tối đa 10MB · Video tối đa 100MB
           </p>
           <!-- Hidden file input -->
-          <input
-            id="fileInput"
-            class="dvntUpAnh__file-input"
-            type="file"
+          <input id="fileInput" class="dvntUpAnh__file-input" type="file"
             accept=".jpg,.jpeg,.png,.webp,.gif,.mp4,.webm,.mov,.avi,image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm,video/quicktime,video/x-msvideo"
-            aria-hidden="true"
-            tabindex="-1"
-          />
+            aria-hidden="true" tabindex="-1" />
         </div>
 
         <!-- Preview Section -->
@@ -1321,7 +1544,8 @@ body.dvntUpAnh__is-review .dvnt-footer {
           <div class="dvntUpAnh__preview-inner">
             <figure class="dvntUpAnh__preview-figure">
               <img id="previewImg" class="dvntUpAnh__preview-img" src="" alt="Ảnh xem trước" />
-              <video id="previewVideo" class="dvntUpAnh__preview-video" controls muted playsinline hidden style="display:none"></video>
+              <video id="previewVideo" class="dvntUpAnh__preview-video" controls muted playsinline hidden
+                style="display:none"></video>
             </figure>
             <div class="dvntUpAnh__preview-meta">
               <p class="dvntUpAnh__preview-name" id="previewName" aria-label="Tên file"></p>
@@ -1335,13 +1559,15 @@ body.dvntUpAnh__is-review .dvnt-footer {
                   <span class="dvntUpAnh__preview-info-value" id="previewType">—</span>
                 </li>
               </ul>
-              <button
-                id="btnRemove"
-                class="dvntUpAnh__btn dvntUpAnh__btn--danger dvntUpAnh__btn--sm"
-                type="button"
-                aria-label="Xóa ảnh đã chọn"
-              >
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+              <button id="btnRemove" class="dvntUpAnh__btn dvntUpAnh__btn--danger dvntUpAnh__btn--sm" type="button"
+                aria-label="Xóa ảnh đã chọn">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polyline points="3 6 5 6 21 6" />
+                  <path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6" />
+                  <path d="M10 11v6M14 11v6" />
+                  <path d="M9 6V4h6v2" />
+                </svg>
                 Xóa ảnh
               </button>
             </div>
@@ -1354,7 +1580,8 @@ body.dvntUpAnh__is-review .dvnt-footer {
             </div>
             <div class="dvntUpAnh__preview-template-media">
               <img id="previewTemplateImg" class="dvntUpAnh__preview-template-img" src="" alt="Review anh lon" />
-              <video id="previewTemplateVideo" class="dvntUpAnh__preview-template-video" controls muted playsinline hidden style="display:none"></video>
+              <video id="previewTemplateVideo" class="dvntUpAnh__preview-template-video" controls muted playsinline
+                hidden style="display:none"></video>
             </div>
             <div class="dvntUpAnh__preview-template-footer">
               <p id="previewTemplateName" class="dvntUpAnh__preview-template-name"></p>
@@ -1363,14 +1590,16 @@ body.dvntUpAnh__is-review .dvnt-footer {
           </div>
 
           <div class="dvntUpAnh__template-picker" role="group" aria-label="Chon mau review">
-            <button type="button" class="dvntUpAnh__template-picker-btn is-active" data-theme="default">Mặc định</button>
+            <button type="button" class="dvntUpAnh__template-picker-btn is-active" data-theme="default">Mặc
+              định</button>
             <button type="button" class="dvntUpAnh__template-picker-btn" data-theme="elegant">Sang trọng</button>
             <button type="button" class="dvntUpAnh__template-picker-btn" data-theme="cute">Dễ thương</button>
           </div>
         </div>
 
         <!-- Progress Bar -->
-        <div id="progressWrap" class="dvntUpAnh__progress-wrap" hidden role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Tiến trình tải lên">
+        <div id="progressWrap" class="dvntUpAnh__progress-wrap" hidden role="progressbar" aria-valuemin="0"
+          aria-valuemax="100" aria-valuenow="0" aria-label="Tiến trình tải lên">
           <div class="dvntUpAnh__progress-track">
             <div id="progressBar" class="dvntUpAnh__progress-bar"></div>
           </div>
@@ -1379,34 +1608,33 @@ body.dvntUpAnh__is-review .dvnt-footer {
 
         <!-- Action Buttons -->
         <div class="dvntUpAnh__actions" role="group" aria-label="Thao tác upload">
-          <button
-            id="btnPreviewTemplate"
-            class="dvntUpAnh__btn dvntUpAnh__btn--ghost dvntUpAnh__btn--lg"
-            type="button"
-            disabled
-            aria-disabled="true"
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 12h10"/><path d="M12 7v10"/></svg>
+          <button id="btnPreviewTemplate" class="dvntUpAnh__btn dvntUpAnh__btn--ghost dvntUpAnh__btn--lg" type="button"
+            disabled aria-disabled="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="3" y="3" width="18" height="18" rx="2" />
+              <path d="M7 12h10" />
+              <path d="M12 7v10" />
+            </svg>
             <span id="btnPreviewTemplateText">Mẫu hiển thị</span>
           </button>
-          <button
-            id="btnUpload"
-            class="dvntUpAnh__btn dvntUpAnh__btn--primary dvntUpAnh__btn--lg"
-            type="button"
-            disabled
-            aria-disabled="true"
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          <button id="btnUpload" class="dvntUpAnh__btn dvntUpAnh__btn--primary dvntUpAnh__btn--lg" type="button"
+            disabled aria-disabled="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+              <polyline points="17 8 12 3 7 8" />
+              <line x1="12" y1="3" x2="12" y2="15" />
+            </svg>
             <span id="btnUploadText">Upload ảnh</span>
           </button>
-          <button
-            id="btnReset"
-            class="dvntUpAnh__btn dvntUpAnh__btn--ghost dvntUpAnh__btn--lg"
-            type="button"
-            disabled
-            aria-disabled="true"
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.51"/></svg>
+          <button id="btnReset" class="dvntUpAnh__btn dvntUpAnh__btn--ghost dvntUpAnh__btn--lg" type="button" disabled
+            aria-disabled="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="1 4 1 10 7 10" />
+              <path d="M3.51 15a9 9 0 1 0 .49-3.51" />
+            </svg>
             Làm mới
           </button>
         </div>
@@ -1415,25 +1643,34 @@ body.dvntUpAnh__is-review .dvnt-footer {
         <div id="resultSection" class="dvntUpAnh__result" hidden aria-label="Kết quả upload">
           <div id="resultSuccess" class="dvntUpAnh__result-success" hidden>
             <div class="dvntUpAnh__result-badge dvntUpAnh__result-badge--success" aria-hidden="true">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
             </div>
             <p class="dvntUpAnh__result-msg">Upload thành công!</p>
             <div class="dvntUpAnh__result-link-wrap">
               <label for="resultLink" class="dvntUpAnh__result-link-label">Link ảnh của bạn</label>
               <div class="dvntUpAnh__result-link-row">
-                <input
-                  id="resultLink"
-                  type="text"
-                  class="dvntUpAnh__result-link-input"
-                  readonly
-                  aria-label="Link ảnh sau khi upload"
-                />
-                <button id="btnCopyLink" class="dvntUpAnh__btn dvntUpAnh__btn--primary" type="button" aria-label="Sao chép link ảnh">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                <input id="resultLink" type="text" class="dvntUpAnh__result-link-input" readonly
+                  aria-label="Link ảnh sau khi upload" />
+                <button id="btnCopyLink" class="dvntUpAnh__btn dvntUpAnh__btn--primary" type="button"
+                  aria-label="Sao chép link ảnh">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="9" y="9" width="13" height="13" rx="2" />
+                    <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" />
+                  </svg>
                   Copy
                 </button>
-                <a id="btnOpenLink" class="dvntUpAnh__btn dvntUpAnh__btn--ghost" href="#" target="_blank" rel="noopener noreferrer" aria-label="Mở link ảnh trong tab mới">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                <a id="btnOpenLink" class="dvntUpAnh__btn dvntUpAnh__btn--ghost" href="#" target="_blank"
+                  rel="noopener noreferrer" aria-label="Mở link ảnh trong tab mới">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
+                    <polyline points="15 3 21 3 21 9" />
+                    <line x1="10" y1="14" x2="21" y2="3" />
+                  </svg>
                   Mở
                 </a>
               </div>
@@ -1441,7 +1678,11 @@ body.dvntUpAnh__is-review .dvnt-footer {
           </div>
           <div id="resultError" class="dvntUpAnh__result-error" hidden>
             <div class="dvntUpAnh__result-badge dvntUpAnh__result-badge--error" aria-hidden="true">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
             </div>
             <p class="dvntUpAnh__result-msg">Upload thất bại!</p>
             <p id="resultErrorMsg" class="dvntUpAnh__result-sub"></p>
@@ -1455,10 +1696,15 @@ body.dvntUpAnh__is-review .dvnt-footer {
       <section class="dvntUpAnh__history" aria-label="Lịch sử upload ảnh">
         <div class="dvntUpAnh__history-header">
           <h2 class="dvntUpAnh__history-title">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10" />
+              <polyline points="12 6 12 12 16 14" />
+            </svg>
             Lịch sử upload
           </h2>
-          <button id="btnClearHistory" class="dvntUpAnh__btn dvntUpAnh__btn--danger dvntUpAnh__btn--sm" type="button" aria-label="Xóa toàn bộ lịch sử">
+          <button id="btnClearHistory" class="dvntUpAnh__btn dvntUpAnh__btn--danger dvntUpAnh__btn--sm" type="button"
+            aria-label="Xóa toàn bộ lịch sử">
             Xóa tất cả
           </button>
         </div>
@@ -1466,7 +1712,12 @@ body.dvntUpAnh__is-review .dvnt-footer {
           <!-- Items injected by JS -->
         </div>
         <div id="historyEmpty" class="dvntUpAnh__history-empty" aria-live="polite">
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" opacity=".35"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+            aria-hidden="true" opacity=".35">
+            <rect x="3" y="3" width="18" height="18" rx="2" />
+            <circle cx="8.5" cy="8.5" r="1.5" />
+            <polyline points="21 15 16 10 5 21" />
+          </svg>
           <p>Chưa có ảnh nào được upload</p>
         </div>
       </section>
@@ -1474,20 +1725,20 @@ body.dvntUpAnh__is-review .dvnt-footer {
     </main>
     <!-- /Main -->
 
-  
+
 
   </div>
   <!-- /Wrapper -->
   <!-- ========== FOOTER ========== -->
-   <footer class="dvnt-footer" id="dvnt-footer"></footer>
-        <script>
-        fetch('./templates/footer.html')
-            .then(response => response.text())
-            .then(data => {
-                document.querySelector("#dvnt-footer").innerHTML = data;
-            })
-            .catch(error => console.error('Lỗi:', error));
-    </script>
+  <footer class="dvnt-footer" id="dvnt-footer"></footer>
+  <script>
+    fetch('./templates/footer.html')
+      .then(response => response.text())
+      .then(data => {
+        document.querySelector("#dvnt-footer").innerHTML = data;
+      })
+      .catch(error => console.error('Lỗi:', error));
+  </script>
   <script>
     /**
  * =====================================================
@@ -1498,1091 +1749,1091 @@ body.dvntUpAnh__is-review .dvnt-footer {
  * =====================================================
  */
 
-'use strict';
-
-/* ── 1. CẤU HÌNH ──────────────────────────────────── */
-
-/** Google Apps Script Web App URL — nhận file và lưu vào Drive */
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzhql-2LNyBz5SB18LojaO0cHf3ueoRvYoRxP-5PgnPqWmbIeChJCmn15NnylOftiEwKg/exec';
-
-/** Giới hạn dung lượng ảnh: 10MB */
-const MAX_SIZE_IMG_MB    = 10;
-const MAX_SIZE_IMG_BYTES = MAX_SIZE_IMG_MB * 1024 * 1024;
-
-/** Giới hạn dung lượng video: 100MB */
-const MAX_SIZE_VID_MB    = 100;
-const MAX_SIZE_VID_BYTES = MAX_SIZE_VID_MB * 1024 * 1024;
-
-/** Loại file chấp nhận */
-const ACCEPT_TYPES = [
-  'image/jpeg', 'image/png', 'image/webp', 'image/gif',
-  'video/mp4', 'video/webm', 'video/quicktime', 'video/x-msvideo',
-];
-
-/** Key lưu localStorage */
-const LS_KEY = 'dvntUpAnh_history';
-const LS_KEY_TEMPLATE_PREF = 'dvntUpAnh_template_pref';
-const LS_KEY_TEMPLATE_STYLE = 'dvntUpAnh_template_style';
-
-/* ── 2. DOM REFERENCES ────────────────────────────── */
-
-const dropZone      = document.getElementById('dropZone');
-const fileInput     = document.getElementById('fileInput');
-const btnChooseFile = document.getElementById('btnChooseFile');
-const previewSection= document.getElementById('previewSection');
-const previewImg    = document.getElementById('previewImg');
-const previewName   = document.getElementById('previewName');
-const previewSize   = document.getElementById('previewSize');
-const previewType   = document.getElementById('previewType');
-const previewTemplate = document.getElementById('previewTemplate');
-const previewTemplateImg = document.getElementById('previewTemplateImg');
-const previewTemplateVideo = document.getElementById('previewTemplateVideo');
-const previewTemplateName = document.getElementById('previewTemplateName');
-const previewTemplateMeta = document.getElementById('previewTemplateMeta');
-const btnRemove     = document.getElementById('btnRemove');
-const progressWrap  = document.getElementById('progressWrap');
-const progressBar   = document.getElementById('progressBar');
-const progressText  = document.getElementById('progressText');
-const btnPreviewTemplate = document.getElementById('btnPreviewTemplate');
-const btnPreviewTemplateText = document.getElementById('btnPreviewTemplateText');
-const btnUpload     = document.getElementById('btnUpload');
-const btnUploadText = document.getElementById('btnUploadText');
-const btnReset      = document.getElementById('btnReset');
-const resultSection = document.getElementById('resultSection');
-const resultSuccess = document.getElementById('resultSuccess');
-const resultError   = document.getElementById('resultError');
-const resultLink    = document.getElementById('resultLink');
-const resultErrorMsg= document.getElementById('resultErrorMsg');
-const btnCopyLink   = document.getElementById('btnCopyLink');
-const btnOpenLink   = document.getElementById('btnOpenLink');
-const historyList   = document.getElementById('historyList');
-const historyEmpty  = document.getElementById('historyEmpty');
-const btnClearHistory = document.getElementById('btnClearHistory');
-const toastEl       = document.getElementById('toast');
-const card          = document.querySelector('.dvntUpAnh__card');
-const reviewViewer = document.getElementById('reviewViewer');
-const reviewViewerImg = document.getElementById('reviewViewerImg');
-const reviewViewerVideo = document.getElementById('reviewViewerVideo');
-const reviewViewerName = document.getElementById('reviewViewerName');
-const reviewViewerMeta = document.getElementById('reviewViewerMeta');
-const reviewViewerOpenRaw = document.getElementById('reviewViewerOpenRaw');
-const templatePickerButtons = document.querySelectorAll('.dvntUpAnh__template-picker-btn');
-
-/* ── 3. STATE ─────────────────────────────────────── */
-
-let selectedFile = null;  // File object được chọn
-let isUploading  = false; // Trạng thái đang upload
-let isTemplatePreviewOn = getTemplatePreference(); // Bật/tắt mẫu hiển thị review (cache)
-let selectedTemplateStyle = getTemplateStylePreference();
-
-/**
- * Lấy lựa chọn mẫu hiển thị đã lưu
- * @returns {boolean}
- */
-function getTemplatePreference() {
-  try {
-    return localStorage.getItem(LS_KEY_TEMPLATE_PREF) === '1';
-  } catch {
-    return false;
-  }
-}
-
-/**
- * Lưu lựa chọn mẫu hiển thị
- * @param {boolean} enabled
- */
-function saveTemplatePreference(enabled) {
-  try {
-    localStorage.setItem(LS_KEY_TEMPLATE_PREF, enabled ? '1' : '0');
-  } catch {
-    // Ignore if storage is unavailable
-  }
-}
-
-/**
- * Lấy style mẫu review đã lưu
- * @returns {'default'|'elegant'|'cute'}
- */
-function getTemplateStylePreference() {
-  try {
-    const saved = localStorage.getItem(LS_KEY_TEMPLATE_STYLE);
-    if (saved === 'elegant' || saved === 'cute' || saved === 'default') {
-      return saved;
-    }
-    return 'default';
-  } catch {
-    return 'default';
-  }
-}
-
-/**
- * Lưu style mẫu review
- * @param {'default'|'elegant'|'cute'} style
- */
-function saveTemplateStylePreference(style) {
-  try {
-    localStorage.setItem(LS_KEY_TEMPLATE_STYLE, style);
-  } catch {
-    // Ignore if storage is unavailable
-  }
-}
-
-/* ── 4. TOAST NOTIFICATION ────────────────────────── */
-
-let toastTimer = null;
-
-/**
- * Hiện toast thông báo
- * @param {string} msg - Nội dung thông báo
- * @param {'success'|'error'|'info'} type - Loại thông báo
- * @param {number} duration - Thời gian hiển thị (ms)
- */
-function showToast(msg, type = 'info', duration = 3000) {
-  clearTimeout(toastTimer);
-  toastEl.className = 'dvntUpAnh__toast';
-
-  // Icon theo loại
-  const icons = {
-    success: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>',
-    error:   '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>',
-    info:    '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>',
-  };
-
-  toastEl.innerHTML = (icons[type] || icons.info) + `<span>${msg}</span>`;
-  toastEl.classList.add(`dvntUpAnh__toast--${type}`, 'dvntUpAnh__toast--show');
-
-  toastTimer = setTimeout(() => {
-    toastEl.classList.remove('dvntUpAnh__toast--show');
-  }, duration);
-}
-
-/* ── 5. FILE VALIDATION ───────────────────────────── */
-
-/**
- * Kiểm tra file có phải video không
- * @param {File} file
- * @returns {boolean}
- */
-function isVideo(file) {
-  return file.type.startsWith('video/');
-}
-
-/**
- * Kiểm tra file hợp lệ
- * @param {File} file
- * @returns {{ valid: boolean, error?: string }}
- */
-function validateFile(file) {
-  if (!ACCEPT_TYPES.includes(file.type)) {
-    return { valid: false, error: `Định dạng "${file.type}" không được hỗ trợ. Chỉ nhận: JPG, PNG, WEBP, GIF, MP4, WEBM.` };
-  }
-  const maxBytes = isVideo(file) ? MAX_SIZE_VID_BYTES : MAX_SIZE_IMG_BYTES;
-  const maxMB    = isVideo(file) ? MAX_SIZE_VID_MB    : MAX_SIZE_IMG_MB;
-  if (file.size > maxBytes) {
-    return { valid: false, error: `File quá lớn (${formatSize(file.size)}). Tối đa ${maxMB}MB.` };
-  }
-  return { valid: true };
-}
-
-/* ── 6. FORMAT HELPERS ────────────────────────────── */
-
-/**
- * Định dạng dung lượng file
- * @param {number} bytes
- * @returns {string}
- */
-function formatSize(bytes) {
-  if (bytes < 1024) return bytes + ' B';
-  if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
-  return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
-}
-
-/**
- * Lấy extension từ MIME type
- * @param {string} mimeType
- * @returns {string}
- */
-function getMimeLabel(mimeType) {
-  const map = {
-    'image/jpeg':      'JPEG',
-    'image/png':       'PNG',
-    'image/webp':      'WEBP',
-    'image/gif':       'GIF',
-    'video/mp4':       'MP4',
-    'video/webm':      'WEBM',
-    'video/quicktime': 'MOV',
-    'video/x-msvideo': 'AVI',
-  };
-  return map[mimeType] || mimeType.split('/')[1].toUpperCase();
-}
-
-/**
- * Kiểm tra URL có an toàn để gán vào src/href không
- * @param {string} url
- * @returns {boolean}
- */
-function isSafeMediaUrl(url) {
-  try {
-    const parsed = new URL(url);
-    return parsed.protocol === 'https:' || parsed.protocol === 'http:';
-  } catch {
-    return false;
-  }
-}
-
-/**
- * Trích xuất fileId từ Google Drive URL
- * @param {string} url
- * @returns {string}
- */
-function getGoogleDriveFileId(url) {
-  try {
-    const parsed = new URL(url);
-    const host = parsed.hostname.toLowerCase();
-
-    if (!host.includes('drive.google.com') && !host.includes('docs.google.com')) {
-      return '';
-    }
-
-    const idParam = parsed.searchParams.get('id');
-    if (idParam) return idParam;
-
-    const fileMatch = parsed.pathname.match(/\/file\/d\/([^/]+)/i);
-    if (fileMatch?.[1]) return fileMatch[1];
-
-    const dMatch = parsed.pathname.match(/\/d\/([^/]+)/i);
-    if (dMatch?.[1]) return dMatch[1];
-
-    return '';
-  } catch {
-    return '';
-  }
-}
-
-/**
- * Chuẩn hóa URL media để render trong thẻ img/video ổn định hơn
- * @param {string} rawUrl
- * @param {'image'|'video'} kind
- * @returns {{displayUrl: string, rawUrl: string}}
- */
-function normalizeReviewMediaUrl(rawUrl, kind) {
-  if (!isSafeMediaUrl(rawUrl)) {
-    return { displayUrl: '', rawUrl: '' };
-  }
-
-  const fileId = getGoogleDriveFileId(rawUrl);
-  if (!fileId) {
-    return { displayUrl: rawUrl, rawUrl };
-  }
-
-  if (kind === 'video') {
-    return {
-      displayUrl: `https://drive.google.com/uc?export=download&id=${encodeURIComponent(fileId)}`,
-      rawUrl,
-    };
-  }
-
-  return {
-    displayUrl: `https://drive.google.com/thumbnail?id=${encodeURIComponent(fileId)}&sz=w2000`,
-    rawUrl,
-  };
-}
-
-/**
- * Tạo link mẫu review để chia sẻ
- * @param {{ mediaUrl: string, name: string, isVideo: boolean }} payload
- * @returns {string}
- */
-function buildReviewLink(payload) {
-  const basePage = window.location.href.split('?')[0].split('#')[0];
-  const params = new URLSearchParams({
-    review: '1',
-    media: payload.mediaUrl,
-    name: payload.name || 'media',
-    kind: payload.isVideo ? 'video' : 'image',
-    theme: payload.theme || 'default',
-  });
-  return `${basePage}?${params.toString()}`;
-}
-
-/**
- * Parse tham số review từ URL
- * @returns {{mediaUrl: string, name: string, kind: string, theme: string} | null}
- */
-function getReviewPayloadFromUrl() {
-  const params = new URLSearchParams(window.location.search);
-  if (params.get('review') !== '1') return null;
-
-  const mediaUrl = params.get('media');
-  if (!mediaUrl) return null;
-
-  return {
-    mediaUrl,
-    name: params.get('name') || 'Media',
-    kind: params.get('kind') || 'image',
-    theme: params.get('theme') || 'default',
-  };
-}
-
-/**
- * Tạo hoặc cập nhật thẻ meta trong <head>
- * @param {'property'|'name'} keyType
- * @param {string} key
- * @param {string} content
- */
-function upsertMetaTag(keyType, key, content) {
-  let tag = document.head.querySelector(`meta[${keyType}="${key}"]`);
-  if (!tag) {
-    tag = document.createElement('meta');
-    tag.setAttribute(keyType, key);
-    document.head.appendChild(tag);
-  }
-  tag.setAttribute('content', content);
-}
-
-/**
- * Cập nhật metadata cho link share theo ảnh đang review
- * @param {{name: string, mediaUrl: string}} payload
- */
-function updateShareMeta(payload) {
-  const title = `${payload.name} | Upload Ảnh Lấy Link`;
-  const description = 'Xem ảnh đã chia sẻ từ công cụ Upload Ảnh Lấy Link.';
-
-  document.title = title;
-  upsertMetaTag('property', 'og:title', title);
-  upsertMetaTag('property', 'og:description', description);
-  upsertMetaTag('property', 'og:type', 'website');
-  upsertMetaTag('property', 'og:image', payload.mediaUrl);
-  upsertMetaTag('property', 'og:image:alt', payload.name);
-
-  upsertMetaTag('name', 'twitter:card', 'summary_large_image');
-  upsertMetaTag('name', 'twitter:title', title);
-  upsertMetaTag('name', 'twitter:description', description);
-  upsertMetaTag('name', 'twitter:image', payload.mediaUrl);
-}
-
-/**
- * Áp dụng class theme cho preview/review
- */
-function applyTemplateThemeUI() {
-  const themeClasses = ['dvntTheme--elegant', 'dvntTheme--cute'];
-  previewTemplate.classList.remove(...themeClasses);
-  reviewViewer.classList.remove(...themeClasses);
-
-  if (selectedTemplateStyle === 'elegant') {
-    previewTemplate.classList.add('dvntTheme--elegant');
-    reviewViewer.classList.add('dvntTheme--elegant');
-  } else if (selectedTemplateStyle === 'cute') {
-    previewTemplate.classList.add('dvntTheme--cute');
-    reviewViewer.classList.add('dvntTheme--cute');
-  }
-
-  templatePickerButtons.forEach((btn) => {
-    btn.classList.toggle('is-active', btn.dataset.theme === selectedTemplateStyle);
-  });
-}
-
-/**
- * Render trang mẫu review từ payload URL
- * @param {{mediaUrl: string, name: string, kind: string}} payload
- * @returns {boolean}
- */
-function renderReviewMode(payload) {
-  selectedTemplateStyle = (payload.theme === 'elegant' || payload.theme === 'cute') ? payload.theme : 'default';
-  applyTemplateThemeUI();
-
-  const kind = payload.kind === 'video' ? 'video' : 'image';
-  const media = normalizeReviewMediaUrl(payload.mediaUrl, kind);
-
-  // Chỉ vào review mode khi có media URL hợp lệ
-  if (!media.displayUrl) {
-    reviewViewer.hidden = true;
-    reviewViewerImg.src = '';
-    reviewViewerVideo.src = '';
-    return false;
-  }
-
-  updateShareMeta({ name: payload.name, mediaUrl: media.rawUrl || media.displayUrl });
-
-  document.body.classList.add('dvntUpAnh__is-review');
-  reviewViewer.hidden = false;
-
-  reviewViewerName.textContent = payload.name;
-  reviewViewerMeta.textContent = kind === 'video' ? 'Video review mode' : 'Image review mode';
-  reviewViewerOpenRaw.href = media.rawUrl || '#';
-
-  if (kind === 'video') {
-    reviewViewerImg.hidden = true;
-    reviewViewerImg.style.display = 'none';
-    reviewViewerImg.src = '';
-
-    reviewViewerVideo.src = media.displayUrl;
-    reviewViewerVideo.hidden = false;
-    reviewViewerVideo.style.display = 'block';
-
-    reviewViewerVideo.onerror = () => {
-      if (reviewViewerVideo.src !== media.rawUrl && media.rawUrl) {
-        reviewViewerVideo.src = media.rawUrl;
-        return;
-      }
-      reviewViewerMeta.textContent = 'Khong the phat video tu link nay. Thu nut Mo file goc.';
-    };
-  } else {
-    reviewViewerVideo.src = '';
-    reviewViewerVideo.hidden = true;
-    reviewViewerVideo.style.display = 'none';
-
-    reviewViewerImg.src = media.displayUrl;
-    reviewViewerImg.hidden = false;
-    reviewViewerImg.style.display = 'block';
-
-    reviewViewerImg.onerror = () => {
-      if (reviewViewerImg.src !== media.rawUrl && media.rawUrl) {
-        reviewViewerImg.src = media.rawUrl;
-        return;
-      }
-      reviewViewerMeta.textContent = 'Khong the hien thi anh tu link nay. Thu nut Mo file goc.';
-    };
-  }
-
-  return true;
-}
-
-/* ── 7. PREVIEW ───────────────────────────────────── */
-
-const previewVideo = document.getElementById('previewVideo');
-
-/**
- * Ẩn mẫu hiển thị review và reset trạng thái nút
- */
-function resetTemplatePreview() {
-  previewTemplate.hidden = true;
-  btnPreviewTemplateText.textContent = 'Mẫu hiển thị';
-  btnPreviewTemplate.classList.remove('dvntUpAnh__btn--template-active');
-}
-
-/**
- * Đồng bộ UI mẫu hiển thị theo state hiện tại
- */
-function applyTemplatePreviewUI() {
-  const shouldShowTemplate = Boolean(selectedFile && isTemplatePreviewOn);
-
-  previewTemplate.hidden = !shouldShowTemplate;
-  btnPreviewTemplateText.textContent = shouldShowTemplate ? 'Ẩn mẫu hiển thị' : 'Mẫu hiển thị';
-  btnPreviewTemplate.classList.toggle('dvntUpAnh__btn--template-active', shouldShowTemplate);
-  applyTemplateThemeUI();
-}
-
-/**
- * Áp dụng hoặc tắt mẫu hiển thị review
- */
-function toggleTemplatePreview() {
-  if (!selectedFile || isUploading) return;
-
-  isTemplatePreviewOn = !isTemplatePreviewOn;
-  saveTemplatePreference(isTemplatePreviewOn);
-  applyTemplatePreviewUI();
-
-  if (isTemplatePreviewOn) {
-    showToast('Đã áp dụng mẫu hiển thị review', 'success');
-  } else {
-    showToast('Đã tắt mẫu hiển thị', 'info');
-  }
-}
-
-/**
- * Hiển thị preview file đã chọn (ảnh hoặc video)
- * @param {File} file
- */
-function showPreview(file) {
-  const objectURL = URL.createObjectURL(file);
-  const templateObjectURL = URL.createObjectURL(file);
-
-  resetTemplatePreview();
-
-  if (isVideo(file)) {
-    // Hiện video, ẩn ảnh
-    previewImg.hidden = true;
-    previewImg.style.display = 'none';
-    previewVideo.src = objectURL;
-    previewVideo.hidden = false;
-    previewVideo.style.display = 'block';
-    previewVideo.onloadeddata = () => URL.revokeObjectURL(objectURL);
-
-    previewTemplateImg.hidden = true;
-    previewTemplateImg.style.display = 'none';
-    previewTemplateVideo.src = templateObjectURL;
-    previewTemplateVideo.hidden = false;
-    previewTemplateVideo.style.display = 'block';
-    previewTemplateVideo.onloadeddata = () => URL.revokeObjectURL(templateObjectURL);
-  } else {
-    // Hiện ảnh, ẩn video
-    previewVideo.hidden = true;
-    previewVideo.style.display = 'none';
-    previewImg.src = objectURL;
-    previewImg.hidden = false;
-    previewImg.style.display = 'block';
-    previewImg.onload = () => URL.revokeObjectURL(objectURL);
-
-    previewTemplateVideo.hidden = true;
-    previewTemplateVideo.style.display = 'none';
-    previewTemplateImg.src = templateObjectURL;
-    previewTemplateImg.hidden = false;
-    previewTemplateImg.style.display = 'block';
-    previewTemplateImg.onload = () => URL.revokeObjectURL(templateObjectURL);
-  }
-
-  previewName.textContent = file.name;
-  previewSize.textContent = formatSize(file.size);
-  previewType.textContent = getMimeLabel(file.type);
-  previewTemplateName.textContent = file.name;
-  previewTemplateMeta.textContent = `${getMimeLabel(file.type)} · ${formatSize(file.size)}`;
-
-  previewSection.hidden = false;
-  btnPreviewTemplate.disabled = false;
-  btnPreviewTemplate.setAttribute('aria-disabled', 'false');
-  btnUpload.disabled    = false;
-  btnUpload.setAttribute('aria-disabled', 'false');
-  btnReset.disabled     = false;
-  btnReset.setAttribute('aria-disabled', 'false');
-
-  applyTemplatePreviewUI();
-}
-
-/**
- * Ẩn preview và reset form
- */
-function hidePreview() {
-  previewSection.hidden = true;
-
-  previewImg.src = '';
-  previewImg.hidden = false;
-  previewImg.style.display = 'block';
-
-  previewVideo.src = '';
-  previewVideo.hidden = true;
-  previewVideo.style.display = 'none';
-
-  previewTemplateImg.src = '';
-  previewTemplateImg.hidden = false;
-  previewTemplateImg.style.display = 'block';
-
-  previewTemplateVideo.src = '';
-  previewTemplateVideo.hidden = true;
-  previewTemplateVideo.style.display = 'none';
-
-  previewTemplateName.textContent = '';
-  previewTemplateMeta.textContent = '';
-  resetTemplatePreview();
-
-  previewName.textContent = '';
-  previewSize.textContent = '—';
-  previewType.textContent = '—';
-
-  btnPreviewTemplate.disabled = true;
-  btnPreviewTemplate.setAttribute('aria-disabled', 'true');
-}
-
-/* ── 8. XỬ LÝ FILE ĐƯỢC CHỌN ─────────────────────── */
-
-/**
- * Xử lý khi người dùng chọn file
- * @param {File} file
- */
-function handleFileSelected(file) {
-  if (!file) return;
-
-  const { valid, error } = validateFile(file);
-
-  if (!valid) {
-    showToast(error, 'error', 4500);
-    return;
-  }
-
-  selectedFile = file;
-  hideResult();
-  showPreview(file);
-  showToast(`Đã chọn: ${file.name}`, 'info');
-}
-
-/* ── 9. DRAG & DROP EVENTS ────────────────────────── */
-
-// Ngăn trình duyệt mở file mặc định
-['dragenter', 'dragover', 'dragleave', 'drop'].forEach(evtName => {
-  document.addEventListener(evtName, (e) => e.preventDefault());
-});
-
-// dragenter & dragover cùng làm một việc — dùng chung 1 listener
-['dragenter', 'dragover'].forEach(evt => {
-  dropZone.addEventListener(evt, () => dropZone.classList.add('dvntUpAnh__dropzone--dragover'));
-});
-
-dropZone.addEventListener('dragleave', (e) => {
-  // Chỉ remove khi rời khỏi dropzone hoàn toàn
-  if (!dropZone.contains(e.relatedTarget)) {
-    dropZone.classList.remove('dvntUpAnh__dropzone--dragover');
-  }
-});
-
-dropZone.addEventListener('drop', (e) => {
-  dropZone.classList.remove('dvntUpAnh__dropzone--dragover');
-  const file = e.dataTransfer?.files?.[0];
-  if (file) handleFileSelected(file);
-});
-
-/**
- * Lấy file từ clipboard event (Ctrl+V / Cmd+V)
- * @param {ClipboardEvent} e
- * @returns {File|null}
- */
-function getFileFromClipboardEvent(e) {
-  const files = e.clipboardData?.files;
-  if (files && files.length > 0) {
-    return files[0];
-  }
-
-  const items = e.clipboardData?.items || [];
-  for (const item of items) {
-    if (item.kind !== 'file') continue;
-    const file = item.getAsFile();
-    if (file) return file;
-  }
-
-  return null;
-}
-
-// Dán ảnh/video từ clipboard (Windows: Ctrl+V, macOS: Cmd+V)
-document.addEventListener('paste', (e) => {
-  if (isUploading) return;
-
-  const file = getFileFromClipboardEvent(e);
-  if (!file) return;
-
-  e.preventDefault();
-  handleFileSelected(file);
-});
-
-/* ── 10. CLICK / KEYBOARD EVENTS ─────────────────── */
-
-// Click vào dropzone → mở file picker
-dropZone.addEventListener('click', (e) => {
-  // Không trigger khi click nút khác
-  if (e.target.closest('.dvntUpAnh__btn--danger')) return;
-  if (isUploading) return;
-  fileInput.click();
-});
-
-// Keyboard accessibility
-dropZone.addEventListener('keydown', (e) => {
-  if ((e.key === 'Enter' || e.key === ' ') && !isUploading) {
-    e.preventDefault();
-    fileInput.click();
-  }
-});
-
-// File input change
-fileInput.addEventListener('change', () => {
-  if (fileInput.files[0]) {
-    handleFileSelected(fileInput.files[0]);
-    fileInput.value = ''; // Reset để chọn lại cùng file
-  }
-});
-
-// Xóa ảnh
-btnRemove.addEventListener('click', (e) => {
-  e.stopPropagation();
-  resetAll();
-  showToast('Đã xóa ảnh đã chọn', 'info');
-});
-
-btnPreviewTemplate.addEventListener('click', () => {
-  toggleTemplatePreview();
-});
-
-templatePickerButtons.forEach((btn) => {
-  btn.addEventListener('click', () => {
-    const theme = btn.dataset.theme;
-    if (theme !== 'default' && theme !== 'elegant' && theme !== 'cute') return;
-
-    selectedTemplateStyle = theme;
-    saveTemplateStylePreference(theme);
-    applyTemplateThemeUI();
-
-    const labels = {
-      default: 'Mặc định',
-      elegant: 'Sang trọng',
-      cute: 'Dễ thương',
-    };
-    showToast(`Đã chọn mẫu: ${labels[theme]}`, 'info');
-  });
-});
-
-/* ── 11. PROGRESS BAR ─────────────────────────────── */
-
-/**
- * Cập nhật tiến trình progress bar
- * @param {number} percent - 0..100
- */
-function updateProgress(percent) {
-  const pct = Math.min(Math.max(percent, 0), 100);
-  progressBar.style.width = pct + '%';
-  progressText.textContent = pct + '%';
-  progressWrap.setAttribute('aria-valuenow', pct);
-}
-
-/**
- * Hiện progress bar
- */
-function showProgress() {
-  progressWrap.hidden = false;
-  updateProgress(0);
-}
-
-/**
- * Ẩn progress bar
- */
-function hideProgress() {
-  progressWrap.hidden = true;
-  updateProgress(0);
-}
-
-/* ── 12. GOOGLE APPS SCRIPT UPLOAD ────────────────── */
-
-/**
- * Chuyển File thành chuỗi base64
- * @param {File} file
- * @returns {Promise<string>} base64 string (không có prefix data:...)
- */
-function fileToBase64(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload  = () => resolve(reader.result.split(',')[1]);
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
-}
-
-/**
- * Upload file lên Google Drive qua Apps Script (không cần đăng nhập)
- * @param {File} file
- * @param {function} onProgress - callback(percent: number)
- * @returns {Promise<{success: boolean, url: string, fileName: string}>}
- */
-async function driveUploadAPI(file, onProgress) {
-  onProgress(10);
-
-  // Bước 1: Chuyển ảnh sang base64
-  const base64 = await fileToBase64(file);
-  onProgress(35);
-
-  // Bước 2: Gửi lên Apps Script
-  const response = await fetch(APPS_SCRIPT_URL, {
-    method:   'POST',
-    redirect: 'follow',
-    body: JSON.stringify({
-      data:     base64,
-      fileName: file.name,
-      mimeType: file.type,
-    }),
-  });
-  onProgress(85);
-
-  const result = await response.json();
-
-  // Kiểm tra lỗi TRƯỚC khi báo 100% (tránh progress nhảy 100% khi thất bại)
-  if (!result.success) {
-    throw new Error(result.error || 'Upload Drive thất bại.');
-  }
-
-  onProgress(100);
-
-  return {
-    success:  true,
-    url:      result.url,
-    fileName: file.name,
-  };
-}
-
-/* ── 13. TRẠNG THÁI UPLOADING ─────────────────────── */
-
-/**
- * Chuyển sang trạng thái đang upload
- */
-function setUploadingState() {
-  isUploading = true;
-  card.classList.add('dvntUpAnh__card--uploading');
-
-  btnUpload.disabled = true;
-  btnUpload.setAttribute('aria-disabled', 'true');
-  btnUploadText.textContent = 'Đang tải lên...';
-
-  btnPreviewTemplate.disabled = true;
-  btnPreviewTemplate.setAttribute('aria-disabled', 'true');
-
-  btnReset.disabled = true;
-  btnReset.setAttribute('aria-disabled', 'true');
-
-  showProgress();
-  hideResult();
-}
-
-/**
- * Khôi phục trạng thái sau upload
- */
-function clearUploadingState() {
-  isUploading = false;
-  card.classList.remove('dvntUpAnh__card--uploading');
-
-  btnUpload.disabled = false;
-  btnUpload.setAttribute('aria-disabled', 'false');
-  btnUploadText.textContent = 'Upload ảnh';
-
-  btnPreviewTemplate.disabled = !selectedFile;
-  btnPreviewTemplate.setAttribute('aria-disabled', selectedFile ? 'false' : 'true');
-
-  btnReset.disabled = false;
-  btnReset.setAttribute('aria-disabled', 'false');
-
-  hideProgress();
-}
-
-/* ── 14. RESULT DISPLAY ───────────────────────────── */
-
-/**
- * Hiện kết quả thành công
- * @param {string} url
- */
-function showResultSuccess(url) {
-  resultSection.hidden    = false;
-  resultSuccess.hidden    = false;
-  resultError.hidden      = true;
-  resultLink.value        = url;
-  btnOpenLink.href        = url;
-}
-
-/**
- * Hiện kết quả lỗi
- * @param {string} message
- */
-function showResultError(message) {
-  resultSection.hidden    = false;
-  resultSuccess.hidden    = true;
-  resultError.hidden      = false;
-  resultErrorMsg.textContent = message;
-}
-
-/**
- * Ẩn kết quả
- */
-function hideResult() {
-  resultSection.hidden = true;
-  resultSuccess.hidden = true;
-  resultError.hidden   = true;
-}
-
-/* ── 15. UPLOAD HANDLER ───────────────────────────── */
-
-btnUpload.addEventListener('click', async () => {
-  if (!selectedFile || isUploading) return;
-
-  setUploadingState();
-  showToast('Đang upload ảnh...', 'info', 2000);
-
-  try {
-    // Upload thật lên Google Drive qua Apps Script
-    const result = await driveUploadAPI(selectedFile, updateProgress);
-    const shouldUseTemplateShare = isTemplatePreviewOn;
-    const shareUrl = shouldUseTemplateShare
-      ? buildReviewLink({
-          mediaUrl: result.url,
-          name: selectedFile.name,
-          isVideo: isVideo(selectedFile),
-          theme: selectedTemplateStyle,
-        })
-      : result.url;
-
-    clearUploadingState();
-    showResultSuccess(shareUrl);
-    showToast('Upload thành công! 🎉', 'success');
-
-    // Lưu vào lịch sử
-    // Dùng Drive Thumbnail API để hiển thị ảnh thumbnail đáng tin cậy hơn
-    let thumbUrl = '';
-    if (!isVideo(selectedFile)) {
+    'use strict';
+
+    /* ── 1. CẤU HÌNH ──────────────────────────────────── */
+
+    /** Google Apps Script Web App URL — nhận file và lưu vào Drive */
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzhql-2LNyBz5SB18LojaO0cHf3ueoRvYoRxP-5PgnPqWmbIeChJCmn15NnylOftiEwKg/exec';
+
+    /** Giới hạn dung lượng ảnh: 10MB */
+    const MAX_SIZE_IMG_MB = 10;
+    const MAX_SIZE_IMG_BYTES = MAX_SIZE_IMG_MB * 1024 * 1024;
+
+    /** Giới hạn dung lượng video: 100MB */
+    const MAX_SIZE_VID_MB = 100;
+    const MAX_SIZE_VID_BYTES = MAX_SIZE_VID_MB * 1024 * 1024;
+
+    /** Loại file chấp nhận */
+    const ACCEPT_TYPES = [
+      'image/jpeg', 'image/png', 'image/webp', 'image/gif',
+      'video/mp4', 'video/webm', 'video/quicktime', 'video/x-msvideo',
+    ];
+
+    /** Key lưu localStorage */
+    const LS_KEY = 'dvntUpAnh_history';
+    const LS_KEY_TEMPLATE_PREF = 'dvntUpAnh_template_pref';
+    const LS_KEY_TEMPLATE_STYLE = 'dvntUpAnh_template_style';
+
+    /* ── 2. DOM REFERENCES ────────────────────────────── */
+
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('fileInput');
+    const btnChooseFile = document.getElementById('btnChooseFile');
+    const previewSection = document.getElementById('previewSection');
+    const previewImg = document.getElementById('previewImg');
+    const previewName = document.getElementById('previewName');
+    const previewSize = document.getElementById('previewSize');
+    const previewType = document.getElementById('previewType');
+    const previewTemplate = document.getElementById('previewTemplate');
+    const previewTemplateImg = document.getElementById('previewTemplateImg');
+    const previewTemplateVideo = document.getElementById('previewTemplateVideo');
+    const previewTemplateName = document.getElementById('previewTemplateName');
+    const previewTemplateMeta = document.getElementById('previewTemplateMeta');
+    const btnRemove = document.getElementById('btnRemove');
+    const progressWrap = document.getElementById('progressWrap');
+    const progressBar = document.getElementById('progressBar');
+    const progressText = document.getElementById('progressText');
+    const btnPreviewTemplate = document.getElementById('btnPreviewTemplate');
+    const btnPreviewTemplateText = document.getElementById('btnPreviewTemplateText');
+    const btnUpload = document.getElementById('btnUpload');
+    const btnUploadText = document.getElementById('btnUploadText');
+    const btnReset = document.getElementById('btnReset');
+    const resultSection = document.getElementById('resultSection');
+    const resultSuccess = document.getElementById('resultSuccess');
+    const resultError = document.getElementById('resultError');
+    const resultLink = document.getElementById('resultLink');
+    const resultErrorMsg = document.getElementById('resultErrorMsg');
+    const btnCopyLink = document.getElementById('btnCopyLink');
+    const btnOpenLink = document.getElementById('btnOpenLink');
+    const historyList = document.getElementById('historyList');
+    const historyEmpty = document.getElementById('historyEmpty');
+    const btnClearHistory = document.getElementById('btnClearHistory');
+    const toastEl = document.getElementById('toast');
+    const card = document.querySelector('.dvntUpAnh__card');
+    const reviewViewer = document.getElementById('reviewViewer');
+    const reviewViewerImg = document.getElementById('reviewViewerImg');
+    const reviewViewerVideo = document.getElementById('reviewViewerVideo');
+    const reviewViewerName = document.getElementById('reviewViewerName');
+    const reviewViewerMeta = document.getElementById('reviewViewerMeta');
+    const reviewViewerOpenRaw = document.getElementById('reviewViewerOpenRaw');
+    const templatePickerButtons = document.querySelectorAll('.dvntUpAnh__template-picker-btn');
+
+    /* ── 3. STATE ─────────────────────────────────────── */
+
+    let selectedFile = null;  // File object được chọn
+    let isUploading = false; // Trạng thái đang upload
+    let isTemplatePreviewOn = getTemplatePreference(); // Bật/tắt mẫu hiển thị review (cache)
+    let selectedTemplateStyle = getTemplateStylePreference();
+
+    /**
+     * Lấy lựa chọn mẫu hiển thị đã lưu
+     * @returns {boolean}
+     */
+    function getTemplatePreference() {
       try {
-        const fileId = new URL(result.url).searchParams.get('id');
-        thumbUrl = fileId
-          ? `https://drive.google.com/thumbnail?id=${fileId}&sz=w120`
-          : result.url;
+        return localStorage.getItem(LS_KEY_TEMPLATE_PREF) === '1';
       } catch {
-        thumbUrl = result.url;
+        return false;
       }
     }
-    saveToHistory({
-      name:    selectedFile.name,
-      url:     shareUrl,
-      mediaUrl: result.url,
-      thumb:   thumbUrl,
-      isVideo: isVideo(selectedFile),
-      template: shouldUseTemplateShare,
-      time:    Date.now(),
+
+    /**
+     * Lưu lựa chọn mẫu hiển thị
+     * @param {boolean} enabled
+     */
+    function saveTemplatePreference(enabled) {
+      try {
+        localStorage.setItem(LS_KEY_TEMPLATE_PREF, enabled ? '1' : '0');
+      } catch {
+        // Ignore if storage is unavailable
+      }
+    }
+
+    /**
+     * Lấy style mẫu review đã lưu
+     * @returns {'default'|'elegant'|'cute'}
+     */
+    function getTemplateStylePreference() {
+      try {
+        const saved = localStorage.getItem(LS_KEY_TEMPLATE_STYLE);
+        if (saved === 'elegant' || saved === 'cute' || saved === 'default') {
+          return saved;
+        }
+        return 'default';
+      } catch {
+        return 'default';
+      }
+    }
+
+    /**
+     * Lưu style mẫu review
+     * @param {'default'|'elegant'|'cute'} style
+     */
+    function saveTemplateStylePreference(style) {
+      try {
+        localStorage.setItem(LS_KEY_TEMPLATE_STYLE, style);
+      } catch {
+        // Ignore if storage is unavailable
+      }
+    }
+
+    /* ── 4. TOAST NOTIFICATION ────────────────────────── */
+
+    let toastTimer = null;
+
+    /**
+     * Hiện toast thông báo
+     * @param {string} msg - Nội dung thông báo
+     * @param {'success'|'error'|'info'} type - Loại thông báo
+     * @param {number} duration - Thời gian hiển thị (ms)
+     */
+    function showToast(msg, type = 'info', duration = 3000) {
+      clearTimeout(toastTimer);
+      toastEl.className = 'dvntUpAnh__toast';
+
+      // Icon theo loại
+      const icons = {
+        success: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>',
+        error: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>',
+        info: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>',
+      };
+
+      toastEl.innerHTML = (icons[type] || icons.info) + `<span>${msg}</span>`;
+      toastEl.classList.add(`dvntUpAnh__toast--${type}`, 'dvntUpAnh__toast--show');
+
+      toastTimer = setTimeout(() => {
+        toastEl.classList.remove('dvntUpAnh__toast--show');
+      }, duration);
+    }
+
+    /* ── 5. FILE VALIDATION ───────────────────────────── */
+
+    /**
+     * Kiểm tra file có phải video không
+     * @param {File} file
+     * @returns {boolean}
+     */
+    function isVideo(file) {
+      return file.type.startsWith('video/');
+    }
+
+    /**
+     * Kiểm tra file hợp lệ
+     * @param {File} file
+     * @returns {{ valid: boolean, error?: string }}
+     */
+    function validateFile(file) {
+      if (!ACCEPT_TYPES.includes(file.type)) {
+        return { valid: false, error: `Định dạng "${file.type}" không được hỗ trợ. Chỉ nhận: JPG, PNG, WEBP, GIF, MP4, WEBM.` };
+      }
+      const maxBytes = isVideo(file) ? MAX_SIZE_VID_BYTES : MAX_SIZE_IMG_BYTES;
+      const maxMB = isVideo(file) ? MAX_SIZE_VID_MB : MAX_SIZE_IMG_MB;
+      if (file.size > maxBytes) {
+        return { valid: false, error: `File quá lớn (${formatSize(file.size)}). Tối đa ${maxMB}MB.` };
+      }
+      return { valid: true };
+    }
+
+    /* ── 6. FORMAT HELPERS ────────────────────────────── */
+
+    /**
+     * Định dạng dung lượng file
+     * @param {number} bytes
+     * @returns {string}
+     */
+    function formatSize(bytes) {
+      if (bytes < 1024) return bytes + ' B';
+      if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+      return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+    }
+
+    /**
+     * Lấy extension từ MIME type
+     * @param {string} mimeType
+     * @returns {string}
+     */
+    function getMimeLabel(mimeType) {
+      const map = {
+        'image/jpeg': 'JPEG',
+        'image/png': 'PNG',
+        'image/webp': 'WEBP',
+        'image/gif': 'GIF',
+        'video/mp4': 'MP4',
+        'video/webm': 'WEBM',
+        'video/quicktime': 'MOV',
+        'video/x-msvideo': 'AVI',
+      };
+      return map[mimeType] || mimeType.split('/')[1].toUpperCase();
+    }
+
+    /**
+     * Kiểm tra URL có an toàn để gán vào src/href không
+     * @param {string} url
+     * @returns {boolean}
+     */
+    function isSafeMediaUrl(url) {
+      try {
+        const parsed = new URL(url);
+        return parsed.protocol === 'https:' || parsed.protocol === 'http:';
+      } catch {
+        return false;
+      }
+    }
+
+    /**
+     * Trích xuất fileId từ Google Drive URL
+     * @param {string} url
+     * @returns {string}
+     */
+    function getGoogleDriveFileId(url) {
+      try {
+        const parsed = new URL(url);
+        const host = parsed.hostname.toLowerCase();
+
+        if (!host.includes('drive.google.com') && !host.includes('docs.google.com')) {
+          return '';
+        }
+
+        const idParam = parsed.searchParams.get('id');
+        if (idParam) return idParam;
+
+        const fileMatch = parsed.pathname.match(/\/file\/d\/([^/]+)/i);
+        if (fileMatch?.[1]) return fileMatch[1];
+
+        const dMatch = parsed.pathname.match(/\/d\/([^/]+)/i);
+        if (dMatch?.[1]) return dMatch[1];
+
+        return '';
+      } catch {
+        return '';
+      }
+    }
+
+    /**
+     * Chuẩn hóa URL media để render trong thẻ img/video ổn định hơn
+     * @param {string} rawUrl
+     * @param {'image'|'video'} kind
+     * @returns {{displayUrl: string, rawUrl: string}}
+     */
+    function normalizeReviewMediaUrl(rawUrl, kind) {
+      if (!isSafeMediaUrl(rawUrl)) {
+        return { displayUrl: '', rawUrl: '' };
+      }
+
+      const fileId = getGoogleDriveFileId(rawUrl);
+      if (!fileId) {
+        return { displayUrl: rawUrl, rawUrl };
+      }
+
+      if (kind === 'video') {
+        return {
+          displayUrl: `https://drive.google.com/uc?export=download&id=${encodeURIComponent(fileId)}`,
+          rawUrl,
+        };
+      }
+
+      return {
+        displayUrl: `https://drive.google.com/thumbnail?id=${encodeURIComponent(fileId)}&sz=w2000`,
+        rawUrl,
+      };
+    }
+
+    /**
+     * Tạo link mẫu review để chia sẻ
+     * @param {{ mediaUrl: string, name: string, isVideo: boolean }} payload
+     * @returns {string}
+     */
+    function buildReviewLink(payload) {
+      const basePage = window.location.href.split('?')[0].split('#')[0];
+      const params = new URLSearchParams({
+        review: '1',
+        media: payload.mediaUrl,
+        name: payload.name || 'media',
+        kind: payload.isVideo ? 'video' : 'image',
+        theme: payload.theme || 'default',
+      });
+      return `${basePage}?${params.toString()}`;
+    }
+
+    /**
+     * Parse tham số review từ URL
+     * @returns {{mediaUrl: string, name: string, kind: string, theme: string} | null}
+     */
+    function getReviewPayloadFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('review') !== '1') return null;
+
+      const mediaUrl = params.get('media');
+      if (!mediaUrl) return null;
+
+      return {
+        mediaUrl,
+        name: params.get('name') || 'Media',
+        kind: params.get('kind') || 'image',
+        theme: params.get('theme') || 'default',
+      };
+    }
+
+    /**
+     * Tạo hoặc cập nhật thẻ meta trong <head>
+     * @param {'property'|'name'} keyType
+     * @param {string} key
+     * @param {string} content
+     */
+    function upsertMetaTag(keyType, key, content) {
+      let tag = document.head.querySelector(`meta[${keyType}="${key}"]`);
+      if (!tag) {
+        tag = document.createElement('meta');
+        tag.setAttribute(keyType, key);
+        document.head.appendChild(tag);
+      }
+      tag.setAttribute('content', content);
+    }
+
+    /**
+     * Cập nhật metadata cho link share theo ảnh đang review
+     * @param {{name: string, mediaUrl: string}} payload
+     */
+    function updateShareMeta(payload) {
+      const title = `${payload.name} | Upload Ảnh Lấy Link`;
+      const description = 'Xem ảnh đã chia sẻ từ công cụ Upload Ảnh Lấy Link.';
+
+      document.title = title;
+      upsertMetaTag('property', 'og:title', title);
+      upsertMetaTag('property', 'og:description', description);
+      upsertMetaTag('property', 'og:type', 'website');
+      upsertMetaTag('property', 'og:image', payload.mediaUrl);
+      upsertMetaTag('property', 'og:image:alt', payload.name);
+
+      upsertMetaTag('name', 'twitter:card', 'summary_large_image');
+      upsertMetaTag('name', 'twitter:title', title);
+      upsertMetaTag('name', 'twitter:description', description);
+      upsertMetaTag('name', 'twitter:image', payload.mediaUrl);
+    }
+
+    /**
+     * Áp dụng class theme cho preview/review
+     */
+    function applyTemplateThemeUI() {
+      const themeClasses = ['dvntTheme--elegant', 'dvntTheme--cute'];
+      previewTemplate.classList.remove(...themeClasses);
+      reviewViewer.classList.remove(...themeClasses);
+
+      if (selectedTemplateStyle === 'elegant') {
+        previewTemplate.classList.add('dvntTheme--elegant');
+        reviewViewer.classList.add('dvntTheme--elegant');
+      } else if (selectedTemplateStyle === 'cute') {
+        previewTemplate.classList.add('dvntTheme--cute');
+        reviewViewer.classList.add('dvntTheme--cute');
+      }
+
+      templatePickerButtons.forEach((btn) => {
+        btn.classList.toggle('is-active', btn.dataset.theme === selectedTemplateStyle);
+      });
+    }
+
+    /**
+     * Render trang mẫu review từ payload URL
+     * @param {{mediaUrl: string, name: string, kind: string}} payload
+     * @returns {boolean}
+     */
+    function renderReviewMode(payload) {
+      selectedTemplateStyle = (payload.theme === 'elegant' || payload.theme === 'cute') ? payload.theme : 'default';
+      applyTemplateThemeUI();
+
+      const kind = payload.kind === 'video' ? 'video' : 'image';
+      const media = normalizeReviewMediaUrl(payload.mediaUrl, kind);
+
+      // Chỉ vào review mode khi có media URL hợp lệ
+      if (!media.displayUrl) {
+        reviewViewer.hidden = true;
+        reviewViewerImg.src = '';
+        reviewViewerVideo.src = '';
+        return false;
+      }
+
+      updateShareMeta({ name: payload.name, mediaUrl: media.rawUrl || media.displayUrl });
+
+      document.body.classList.add('dvntUpAnh__is-review');
+      reviewViewer.hidden = false;
+
+      reviewViewerName.textContent = payload.name;
+      reviewViewerMeta.textContent = kind === 'video' ? 'Video review mode' : 'Image review mode';
+      reviewViewerOpenRaw.href = media.rawUrl || '#';
+
+      if (kind === 'video') {
+        reviewViewerImg.hidden = true;
+        reviewViewerImg.style.display = 'none';
+        reviewViewerImg.src = '';
+
+        reviewViewerVideo.src = media.displayUrl;
+        reviewViewerVideo.hidden = false;
+        reviewViewerVideo.style.display = 'block';
+
+        reviewViewerVideo.onerror = () => {
+          if (reviewViewerVideo.src !== media.rawUrl && media.rawUrl) {
+            reviewViewerVideo.src = media.rawUrl;
+            return;
+          }
+          reviewViewerMeta.textContent = 'Khong the phat video tu link nay. Thu nut Mo file goc.';
+        };
+      } else {
+        reviewViewerVideo.src = '';
+        reviewViewerVideo.hidden = true;
+        reviewViewerVideo.style.display = 'none';
+
+        reviewViewerImg.src = media.displayUrl;
+        reviewViewerImg.hidden = false;
+        reviewViewerImg.style.display = 'block';
+
+        reviewViewerImg.onerror = () => {
+          if (reviewViewerImg.src !== media.rawUrl && media.rawUrl) {
+            reviewViewerImg.src = media.rawUrl;
+            return;
+          }
+          reviewViewerMeta.textContent = 'Khong the hien thi anh tu link nay. Thu nut Mo file goc.';
+        };
+      }
+
+      return true;
+    }
+
+    /* ── 7. PREVIEW ───────────────────────────────────── */
+
+    const previewVideo = document.getElementById('previewVideo');
+
+    /**
+     * Ẩn mẫu hiển thị review và reset trạng thái nút
+     */
+    function resetTemplatePreview() {
+      previewTemplate.hidden = true;
+      btnPreviewTemplateText.textContent = 'Mẫu hiển thị';
+      btnPreviewTemplate.classList.remove('dvntUpAnh__btn--template-active');
+    }
+
+    /**
+     * Đồng bộ UI mẫu hiển thị theo state hiện tại
+     */
+    function applyTemplatePreviewUI() {
+      const shouldShowTemplate = Boolean(selectedFile && isTemplatePreviewOn);
+
+      previewTemplate.hidden = !shouldShowTemplate;
+      btnPreviewTemplateText.textContent = shouldShowTemplate ? 'Ẩn mẫu hiển thị' : 'Mẫu hiển thị';
+      btnPreviewTemplate.classList.toggle('dvntUpAnh__btn--template-active', shouldShowTemplate);
+      applyTemplateThemeUI();
+    }
+
+    /**
+     * Áp dụng hoặc tắt mẫu hiển thị review
+     */
+    function toggleTemplatePreview() {
+      if (!selectedFile || isUploading) return;
+
+      isTemplatePreviewOn = !isTemplatePreviewOn;
+      saveTemplatePreference(isTemplatePreviewOn);
+      applyTemplatePreviewUI();
+
+      if (isTemplatePreviewOn) {
+        showToast('Đã áp dụng mẫu hiển thị review', 'success');
+      } else {
+        showToast('Đã tắt mẫu hiển thị', 'info');
+      }
+    }
+
+    /**
+     * Hiển thị preview file đã chọn (ảnh hoặc video)
+     * @param {File} file
+     */
+    function showPreview(file) {
+      const objectURL = URL.createObjectURL(file);
+      const templateObjectURL = URL.createObjectURL(file);
+
+      resetTemplatePreview();
+
+      if (isVideo(file)) {
+        // Hiện video, ẩn ảnh
+        previewImg.hidden = true;
+        previewImg.style.display = 'none';
+        previewVideo.src = objectURL;
+        previewVideo.hidden = false;
+        previewVideo.style.display = 'block';
+        previewVideo.onloadeddata = () => URL.revokeObjectURL(objectURL);
+
+        previewTemplateImg.hidden = true;
+        previewTemplateImg.style.display = 'none';
+        previewTemplateVideo.src = templateObjectURL;
+        previewTemplateVideo.hidden = false;
+        previewTemplateVideo.style.display = 'block';
+        previewTemplateVideo.onloadeddata = () => URL.revokeObjectURL(templateObjectURL);
+      } else {
+        // Hiện ảnh, ẩn video
+        previewVideo.hidden = true;
+        previewVideo.style.display = 'none';
+        previewImg.src = objectURL;
+        previewImg.hidden = false;
+        previewImg.style.display = 'block';
+        previewImg.onload = () => URL.revokeObjectURL(objectURL);
+
+        previewTemplateVideo.hidden = true;
+        previewTemplateVideo.style.display = 'none';
+        previewTemplateImg.src = templateObjectURL;
+        previewTemplateImg.hidden = false;
+        previewTemplateImg.style.display = 'block';
+        previewTemplateImg.onload = () => URL.revokeObjectURL(templateObjectURL);
+      }
+
+      previewName.textContent = file.name;
+      previewSize.textContent = formatSize(file.size);
+      previewType.textContent = getMimeLabel(file.type);
+      previewTemplateName.textContent = file.name;
+      previewTemplateMeta.textContent = `${getMimeLabel(file.type)} · ${formatSize(file.size)}`;
+
+      previewSection.hidden = false;
+      btnPreviewTemplate.disabled = false;
+      btnPreviewTemplate.setAttribute('aria-disabled', 'false');
+      btnUpload.disabled = false;
+      btnUpload.setAttribute('aria-disabled', 'false');
+      btnReset.disabled = false;
+      btnReset.setAttribute('aria-disabled', 'false');
+
+      applyTemplatePreviewUI();
+    }
+
+    /**
+     * Ẩn preview và reset form
+     */
+    function hidePreview() {
+      previewSection.hidden = true;
+
+      previewImg.src = '';
+      previewImg.hidden = false;
+      previewImg.style.display = 'block';
+
+      previewVideo.src = '';
+      previewVideo.hidden = true;
+      previewVideo.style.display = 'none';
+
+      previewTemplateImg.src = '';
+      previewTemplateImg.hidden = false;
+      previewTemplateImg.style.display = 'block';
+
+      previewTemplateVideo.src = '';
+      previewTemplateVideo.hidden = true;
+      previewTemplateVideo.style.display = 'none';
+
+      previewTemplateName.textContent = '';
+      previewTemplateMeta.textContent = '';
+      resetTemplatePreview();
+
+      previewName.textContent = '';
+      previewSize.textContent = '—';
+      previewType.textContent = '—';
+
+      btnPreviewTemplate.disabled = true;
+      btnPreviewTemplate.setAttribute('aria-disabled', 'true');
+    }
+
+    /* ── 8. XỬ LÝ FILE ĐƯỢC CHỌN ─────────────────────── */
+
+    /**
+     * Xử lý khi người dùng chọn file
+     * @param {File} file
+     */
+    function handleFileSelected(file) {
+      if (!file) return;
+
+      const { valid, error } = validateFile(file);
+
+      if (!valid) {
+        showToast(error, 'error', 4500);
+        return;
+      }
+
+      selectedFile = file;
+      hideResult();
+      showPreview(file);
+      showToast(`Đã chọn: ${file.name}`, 'info');
+    }
+
+    /* ── 9. DRAG & DROP EVENTS ────────────────────────── */
+
+    // Ngăn trình duyệt mở file mặc định
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(evtName => {
+      document.addEventListener(evtName, (e) => e.preventDefault());
     });
 
-  } catch (err) {
-    clearUploadingState();
-    showResultError(err.message || 'Đã có lỗi xảy ra. Vui lòng thử lại.');
-    showToast(err.message || 'Upload thất bại!', 'error', 4000);
-  }
-});
+    // dragenter & dragover cùng làm một việc — dùng chung 1 listener
+    ['dragenter', 'dragover'].forEach(evt => {
+      dropZone.addEventListener(evt, () => dropZone.classList.add('dvntUpAnh__dropzone--dragover'));
+    });
 
-/* ── 16. NÚT LÀM MỚI ─────────────────────────────── */
+    dropZone.addEventListener('dragleave', (e) => {
+      // Chỉ remove khi rời khỏi dropzone hoàn toàn
+      if (!dropZone.contains(e.relatedTarget)) {
+        dropZone.classList.remove('dvntUpAnh__dropzone--dragover');
+      }
+    });
 
-btnReset.addEventListener('click', () => {
-  resetAll();
-  showToast('Đã làm mới', 'info');
-});
+    dropZone.addEventListener('drop', (e) => {
+      dropZone.classList.remove('dvntUpAnh__dropzone--dragover');
+      const file = e.dataTransfer?.files?.[0];
+      if (file) handleFileSelected(file);
+    });
 
-/**
- * Reset hoàn toàn về trạng thái ban đầu
- */
-function resetAll() {
-  selectedFile = null;
-  fileInput.value = '';
+    /**
+     * Lấy file từ clipboard event (Ctrl+V / Cmd+V)
+     * @param {ClipboardEvent} e
+     * @returns {File|null}
+     */
+    function getFileFromClipboardEvent(e) {
+      const files = e.clipboardData?.files;
+      if (files && files.length > 0) {
+        return files[0];
+      }
 
-  hidePreview();
-  hideResult();
-  hideProgress();
+      const items = e.clipboardData?.items || [];
+      for (const item of items) {
+        if (item.kind !== 'file') continue;
+        const file = item.getAsFile();
+        if (file) return file;
+      }
 
-  btnUpload.disabled = true;
-  btnUpload.setAttribute('aria-disabled', 'true');
-  btnPreviewTemplate.disabled = true;
-  btnPreviewTemplate.setAttribute('aria-disabled', 'true');
-  btnReset.disabled  = true;
-  btnReset.setAttribute('aria-disabled', 'true');
-  btnUploadText.textContent = 'Upload ảnh';
+      return null;
+    }
 
-  card.classList.remove('dvntUpAnh__card--uploading');
-  isUploading = false;
-}
+    // Dán ảnh/video từ clipboard (Windows: Ctrl+V, macOS: Cmd+V)
+    document.addEventListener('paste', (e) => {
+      if (isUploading) return;
 
-/* ── 17. COPY LINK ────────────────────────────────── */
+      const file = getFileFromClipboardEvent(e);
+      if (!file) return;
 
-btnCopyLink.addEventListener('click', () => {
-  copyToClipboard(resultLink.value);
-});
+      e.preventDefault();
+      handleFileSelected(file);
+    });
 
-/**
- * Copy text vào clipboard
- * @param {string} text
- */
-async function copyToClipboard(text) {
-  try {
-    await navigator.clipboard.writeText(text);
-    showToast('Đã sao chép link! ✓', 'success');
-  } catch {
-    // Fallback cho trình duyệt cũ
-    resultLink.select();
-    document.execCommand('copy');
-    showToast('Đã sao chép link! ✓', 'success');
-  }
-}
+    /* ── 10. CLICK / KEYBOARD EVENTS ─────────────────── */
 
-/* ── 18. HISTORY — LOCALSTORAGE ───────────────────── */
+    // Click vào dropzone → mở file picker
+    dropZone.addEventListener('click', (e) => {
+      // Không trigger khi click nút khác
+      if (e.target.closest('.dvntUpAnh__btn--danger')) return;
+      if (isUploading) return;
+      fileInput.click();
+    });
 
-/**
- * Lấy danh sách lịch sử từ localStorage
- * @returns {Array}
- */
-function getHistory() {
-  try {
-    return JSON.parse(localStorage.getItem(LS_KEY) || '[]');
-  } catch {
-    return [];
-  }
-}
+    // Keyboard accessibility
+    dropZone.addEventListener('keydown', (e) => {
+      if ((e.key === 'Enter' || e.key === ' ') && !isUploading) {
+        e.preventDefault();
+        fileInput.click();
+      }
+    });
 
-/**
- * Lưu danh sách lịch sử vào localStorage
- * @param {Array} list
- */
-function saveHistoryList(list) {
-  try {
-    localStorage.setItem(LS_KEY, JSON.stringify(list));
-  } catch {
-    // localStorage đầy hoặc bị chặn
-    showToast('Không thể lưu lịch sử (bộ nhớ đầy)', 'error');
-  }
-}
+    // File input change
+    fileInput.addEventListener('change', () => {
+      if (fileInput.files[0]) {
+        handleFileSelected(fileInput.files[0]);
+        fileInput.value = ''; // Reset để chọn lại cùng file
+      }
+    });
 
-/**
- * Thêm item mới vào lịch sử
- * @param {{ name: string, url: string, thumb: string, time: number }} item
- */
-function saveToHistory(item) {
-  const history = getHistory();
+    // Xóa ảnh
+    btnRemove.addEventListener('click', (e) => {
+      e.stopPropagation();
+      resetAll();
+      showToast('Đã xóa ảnh đã chọn', 'info');
+    });
 
-  // Giới hạn 30 item
-  history.unshift(item);
-  if (history.length > 30) history.pop();
+    btnPreviewTemplate.addEventListener('click', () => {
+      toggleTemplatePreview();
+    });
 
-  saveHistoryList(history);
-  renderHistory();
-}
+    templatePickerButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const theme = btn.dataset.theme;
+        if (theme !== 'default' && theme !== 'elegant' && theme !== 'cute') return;
 
-/**
- * Xóa một item khỏi lịch sử theo index
- * @param {number} index
- */
-function removeFromHistory(index) {
-  const history = getHistory();
-  history.splice(index, 1);
-  saveHistoryList(history);
-  renderHistory();
-  showToast('Đã xóa khỏi lịch sử', 'info');
-}
+        selectedTemplateStyle = theme;
+        saveTemplateStylePreference(theme);
+        applyTemplateThemeUI();
 
-/**
- * Xóa toàn bộ lịch sử
- */
-function clearAllHistory() {
-  saveHistoryList([]);
-  renderHistory();
-  showToast('Đã xóa toàn bộ lịch sử', 'info');
-}
+        const labels = {
+          default: 'Mặc định',
+          elegant: 'Sang trọng',
+          cute: 'Dễ thương',
+        };
+        showToast(`Đã chọn mẫu: ${labels[theme]}`, 'info');
+      });
+    });
 
-/**
- * Render danh sách lịch sử vào DOM
- */
-function renderHistory() {
-  const history = getHistory();
-  historyList.innerHTML = '';
+    /* ── 11. PROGRESS BAR ─────────────────────────────── */
 
-  if (history.length === 0) {
-    historyEmpty.style.display = 'flex';
-    return;
-  }
+    /**
+     * Cập nhật tiến trình progress bar
+     * @param {number} percent - 0..100
+     */
+    function updateProgress(percent) {
+      const pct = Math.min(Math.max(percent, 0), 100);
+      progressBar.style.width = pct + '%';
+      progressText.textContent = pct + '%';
+      progressWrap.setAttribute('aria-valuenow', pct);
+    }
 
-  historyEmpty.style.display = 'none';
+    /**
+     * Hiện progress bar
+     */
+    function showProgress() {
+      progressWrap.hidden = false;
+      updateProgress(0);
+    }
 
-  history.forEach((item, index) => {
-    const li = document.createElement('article');
-    li.className = 'dvntUpAnh__history-item';
-    li.setAttribute('role', 'listitem');
-    li.setAttribute('aria-label', `Ảnh: ${item.name}`);
+    /**
+     * Ẩn progress bar
+     */
+    function hideProgress() {
+      progressWrap.hidden = true;
+      updateProgress(0);
+    }
 
-    li.innerHTML = `
-      ${ item.isVideo
-        ? `<div class="dvntUpAnh__history-item-thumb" style="background:var(--c-surface-2);display:flex;align-items:center;justify-content:center;" aria-label="Video">
+    /* ── 12. GOOGLE APPS SCRIPT UPLOAD ────────────────── */
+
+    /**
+     * Chuyển File thành chuỗi base64
+     * @param {File} file
+     * @returns {Promise<string>} base64 string (không có prefix data:...)
+     */
+    function fileToBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result.split(',')[1]);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    /**
+     * Upload file lên Google Drive qua Apps Script (không cần đăng nhập)
+     * @param {File} file
+     * @param {function} onProgress - callback(percent: number)
+     * @returns {Promise<{success: boolean, url: string, fileName: string}>}
+     */
+    async function driveUploadAPI(file, onProgress) {
+      onProgress(10);
+
+      // Bước 1: Chuyển ảnh sang base64
+      const base64 = await fileToBase64(file);
+      onProgress(35);
+
+      // Bước 2: Gửi lên Apps Script
+      const response = await fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        redirect: 'follow',
+        body: JSON.stringify({
+          data: base64,
+          fileName: file.name,
+          mimeType: file.type,
+        }),
+      });
+      onProgress(85);
+
+      const result = await response.json();
+
+      // Kiểm tra lỗi TRƯỚC khi báo 100% (tránh progress nhảy 100% khi thất bại)
+      if (!result.success) {
+        throw new Error(result.error || 'Upload Drive thất bại.');
+      }
+
+      onProgress(100);
+
+      return {
+        success: true,
+        url: result.url,
+        fileName: file.name,
+      };
+    }
+
+    /* ── 13. TRẠNG THÁI UPLOADING ─────────────────────── */
+
+    /**
+     * Chuyển sang trạng thái đang upload
+     */
+    function setUploadingState() {
+      isUploading = true;
+      card.classList.add('dvntUpAnh__card--uploading');
+
+      btnUpload.disabled = true;
+      btnUpload.setAttribute('aria-disabled', 'true');
+      btnUploadText.textContent = 'Đang tải lên...';
+
+      btnPreviewTemplate.disabled = true;
+      btnPreviewTemplate.setAttribute('aria-disabled', 'true');
+
+      btnReset.disabled = true;
+      btnReset.setAttribute('aria-disabled', 'true');
+
+      showProgress();
+      hideResult();
+    }
+
+    /**
+     * Khôi phục trạng thái sau upload
+     */
+    function clearUploadingState() {
+      isUploading = false;
+      card.classList.remove('dvntUpAnh__card--uploading');
+
+      btnUpload.disabled = false;
+      btnUpload.setAttribute('aria-disabled', 'false');
+      btnUploadText.textContent = 'Upload ảnh';
+
+      btnPreviewTemplate.disabled = !selectedFile;
+      btnPreviewTemplate.setAttribute('aria-disabled', selectedFile ? 'false' : 'true');
+
+      btnReset.disabled = false;
+      btnReset.setAttribute('aria-disabled', 'false');
+
+      hideProgress();
+    }
+
+    /* ── 14. RESULT DISPLAY ───────────────────────────── */
+
+    /**
+     * Hiện kết quả thành công
+     * @param {string} url
+     */
+    function showResultSuccess(url) {
+      resultSection.hidden = false;
+      resultSuccess.hidden = false;
+      resultError.hidden = true;
+      resultLink.value = url;
+      btnOpenLink.href = url;
+    }
+
+    /**
+     * Hiện kết quả lỗi
+     * @param {string} message
+     */
+    function showResultError(message) {
+      resultSection.hidden = false;
+      resultSuccess.hidden = true;
+      resultError.hidden = false;
+      resultErrorMsg.textContent = message;
+    }
+
+    /**
+     * Ẩn kết quả
+     */
+    function hideResult() {
+      resultSection.hidden = true;
+      resultSuccess.hidden = true;
+      resultError.hidden = true;
+    }
+
+    /* ── 15. UPLOAD HANDLER ───────────────────────────── */
+
+    btnUpload.addEventListener('click', async () => {
+      if (!selectedFile || isUploading) return;
+
+      setUploadingState();
+      showToast('Đang upload ảnh...', 'info', 2000);
+
+      try {
+        // Upload thật lên Google Drive qua Apps Script
+        const result = await driveUploadAPI(selectedFile, updateProgress);
+        const shouldUseTemplateShare = isTemplatePreviewOn;
+        const shareUrl = shouldUseTemplateShare
+          ? buildReviewLink({
+            mediaUrl: result.url,
+            name: selectedFile.name,
+            isVideo: isVideo(selectedFile),
+            theme: selectedTemplateStyle,
+          })
+          : result.url;
+
+        clearUploadingState();
+        showResultSuccess(shareUrl);
+        showToast('Upload thành công! 🎉', 'success');
+
+        // Lưu vào lịch sử
+        // Dùng Drive Thumbnail API để hiển thị ảnh thumbnail đáng tin cậy hơn
+        let thumbUrl = '';
+        if (!isVideo(selectedFile)) {
+          try {
+            const fileId = new URL(result.url).searchParams.get('id');
+            thumbUrl = fileId
+              ? `https://drive.google.com/thumbnail?id=${fileId}&sz=w120`
+              : result.url;
+          } catch {
+            thumbUrl = result.url;
+          }
+        }
+        saveToHistory({
+          name: selectedFile.name,
+          url: shareUrl,
+          mediaUrl: result.url,
+          thumb: thumbUrl,
+          isVideo: isVideo(selectedFile),
+          template: shouldUseTemplateShare,
+          time: Date.now(),
+        });
+
+      } catch (err) {
+        clearUploadingState();
+        showResultError(err.message || 'Đã có lỗi xảy ra. Vui lòng thử lại.');
+        showToast(err.message || 'Upload thất bại!', 'error', 4000);
+      }
+    });
+
+    /* ── 16. NÚT LÀM MỚI ─────────────────────────────── */
+
+    btnReset.addEventListener('click', () => {
+      resetAll();
+      showToast('Đã làm mới', 'info');
+    });
+
+    /**
+     * Reset hoàn toàn về trạng thái ban đầu
+     */
+    function resetAll() {
+      selectedFile = null;
+      fileInput.value = '';
+
+      hidePreview();
+      hideResult();
+      hideProgress();
+
+      btnUpload.disabled = true;
+      btnUpload.setAttribute('aria-disabled', 'true');
+      btnPreviewTemplate.disabled = true;
+      btnPreviewTemplate.setAttribute('aria-disabled', 'true');
+      btnReset.disabled = true;
+      btnReset.setAttribute('aria-disabled', 'true');
+      btnUploadText.textContent = 'Upload ảnh';
+
+      card.classList.remove('dvntUpAnh__card--uploading');
+      isUploading = false;
+    }
+
+    /* ── 17. COPY LINK ────────────────────────────────── */
+
+    btnCopyLink.addEventListener('click', () => {
+      copyToClipboard(resultLink.value);
+    });
+
+    /**
+     * Copy text vào clipboard
+     * @param {string} text
+     */
+    async function copyToClipboard(text) {
+      try {
+        await navigator.clipboard.writeText(text);
+        showToast('Đã sao chép link! ✓', 'success');
+      } catch {
+        // Fallback cho trình duyệt cũ
+        resultLink.select();
+        document.execCommand('copy');
+        showToast('Đã sao chép link! ✓', 'success');
+      }
+    }
+
+    /* ── 18. HISTORY — LOCALSTORAGE ───────────────────── */
+
+    /**
+     * Lấy danh sách lịch sử từ localStorage
+     * @returns {Array}
+     */
+    function getHistory() {
+      try {
+        return JSON.parse(localStorage.getItem(LS_KEY) || '[]');
+      } catch {
+        return [];
+      }
+    }
+
+    /**
+     * Lưu danh sách lịch sử vào localStorage
+     * @param {Array} list
+     */
+    function saveHistoryList(list) {
+      try {
+        localStorage.setItem(LS_KEY, JSON.stringify(list));
+      } catch {
+        // localStorage đầy hoặc bị chặn
+        showToast('Không thể lưu lịch sử (bộ nhớ đầy)', 'error');
+      }
+    }
+
+    /**
+     * Thêm item mới vào lịch sử
+     * @param {{ name: string, url: string, thumb: string, time: number }} item
+     */
+    function saveToHistory(item) {
+      const history = getHistory();
+
+      // Giới hạn 30 item
+      history.unshift(item);
+      if (history.length > 30) history.pop();
+
+      saveHistoryList(history);
+      renderHistory();
+    }
+
+    /**
+     * Xóa một item khỏi lịch sử theo index
+     * @param {number} index
+     */
+    function removeFromHistory(index) {
+      const history = getHistory();
+      history.splice(index, 1);
+      saveHistoryList(history);
+      renderHistory();
+      showToast('Đã xóa khỏi lịch sử', 'info');
+    }
+
+    /**
+     * Xóa toàn bộ lịch sử
+     */
+    function clearAllHistory() {
+      saveHistoryList([]);
+      renderHistory();
+      showToast('Đã xóa toàn bộ lịch sử', 'info');
+    }
+
+    /**
+     * Render danh sách lịch sử vào DOM
+     */
+    function renderHistory() {
+      const history = getHistory();
+      historyList.innerHTML = '';
+
+      if (history.length === 0) {
+        historyEmpty.style.display = 'flex';
+        return;
+      }
+
+      historyEmpty.style.display = 'none';
+
+      history.forEach((item, index) => {
+        const li = document.createElement('article');
+        li.className = 'dvntUpAnh__history-item';
+        li.setAttribute('role', 'listitem');
+        li.setAttribute('aria-label', `Ảnh: ${item.name}`);
+
+        li.innerHTML = `
+      ${item.isVideo
+            ? `<div class="dvntUpAnh__history-item-thumb" style="background:var(--c-surface-2);display:flex;align-items:center;justify-content:center;" aria-label="Video">
              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--c-primary-light)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
            </div>`
-        : `<img
+            : `<img
              class="dvntUpAnh__history-item-thumb"
              src="${escapeHtml(item.thumb)}"
              alt="${escapeHtml(item.name)}"
              loading="lazy"
              onerror="this.style.opacity='0.3'"
            />`
-      }
+          }
       <div class="dvntUpAnh__history-item-info">
         <p class="dvntUpAnh__history-item-name" title="${escapeHtml(item.name)}">${escapeHtml(item.name)}</p>
         <a
@@ -2615,76 +2866,275 @@ function renderHistory() {
       </div>
     `;
 
-    historyList.appendChild(li);
-  });
-}
+        historyList.appendChild(li);
+      });
+    }
 
-/**
- * Escape HTML để tránh XSS
- * @param {string} str
- * @returns {string}
- */
-function escapeHtml(str) {
-  const div = document.createElement('div');
-  div.textContent = str;
-  return div.innerHTML;
-}
+    /**
+     * Escape HTML để tránh XSS
+     * @param {string} str
+     * @returns {string}
+     */
+    function escapeHtml(str) {
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
 
-/* ── 19. EVENT DELEGATION — HISTORY BUTTONS ──────── */
+    /* ── 19. EVENT DELEGATION — HISTORY BUTTONS ──────── */
 
-// Dùng event delegation thay vì gán event cho từng nút
-historyList.addEventListener('click', (e) => {
-  // Nút copy
-  const copyBtn = e.target.closest('.dvntUpAnh__history-copy-btn');
-  if (copyBtn) {
-    copyToClipboard(copyBtn.dataset.url);
-    return;
-  }
+    // Dùng event delegation thay vì gán event cho từng nút
+    historyList.addEventListener('click', (e) => {
+      // Nút copy
+      const copyBtn = e.target.closest('.dvntUpAnh__history-copy-btn');
+      if (copyBtn) {
+        copyToClipboard(copyBtn.dataset.url);
+        return;
+      }
 
-  // Nút xóa
-  const delBtn = e.target.closest('.dvntUpAnh__history-del-btn');
-  if (delBtn) {
-    removeFromHistory(parseInt(delBtn.dataset.index, 10));
-  }
-});
+      // Nút xóa
+      const delBtn = e.target.closest('.dvntUpAnh__history-del-btn');
+      if (delBtn) {
+        removeFromHistory(parseInt(delBtn.dataset.index, 10));
+      }
+    });
 
-// Nút xóa tất cả lịch sử
-btnClearHistory.addEventListener('click', () => {
-  if (confirm('Bạn có chắc muốn xóa toàn bộ lịch sử?')) {
-    clearAllHistory();
-  }
-});
+    // Nút xóa tất cả lịch sử
+    btnClearHistory.addEventListener('click', () => {
+      if (confirm('Bạn có chắc muốn xóa toàn bộ lịch sử?')) {
+        clearAllHistory();
+      }
+    });
 
-/* ── 20. FOOTER YEAR ──────────────────────────────── */
+    /* ── 20. FOOTER YEAR ──────────────────────────────── */
 
-const footerYearEl = document.getElementById('footerYear');
-if (footerYearEl) {
-  footerYearEl.textContent = new Date().getFullYear();
-}
+    const footerYearEl = document.getElementById('footerYear');
+    if (footerYearEl) {
+      footerYearEl.textContent = new Date().getFullYear();
+    }
 
-/* ── 21. KHỞI TẠO ────────────────────────────────── */
+    /* ── 21. KHỞI TẠO ────────────────────────────────── */
 
-/**
- * Khởi tạo ứng dụng
- */
-function init() {
-  applyTemplateThemeUI();
+    /**
+     * Khởi tạo ứng dụng
+     */
+    function init() {
+      applyTemplateThemeUI();
 
-  const reviewPayload = getReviewPayloadFromUrl();
-  if (reviewPayload) {
-    const enteredReviewMode = renderReviewMode(reviewPayload);
-    if (enteredReviewMode) return;
+      const reviewPayload = getReviewPayloadFromUrl();
+      if (reviewPayload) {
+        const enteredReviewMode = renderReviewMode(reviewPayload);
+        if (enteredReviewMode) return;
 
-    // Payload review lỗi -> quay về trạng thái uploader thường
-    const cleanUrl = window.location.href.split('?')[0].split('#')[0];
-    window.history.replaceState({}, document.title, cleanUrl);
-  }
+        // Payload review lỗi -> quay về trạng thái uploader thường
+        const cleanUrl = window.location.href.split('?')[0].split('#')[0];
+        window.history.replaceState({}, document.title, cleanUrl);
+      }
 
-  renderHistory();
-}
+      renderHistory();
+    }
 
-init();
+    init();
+
+    /* ── 22. REVIEW VIEWER — ZOOM & PAN ──────────────── */
+    (function initReviewZoom() {
+      const wrap = document.getElementById('reviewMediaWrap');
+      const canvas = document.getElementById('reviewZoomCanvas');
+      const btnIn = document.getElementById('reviewZoomIn');
+      const btnOut = document.getElementById('reviewZoomOut');
+      const btnReset = document.getElementById('reviewZoomReset');
+      const lvlEl = document.getElementById('reviewZoomLevel');
+
+      if (!wrap || !canvas) return;
+
+      const MIN_SCALE = 0.5;
+      const MAX_SCALE = 8;
+      const STEP = 0.25;
+
+      let scale = 1;
+      let tx = 0; // translateX
+      let ty = 0; // translateY
+
+      // ── helpers ──────────────────────────────────────
+      function clampTranslate(s, x, y) {
+        const ww = wrap.clientWidth;
+        const wh = wrap.clientHeight;
+        const cw = ww * s;
+        const ch = wh * s;
+
+        // Khi ảnh nhỏ hơn container -> căn giữa
+        const minX = s <= 1 ? (ww - cw) / 2 : ww - cw;
+        const maxX = s <= 1 ? (ww - cw) / 2 : 0;
+        const minY = s <= 1 ? (wh - ch) / 2 : wh - ch;
+        const maxY = s <= 1 ? (wh - ch) / 2 : 0;
+
+        return {
+          x: Math.min(maxX, Math.max(minX, x)),
+          y: Math.min(maxY, Math.max(minY, y)),
+        };
+      }
+
+      function applyTransform(smooth) {
+        canvas.classList.toggle('dvntZoom--dragging', !smooth);
+        canvas.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`;
+        lvlEl.textContent = Math.round(scale * 100) + '%';
+      }
+
+      function zoomTo(newScale, originX, originY) {
+        // originX/Y: điểm zoom tính theo tọa độ container
+        newScale = Math.min(MAX_SCALE, Math.max(MIN_SCALE, newScale));
+        const ratio = newScale / scale;
+        tx = originX - ratio * (originX - tx);
+        ty = originY - ratio * (originY - ty);
+        scale = newScale;
+        const clamped = clampTranslate(scale, tx, ty);
+        tx = clamped.x;
+        ty = clamped.y;
+        applyTransform(true);
+      }
+
+      function resetZoom() {
+        scale = 1; tx = 0; ty = 0;
+        canvas.style.transition = 'transform .3s cubic-bezier(.4,0,.2,1)';
+        applyTransform(true);
+        setTimeout(() => { canvas.style.transition = ''; }, 320);
+      }
+
+      // ── Mouse Wheel Zoom ──────────────────────────────
+      wrap.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        const rect = wrap.getBoundingClientRect();
+        const ox = e.clientX - rect.left;
+        const oy = e.clientY - rect.top;
+        const delta = e.deltaY < 0 ? STEP : -STEP;
+        zoomTo(scale + delta, ox, oy);
+      }, { passive: false });
+
+      // ── Mouse Drag (Pan) ──────────────────────────────
+      let isDragging = false;
+      let dragStartX = 0, dragStartY = 0;
+      let dragTx = 0, dragTy = 0;
+
+      wrap.addEventListener('mousedown', (e) => {
+        if (e.button !== 0) return;
+        if (scale <= 1) return; // chỉ kéo khi đã zoom
+        isDragging = true;
+        dragStartX = e.clientX;
+        dragStartY = e.clientY;
+        dragTx = tx; dragTy = ty;
+        canvas.classList.add('dvntZoom--dragging');
+        e.preventDefault();
+      });
+
+      window.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        const dx = e.clientX - dragStartX;
+        const dy = e.clientY - dragStartY;
+        const clamped = clampTranslate(scale, dragTx + dx, dragTy + dy);
+        tx = clamped.x; ty = clamped.y;
+        applyTransform(false);
+      });
+
+      window.addEventListener('mouseup', () => {
+        if (!isDragging) return;
+        isDragging = false;
+        canvas.classList.remove('dvntZoom--dragging');
+      });
+
+      // ── Touch Pinch Zoom + Pan ────────────────────────
+      let touches = {};
+      let pinchStartDist = 0;
+      let pinchStartScale = 1;
+      let pinchMidX = 0, pinchMidY = 0;
+      let panStartX = 0, panStartY = 0;
+      let panTx = 0, panTy = 0;
+
+      wrap.addEventListener('touchstart', (e) => {
+        Array.from(e.changedTouches).forEach(t => { touches[t.identifier] = t; });
+        const pts = Object.values(touches);
+        if (pts.length === 2) {
+          // Pinch start
+          const dx = pts[1].clientX - pts[0].clientX;
+          const dy = pts[1].clientY - pts[0].clientY;
+          pinchStartDist = Math.hypot(dx, dy);
+          pinchStartScale = scale;
+          const rect = wrap.getBoundingClientRect();
+          pinchMidX = (pts[0].clientX + pts[1].clientX) / 2 - rect.left;
+          pinchMidY = (pts[0].clientY + pts[1].clientY) / 2 - rect.top;
+        } else if (pts.length === 1) {
+          panStartX = pts[0].clientX;
+          panStartY = pts[0].clientY;
+          panTx = tx; panTy = ty;
+        }
+        e.preventDefault();
+      }, { passive: false });
+
+      wrap.addEventListener('touchmove', (e) => {
+        Array.from(e.changedTouches).forEach(t => { touches[t.identifier] = t; });
+        const pts = Object.values(touches);
+        if (pts.length === 2) {
+          const dx = pts[1].clientX - pts[0].clientX;
+          const dy = pts[1].clientY - pts[0].clientY;
+          const dist = Math.hypot(dx, dy);
+          const newScale = pinchStartScale * (dist / pinchStartDist);
+          zoomTo(newScale, pinchMidX, pinchMidY);
+        } else if (pts.length === 1 && scale > 1) {
+          const dxP = pts[0].clientX - panStartX;
+          const dyP = pts[0].clientY - panStartY;
+          const clamped = clampTranslate(scale, panTx + dxP, panTy + dyP);
+          tx = clamped.x; ty = clamped.y;
+          applyTransform(false);
+        }
+        e.preventDefault();
+      }, { passive: false });
+
+      wrap.addEventListener('touchend', (e) => {
+        Array.from(e.changedTouches).forEach(t => { delete touches[t.identifier]; });
+      });
+
+      // ── Buttons ───────────────────────────────────────
+      btnIn.addEventListener('click', () => {
+        const cx = wrap.clientWidth / 2;
+        const cy = wrap.clientHeight / 2;
+        zoomTo(scale + STEP, cx, cy);
+      });
+
+      btnOut.addEventListener('click', () => {
+        const cx = wrap.clientWidth / 2;
+        const cy = wrap.clientHeight / 2;
+        zoomTo(scale - STEP, cx, cy);
+      });
+
+      btnReset.addEventListener('click', resetZoom);
+
+      // ── Keyboard shortcuts ────────────────────────────
+      document.addEventListener('keydown', (e) => {
+        // Chỉ hoạt động khi reviewViewer đang hiển thị
+        const viewer = document.getElementById('reviewViewer');
+        if (!viewer || viewer.hidden) return;
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+        const cx = wrap.clientWidth / 2;
+        const cy = wrap.clientHeight / 2;
+        if (e.key === '+' || e.key === '=') { e.preventDefault(); zoomTo(scale + STEP, cx, cy); }
+        if (e.key === '-' || e.key === '_') { e.preventDefault(); zoomTo(scale - STEP, cx, cy); }
+        if (e.key === 'r' || e.key === 'R') { e.preventDefault(); resetZoom(); }
+      });
+
+      // ── Double-click reset ────────────────────────────
+      wrap.addEventListener('dblclick', () => resetZoom());
+
+      // Reset khi load ảnh mới
+      const img = document.getElementById('reviewViewerImg');
+      if (img) {
+        img.addEventListener('load', () => {
+          scale = 1; tx = 0; ty = 0;
+          canvas.style.transform = '';
+          if (lvlEl) lvlEl.textContent = '100%';
+        });
+      }
+    })();
 
   </script>
 </body>
+
 </html>
